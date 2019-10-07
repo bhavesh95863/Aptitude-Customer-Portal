@@ -3,9 +3,9 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import router from './router'
 import store from './store'
+import VueCookies from 'vue-cookies'
 
-
-
+Vue.use(VueCookies)
 Vue.config.productionTip = false
 
 new Vue({

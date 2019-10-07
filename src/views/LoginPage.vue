@@ -10,18 +10,16 @@
         </v-card-actions> 
       </v-form>
     </v-card-text>
-    
   </v-card>
 </template>
 
 
 <script>
-import axios from 'axios';
-import {mapActions} from 'vuex';
-import {mapGetters} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
+import router from '../router';
 
 export default {
-  name: 'Login',
+  name: 'LoginPage',
   computed: mapGetters(['getCustomerEmail', 'getLoggedIn']),  
   data: () => ({
     username : '',
@@ -33,29 +31,39 @@ export default {
     }
   }),
   methods :{
-    ...mapActions(['doLogin']),
+    ...mapActions(['doLogin']), 
+    /**
+     * Login form Submit
+     */
     onSubmit(e) {
+      //prevent from form submit
       e.preventDefault();
+
+      //create form data object
       const loginData = new FormData();
       loginData.append('usr', this.username);
       loginData.append('pwd', this.password);
+
+      //call VuexAction for login
       this.doLogin(loginData);
-      
     },
-    getUsername() {
-      axios.get("http://localhost:8080/api/method/frappe.auth.get_logged_user", {
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'set-cookie': ''
-        },
-        withCredentials: true
-      })
-      .then(response => {response})
-      .catch(e => {
-        e
-      })
-    }
+    /**
+     * Get Current Username
+     */
+    // getUsername() {
+    //   axios.get("http://localhost:8080/api/method/frappe.auth.get_logged_user", {
+    //     headers: { 
+    //       'Content-Type': 'application/json',
+    //       'Accept': 'application/json',
+    //       'set-cookie': ''
+    //     },
+    //     withCredentials: true
+    //   })
+    //   .then(response => {response})
+    //   .catch(e => {
+    //     e
+    //   })
+    // }
 //     checkLogin(e) {
 //       e.preventDefault();
 

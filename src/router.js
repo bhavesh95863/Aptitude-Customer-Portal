@@ -1,30 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import Login from './views/Login.vue'
-import About from './views/About.vue'
+import HomePage from './views/HomePage.vue'
+import LoginPage from './views/LoginPage.vue'
+import AboutPage from './views/AboutPage.vue'
+// import RegisterPage from './views/RegisterPage.vue'
 
 Vue.use(Router)
 
+
 export default new Router({
+  // mode: 'history',
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: About
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: Login
-    }
+    { path: '/', component: HomePage },
+    { path: '/login', component: LoginPage },
+    { path: '/about', component: AboutPage },
+    // { path: '/register', component: RegisterPage },
+
+    // otherwise redirect to home
+    { path: '*', redirect: '/' }
   ]
-})
+});

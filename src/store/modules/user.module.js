@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { userApi } from '../../api';
 
 const state = {
     customer_email: '',
@@ -11,14 +11,13 @@ const getters = {
 };
 const actions = {
     async doLogin({ commit }, loginData){
-        const response = await axios.post("http://localhost:8080/api/method/login", loginData, {
-            headers: { 
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            withCredentials: true
-          });
-        commit('setLogin', response.data);  
+        const response = userApi.login(loginData);
+        if(response.status == 200){
+            commit('setLogin', response.data);
+        }
+    },
+    async checkLogin(){
+
     }
 };
 const mutations = {
