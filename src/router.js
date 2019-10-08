@@ -4,12 +4,13 @@ import HomePage from './views/HomePage.vue'
 import LoginPage from './views/LoginPage.vue'
 import AboutPage from './views/AboutPage.vue'
 // import RegisterPage from './views/RegisterPage.vue'
-
+import store from './store'
+// import {mapGetters} from 'vuex';
 Vue.use(Router)
 
 
-export default new Router({
-  // mode: 'history',
+export const router =  new Router({
+  // computed: mapGetters(['getLoggedIn']),  
   routes: [
     { path: '/', component: HomePage },
     { path: '/login', component: LoginPage },
@@ -20,3 +21,24 @@ export default new Router({
     { path: '*', redirect: '/' }
   ]
 });
+
+router.onReady(()=>{
+  store.dispatch('getUsername');
+})
+
+router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/about','/login', '/register'];
+  const loginPages = ['/login', '/register'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = store.getters.getLoggedIn;
+  // alert(loggedInSid);
+  // store.dispatch('getUsername');
+  if (authRequired && !loggedIn ) {
+       return next('/login');
+  }else if(loginPages.includes(to.path) && loggedIn){
+    return next('/');
+  }
+
+  next();
+})

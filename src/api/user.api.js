@@ -3,8 +3,9 @@
 import axios from 'axios';
 
 export const userApi = {
-    login
-    // logout,
+    login,
+    getCurrentUser,
+    logout,
     // register,
     // getAll,
     // getById,
@@ -20,41 +21,46 @@ async function login(loginData) {
           },
           withCredentials: true
     };
-    
-    // const response = await axios.post("http://localhost:8080/api/method/login", loginData, requestOptions);
-
     return axios.post("http://localhost:8080/api/method/login", loginData, requestOptions)
-        .then(handleResponse)
-        .then(user => {
-            // login successful if there's a jwt token in the response
-            if(user.status == 200){
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                // localStorage.setItem('user', JSON.stringify(user));
-                alert('success');
-            }
+    .then(user => {
+        // login successful if there's a jwt token in the response
+        if(user.status == 200){
             return user;
-        })
-        .catch(function (error) {
-            alert(error);
-        });
-
-    
-    // try {
-        // console.log(response);
-        // const user = await handleResponse(response);
-        // JSON.parse("non-JSON data")
-    //   } catch(e) {
-    //     console.log('Exception: ', e)
-    //   }
-    // if(response.status == 200){
-    //     commit('setLogin', response.data);
-    // }
-    // return user;
+        }
+    })
+    .catch(function (response) {
+        handleResponse(response);
+    });
+}
+function getCurrentUser() {
+    let requestOptions = {
+        headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        withCredentials: true
+    };
+    return axios.get("http://localhost:8080/api/method/frappe.auth.get_logged_user", requestOptions)
+    .then(response => { return response})
+    .catch(function (response) {
+        handleResponse(response);
+    })
 }
 
+
 function logout() {
-//     // remove user from local storage to log user out
-//     localStorage.removeItem('user');
+    // let requestOptions = {
+    //     headers: { 
+    //         'Content-Type': 'application/json',
+    //         'Accept': 'application/json'
+    //     },
+    //     withCredentials: true
+    // };
+    return axios.get("http://localhost:8080/api/method/logout")
+    .then(response => { return response})
+    .catch(function (response) {
+        handleResponse(response);
+    })
 }
 
 // async function register(user) {
@@ -134,11 +140,10 @@ function handleResponse(response) {
     // alert('it is calling');
     if (response.status != 200) {
         if (response.status === 401) {
-            // logout();
-            // location.reload(true);
+            logout();
         }
-        const error = (response.data && response.data.message) || response.statusText;
-        return error;
+        // const error = (response.data && response.data.message) || response.statusText;
+        return false;
     }
-    return response;
+    // return response;
 }

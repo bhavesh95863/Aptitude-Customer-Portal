@@ -16,7 +16,7 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex';
-import router from '../router';
+import {router} from '../router';
 
 export default {
   name: 'LoginPage',
@@ -25,11 +25,11 @@ export default {
     username : '',
     password : ''
   }),
-  created: () =>({
-    if(getLoggedIn){
-      router.push('/');
-    }
-  }),
+  // created: () =>({
+  //   if(getLoggedIn){
+  //     return router.push('/');
+  //   }
+  // }),
   methods :{
     ...mapActions(['doLogin']), 
     /**
@@ -47,23 +47,7 @@ export default {
       //call VuexAction for login
       this.doLogin(loginData);
     },
-    /**
-     * Get Current Username
-     */
-    // getUsername() {
-    //   axios.get("http://localhost:8080/api/method/frappe.auth.get_logged_user", {
-    //     headers: { 
-    //       'Content-Type': 'application/json',
-    //       'Accept': 'application/json',
-    //       'set-cookie': ''
-    //     },
-    //     withCredentials: true
-    //   })
-    //   .then(response => {response})
-    //   .catch(e => {
-    //     e
-    //   })
-    // }
+    
 //     checkLogin(e) {
 //       e.preventDefault();
 
