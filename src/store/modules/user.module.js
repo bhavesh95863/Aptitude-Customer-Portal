@@ -30,7 +30,7 @@ const actions = {
     /**
      * Get Current Username
      */
-    async getUsername({ dispatch,commit }) {
+    async getUsername({commit }) {
         return userApi.getCurrentUser()
         .then(response => { 
             if (typeof response !== 'undefined' && response.status == 200) {
@@ -56,7 +56,7 @@ const actions = {
 };
 
 const mutations = {
-    setLogin: (state, data) => {
+    setLogin: (state) => {
         state.customer_email =  $cookies.get('user_id');
         state.logged_in = true;
         state.user_type = 'Account User';
