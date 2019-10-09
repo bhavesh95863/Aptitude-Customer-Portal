@@ -29,6 +29,7 @@
           </v-list>
         </v-menu>
         <v-btn text v-if="!getLoggedIn" href="#/login">Login</v-btn>
+        <v-btn text v-if="!getLoggedIn" href="#/register">Register</v-btn>
       </v-toolbar-items>
     </v-app-bar>
 

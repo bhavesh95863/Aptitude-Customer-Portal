@@ -6,7 +6,7 @@ export const userApi = {
     login,
     getCurrentUser,
     logout,
-    // register,
+    register,
     // getAll,
     // getById,
     // update,
@@ -23,7 +23,6 @@ async function login(loginData) {
     };
     return axios.post("http://localhost:8080/api/method/login", loginData, requestOptions)
     .then(user => {
-        // login successful if there's a jwt token in the response
         if(user.status == 200){
             return user;
         }
@@ -47,32 +46,34 @@ function getCurrentUser() {
     })
 }
 
-
-function logout() {
-    // let requestOptions = {
-    //     headers: { 
-    //         'Content-Type': 'application/json',
-    //         'Accept': 'application/json'
-    //     },
-    //     withCredentials: true
-    // };
-    return axios.get("http://localhost:8080/api/method/logout")
-    .then(response => { return response})
-    .catch(function (response) {
-        handleResponse(response);
-    })
+async function logout() {
+    try {
+        const response = await axios.get("http://localhost:8080/api/method/logout");
+        return response;
+    }
+    catch (response_1) {
+        handleResponse(response_1);
+    }
 }
 
-// async function register(user) {
-//     const requestOptions = {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(user)
-//     };
-
-//     const response = await fetch(`${config.apiUrl}/users/register`, requestOptions);
-//     return handleResponse(response);
-// }
+async function register(registerData) {
+    let requestOptions = {
+        headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+    };
+    return axios.post("http://localhost:8080/api/method/apptitude.api.register_user", registerData, requestOptions)
+    .then(user => {
+        if(user.message.status == 200){
+            return user;
+        }
+    })
+    .catch(function () {
+        // handleResponse(response);
+        return false;
+    });
+}
 
 // async function getAll() {
 //     const requestOptions = {

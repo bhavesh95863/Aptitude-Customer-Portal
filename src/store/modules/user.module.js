@@ -17,7 +17,6 @@ const actions = {
         .then(
             user => {
                 commit('setLogin', user.data);
-                // dispatch('success', "Jay Bhavani", { root: true });                
                 router.push('/');
             }
         ).catch(
@@ -27,9 +26,6 @@ const actions = {
             }
         );
     },
-    /**
-     * Get Current Username
-     */
     async getUsername({commit }) {
         return userApi.getCurrentUser()
         .then(response => { 
@@ -52,6 +48,19 @@ const actions = {
     },
     async setUserType({ commit }, UserType){
         commit('setUserType', UserType);
+    },
+    async doRegister({ dispatch }, registerData){
+        userApi.register(registerData)
+        .then(
+            () => {
+                dispatch('success', "Registratoin Successfull", { root: true });
+                router.push('/login');
+            }
+        ).catch(
+            () => {
+                dispatch('error', "Something went wrong while registering your account, Please try again!", { root: true });
+            }
+        );
     },
 };
 

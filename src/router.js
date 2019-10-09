@@ -3,19 +3,17 @@ import Router from 'vue-router'
 import HomePage from './views/HomePage.vue'
 import LoginPage from './views/LoginPage.vue'
 import AboutPage from './views/AboutPage.vue'
-// import RegisterPage from './views/RegisterPage.vue'
+import RegisterPage from './views/RegisterPage.vue'
 import store from './store'
-// import {mapGetters} from 'vuex';
 Vue.use(Router)
 
 
 export const router =  new Router({
-  // computed: mapGetters(['getLoggedIn']),  
   routes: [
     { path: '/', component: HomePage },
     { path: '/login', component: LoginPage },
     { path: '/about', component: AboutPage },
-    // { path: '/register', component: RegisterPage },
+    { path: '/register', component: RegisterPage },
 
     // otherwise redirect to home
     { path: '*', redirect: '/' }
