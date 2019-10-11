@@ -8,7 +8,7 @@ import store from './store'
 Vue.use(Router)
 
 
-export const router =  new Router({
+export const router = new Router({
   routes: [
     { path: '/', component: HomePage },
     { path: '/login', component: LoginPage },
@@ -20,21 +20,21 @@ export const router =  new Router({
   ]
 });
 
-router.onReady(()=>{
+router.onReady(() => {
   store.dispatch('getUsername');
 })
 
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/about','/login', '/register'];
+  const publicPages = ['/about', '/login', '/register'];
   const loginPages = ['/login', '/register'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = store.getters.getLoggedIn;
   // alert(loggedInSid);
   // store.dispatch('getUsername');
-  if (authRequired && !loggedIn ) {
-       return next('/login');
-  }else if(loginPages.includes(to.path) && loggedIn){
+  if (authRequired && !loggedIn) {
+    return next('/login');
+  } else if (loginPages.includes(to.path) && loggedIn) {
     return next('/');
   }
 

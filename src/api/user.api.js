@@ -15,35 +15,35 @@ export const userApi = {
 
 async function login(loginData) {
     let requestOptions = {
-        headers: { 
+        headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
-          },
-          withCredentials: true
+        },
+        withCredentials: true
     };
     return axios.post("http://localhost:8080/api/method/login", loginData, requestOptions)
-    .then(user => {
-        if(user.status == 200){
-            return user;
-        }
-    })
-    .catch(function (response) {
-        handleResponse(response);
-    });
+        .then(user => {
+            if (user.status == 200) {
+                return user;
+            }
+        })
+        .catch(function (response) {
+            handleResponse(response);
+        });
 }
 function getCurrentUser() {
     let requestOptions = {
-        headers: { 
+        headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
         withCredentials: true
     };
     return axios.get("http://localhost:8080/api/method/frappe.auth.get_logged_user", requestOptions)
-    .then(response => { return response})
-    .catch(function (response) {
-        handleResponse(response);
-    })
+        .then(response => { return response })
+        .catch(function (response) {
+            handleResponse(response);
+        })
 }
 
 async function logout() {
@@ -58,21 +58,21 @@ async function logout() {
 
 async function register(registerData) {
     let requestOptions = {
-        headers: { 
+        headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
-          }
+        }
     };
     return axios.post("http://localhost:8080/api/method/apptitude.api.register_user", registerData, requestOptions)
-    .then(user => {
-        if(user.message.status == 200){
-            return user;
-        }
-    })
-    .catch(function () {
-        // handleResponse(response);
-        return false;
-    });
+        .then(user => {
+            if (user.message.status == 200) {
+                return user;
+            }
+        })
+        .catch(function () {
+            // handleResponse(response);
+            return false;
+        });
 }
 
 // async function getAll() {
