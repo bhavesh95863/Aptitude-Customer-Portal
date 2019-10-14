@@ -11,13 +11,15 @@
       <v-btn text href="#/">Home</v-btn>
       <!-- <router-link to="/" tag="li">HomeR</router-link> -->
       <v-btn text href="#/about">About</v-btn>
+      <v-btn text href="#/company-profile">About</v-btn>
       <v-menu left bottom offset-y close-on-click v-if="getLoggedIn">
         <template v-slot:activator="{ on }">
           <v-btn text v-on="on">{{getCustomerEmail}}</v-btn>
         </template>
         <v-list>
           <v-list-item v-for="n in getMenuItems" @click="() => {}" :key="n.id">
-            <v-list-item-title>{{ n.text }}</v-list-item-title>
+            <v-list-item-title :to="n.path">{{ n.text }}</v-list-item-title>
+            <!-- <v-list-item-title :to="'#/about'">{{ n.text }}</v-list-item-title> -->
           </v-list-item>
           <v-list-item @click="() => {this.userLogout()}">
             <v-list-item-title>Logout</v-list-item-title>

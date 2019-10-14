@@ -50,15 +50,18 @@ const actions = {
         commit('setUserType', UserType);
     },
     async doRegister({ dispatch }, registerData) {
-        userApi.register(registerData)
+        return userApi.register(registerData)
             .then(
-                () => {
-                    dispatch('success', "Registratoin Successfull", { root: true });
+                respone => {
                     router.push('/login');
-                }
-            ).catch(
-                () => {
-                    dispatch('error', "Something went wrong while registering your account, Please try again!", { root: true });
+                    setTimeout(() => {
+                        dispatch('success', respone.message, { root: true });
+                    });
+                    return respone;
+                },
+                error => {
+                    dispatch('error', error, { root: true });
+                    return Promise.reject(error);
                 }
             );
     },

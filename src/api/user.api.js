@@ -58,20 +58,23 @@ async function logout() {
 
 async function register(registerData) {
     let requestOptions = {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
     };
+
     return axios.post("http://localhost:8080/api/method/apptitude.api.register_user", registerData, requestOptions)
-        .then(user => {
-            if (user.message.status == 200) {
-                return user;
+        .then(response => {
+            if (response.data.message.status == 200) {
+                return response.data.message;
+            } else {
+                return Promise.reject(response);
             }
         })
-        .catch(function () {
-            // handleResponse(response);
-            return false;
+        .catch(function (error) {
+            return handleResponse(error)
         });
 }
 
@@ -137,14 +140,15 @@ async function register(registerData) {
 //     });
 // }
 
-function handleResponse(response) {
-    // alert('it is calling');
-    if (response.status != 200) {
-        if (response.status === 401) {
-            logout();
+
+function handleResponse(error) {
+    if (error.response) {
+        return Promise.reject("Something went wrong, please try again..");
+    } else {
+        if (error.data.message.message) {
+            return Promise.reject(error.data.message.message);
+        } else {
+            return Promise.reject("Something went wrong, please try again.");
         }
-        // const error = (response.data && response.data.message) || response.statusText;
-        return false;
     }
-    // return response;
 }

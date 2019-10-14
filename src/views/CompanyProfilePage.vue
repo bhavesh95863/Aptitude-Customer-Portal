@@ -1,6 +1,6 @@
 <template>
   <v-card width="400" class="mx-auto mt-10">
-    <v-card-title>Register Account</v-card-title>
+    <v-card-title>Copmany Profile</v-card-title>
     <v-card-text>
       <v-form @submit.prevent="onSubmit" :disabled="submitStatus === 'PENDING'">
         <v-text-field
@@ -80,25 +80,16 @@ import {
 } from "vuelidate/lib/validators";
 
 export default {
-  name: "RegisterPage",
+  name: "CompanyProfilePage",
   data: () => ({
-    username: "",
-    email: "",
-    firstname: "",
-    lastname: "",
-    password: "",
-    repeatPassword: "",
+    username: "nilesh",
+    email: "nils.mkwna@gmail.com",
+    firstname: "nilesh",
+    lastname: "nilesh",
+    password: "nilesh",
+    repeatPassword: "nilesh",
     submitStatus: null
   }),
-  // data: () => ({
-  //   username: "nilesh",
-  //   email: "nils.mkwna@gmail.com",
-  //   firstname: "nilesh",
-  //   lastname: "nilesh",
-  //   password: "nilesh",
-  //   repeatPassword: "nilesh",
-  //   submitStatus: null
-  // }),
   mixins: [validationMixin],
   validations: {
     username: { required, maxLength: maxLength(10) },
