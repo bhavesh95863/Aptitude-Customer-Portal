@@ -28,7 +28,7 @@ async function login(loginData) {
             }
         })
         .catch(function (response) {
-            handleResponse(response);
+            return handleResponse(response);
         });
 }
 function getCurrentUser() {
@@ -42,7 +42,7 @@ function getCurrentUser() {
     return axios.get("http://localhost:8080/api/method/frappe.auth.get_logged_user", requestOptions)
         .then(response => { return response })
         .catch(function (response) {
-            handleResponse(response);
+            return handleResponse(response);
         })
 }
 
@@ -52,7 +52,7 @@ async function logout() {
         return response;
     }
     catch (response_1) {
-        handleResponse(response_1);
+        return handleResponse(response_1);
     }
 }
 

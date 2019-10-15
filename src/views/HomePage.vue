@@ -8,19 +8,16 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
-  name: 'HomePage',
-  components: {
-
-  },
-  methods :{
-    ...mapActions(['getUsername']),
-    getCUsername(){
+  name: "HomePage",
+  components: {},
+  methods: {
+    ...mapActions(["getUsername"]),
+    getCUsername() {
       this.getUsername();
     }
   }
-
-}
+};
 </script>

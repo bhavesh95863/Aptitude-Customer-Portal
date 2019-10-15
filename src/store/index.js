@@ -7,7 +7,7 @@ import header from './modules/header.module'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules:{
+  modules: {
     user,
     alert,
     header

@@ -22,7 +22,7 @@ const actions = {
             ).catch(
                 () => {
                     commit('loginFailure');
-                    dispatch('error', "Incorrect Data", { root: true });
+                    dispatch('error', "Incorrect Username or Password, Please try again.", { root: true });
                 }
             );
     },
