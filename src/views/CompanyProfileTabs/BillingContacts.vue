@@ -1,25 +1,8 @@
 <template>
-  <v-card width="400" class="mx-auto mt-10">
-    <v-card-title>Register Account</v-card-title>
+  <v-card light flat class="mx-auto">
+    <v-card-title>Billing Contacts</v-card-title>
     <v-card-text>
       <v-form @submit.prevent="onSubmit" :disabled="submitStatus === 'PENDING'">
-        <v-text-field
-          label="Username"
-          :error-messages="usernameErrors"
-          v-model="username"
-          prepend-inner-icon="mdi-account-circle"
-          @input="$v.username.$touch()"
-          @blur="$v.username.$touch()"
-        />
-        <v-text-field
-          label="E-mail"
-          :error-messages="emailErrors"
-          required
-          @input="$v.email.$touch()"
-          @blur="$v.email.$touch()"
-          v-model="email"
-          prepend-inner-icon="mdi-email"
-        />
         <v-text-field
           label="Firstname"
           v-model="firstname"
@@ -39,31 +22,98 @@
           @blur="$v.lastname.$touch()"
         />
         <v-text-field
-          label="Passowrd"
-          v-model="password"
-          type="password"
-          prepend-inner-icon="mdi-lock"
-          :error-messages="passwordErrors"
+          label="E-mail"
+          :error-messages="emailErrors"
           required
-          @input="$v.password.$touch()"
-          @blur="$v.password.$touch()"
+          @input="$v.email.$touch()"
+          @blur="$v.email.$touch()"
+          v-model="email"
+          prepend-inner-icon="mdi-email"
         />
         <v-text-field
-          label="Repeat Password "
-          v-model="repeatPassword"
-          type="password"
-          prepend-inner-icon="mdi-lock"
-          :error-messages="sameAsPasswordErrors"
-          required
-          @input="$v.repeatPassword.$touch()"
-          @blur="$v.repeatPassword.$touch()"
+          label="Phone"
+          :error-messages="phoneErrors"
+          v-model="phone"
+          prepend-inner-icon="mdi-phone"
+          @input="$v.phone.$touch()"
+          @blur="$v.phone.$touch()"
         />
+        <v-text-field
+          label="Ext"
+          :error-messages="ExtErrors"
+          prepend-inner-icon="mdi-phone-settings"
+          v-model="ext"
+          @input="$v.ext.$touch()"
+          @blur="$v.ext.$touch()"
+        />
+        <v-text-field
+          label="Cell"
+          :error-messages="cellErrors"
+          v-model="cell"
+          prepend-inner-icon="mdi-cellphone"
+          @input="$v.cell.$touch()"
+          @blur="$v.cell.$touch()"
+        />
+        <v-text-field
+          label="Address Line #1"
+          :error-messages="addressline1Errors"
+          v-model="addressline1"
+          prepend-inner-icon="mdi-map-marker"
+          @input="$v.addressline1.$touch()"
+          @blur="$v.addressline1.$touch()"
+        />
+        <v-text-field
+          label="Address Line #2"
+          :error-messages="addressline2Errors"
+          v-model="addressline2"
+          prepend-inner-icon="mdi-map-marker"
+          @input="$v.addressline2.$touch()"
+          @blur="$v.addressline2.$touch()"
+        />
+        <v-text-field
+          label="City"
+          :error-messages="cityErrors"
+          v-model="city"
+          prepend-inner-icon="mdi-city"
+          @input="$v.city.$touch()"
+          @blur="$v.city.$touch()"
+        />
+        <v-text-field
+          label="Postal / Zip code"
+          :error-messages="postalErrors"
+          v-model="postal"
+          prepend-inner-icon="mdi-code-array"
+          @input="$v.postal.$touch()"
+          @blur="$v.postal.$touch()"
+        />
+        <v-select
+          v-model="country"
+          :items="country"
+          menu-props="auto"
+          label="Select Country"
+          prepend-inner-icon="mdi-flag"
+          :error-messages="countryErrors"
+          @input="$v.country.$touch()"
+          @blur="$v.country.$touch()"
+        ></v-select>
+        <v-select
+          v-model="state"
+          :items="state"
+          menu-props="auto"
+          label="Select State"
+          prepend-inner-icon="mdi-map"
+          :error-messages="stateErrors"
+          @input="$v.state.$touch()"
+          @blur="$v.state.$touch()"
+        ></v-select>
         <v-card-actions>
-          <v-btn :disabled="submitStatus == 'PENDING'" type="submit">Create</v-btn>
+          <v-btn :disabled="submitStatus == 'PENDING'" type="submit">Apply</v-btn>
+          <v-btn type="reset">Cancle</v-btn>
         </v-card-actions>
-        <!-- <div>{{submitStatus}}</div> -->
       </v-form>
     </v-card-text>
+    <v-divider></v-divider>
+   
   </v-card>
 </template>
 
@@ -80,7 +130,7 @@ import {
 } from "vuelidate/lib/validators";
 
 export default {
-  name: "RegisterPage",
+  name: "BillingContactTabs",
   data: () => ({
     username: "",
     email: "",
@@ -90,15 +140,6 @@ export default {
     repeatPassword: "",
     submitStatus: null
   }),
-  // data: () => ({
-  //   username: "nilesh",
-  //   email: "nils.mkwna@gmail.com",
-  //   firstname: "nilesh",
-  //   lastname: "nilesh",
-  //   password: "nilesh",
-  //   repeatPassword: "nilesh",
-  //   submitStatus: null
-  // }),
   mixins: [validationMixin],
   validations: {
     username: { required, maxLength: maxLength(10) },
