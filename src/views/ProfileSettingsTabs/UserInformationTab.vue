@@ -1,25 +1,8 @@
 <template>
-  <v-card width="400" class="mx-auto mt-10">
-    <v-card-title>Register Account</v-card-title>
+  <v-card light flat class="mx-auto">
+    <v-card-title>User Information</v-card-title>
     <v-card-text>
       <v-form @submit.prevent="onSubmit" :disabled="submitStatus === 'PENDING'">
-        <v-text-field
-          label="Username"
-          :error-messages="usernameErrors"
-          v-model="username"
-          prepend-inner-icon="mdi-account-circle"
-          @input="$v.username.$touch()"
-          @blur="$v.username.$touch()"
-        />
-        <v-text-field
-          label="E-mail"
-          :error-messages="emailErrors"
-          required
-          @input="$v.email.$touch()"
-          @blur="$v.email.$touch()"
-          v-model="email"
-          prepend-inner-icon="mdi-email"
-        />
         <v-text-field
           label="Firstname"
           v-model="firstname"
@@ -39,31 +22,49 @@
           @blur="$v.lastname.$touch()"
         />
         <v-text-field
-          label="Passowrd"
-          v-model="password"
-          type="password"
-          prepend-inner-icon="mdi-lock"
-          :error-messages="passwordErrors"
+          label="E-mail"
+          :error-messages="emailErrors"
           required
-          @input="$v.password.$touch()"
-          @blur="$v.password.$touch()"
+          @input="$v.email.$touch()"
+          @blur="$v.email.$touch()"
+          v-model="email"
+          prepend-inner-icon="mdi-email"
         />
         <v-text-field
-          label="Repeat Password "
-          v-model="repeatPassword"
-          type="password"
-          prepend-inner-icon="mdi-lock"
-          :error-messages="sameAsPasswordErrors"
-          required
-          @input="$v.repeatPassword.$touch()"
-          @blur="$v.repeatPassword.$touch()"
+          label="Phone"
+          :error-messages="phoneErrors"
+          v-model="phone"
+          prepend-inner-icon="mdi-phone"
+          @input="$v.phone.$touch()"
+          @blur="$v.phone.$touch()"
         />
+        <v-select
+          v-model="state"
+          :items="state"
+          menu-props="auto"
+          label="Language"
+          prepend-inner-icon="mdi-earth"
+          :error-messages="languageError"
+          @input="$v.language.$touch()"
+          @blur="$v.language.$touch()"
+        ></v-select>
+        <v-row>
+          <header prepend-inner-icon="mdi-bell">Notification</header>
+          <v-checkbox
+            v-model="smsNotification"
+            label="SMS"
+          ></v-checkbox>
+          <v-checkbox
+            v-model="emailNotification"
+            label="EMAIL"
+          ></v-checkbox>
+        </v-row>
         <v-card-actions>
-          <v-btn :disabled="submitStatus == 'PENDING'" type="submit">Create</v-btn>
+          <v-btn :disabled="submitStatus == 'PENDING'" type="submit">Save</v-btn>
+          <v-btn type="reset">Cancle</v-btn>
         </v-card-actions>
-        <!-- <div>{{submitStatus}}</div> -->
       </v-form>
-    </v-card-text>
+    </v-card-text>   
   </v-card>
 </template>
 
@@ -75,47 +76,28 @@ import {
   required,
   maxLength,
   minLength,
-  email,
-  sameAs
+  email
 } from "vuelidate/lib/validators";
 
 export default {
-  name: "RegisterPage",
+  name: "UserInformationTab",
   data: () => ({
-    username: "",
     email: "",
     firstname: "",
     lastname: "",
-    password: "",
-    repeatPassword: "",
+    phone: "",
+    emailNotification:"",
+    smsNotification:"",
     submitStatus: null
   }),
-  // data: () => ({
-  //   username: "nilesh",
-  //   email: "nils.mkwna@gmail.com",
-  //   firstname: "nilesh",
-  //   lastname: "nilesh",
-  //   password: "nilesh",
-  //   repeatPassword: "nilesh",
-  //   submitStatus: null
-  // }),
   mixins: [validationMixin],
   validations: {
-    username: { required, maxLength: maxLength(10) },
     email: { required, email },
     firstname: { required, maxLength: maxLength(10) },
     lastname: { required, maxLength: maxLength(10) },
-    password: { required, minLength: minLength(6) },
-    repeatPassword: { sameAsPassword: sameAs("password") }
   },
   computed: {
     ...mapGetters(["getCustomerEmail", "getLoggedIn"]),
-    usernameErrors() {
-      const errors = [];
-      if (!this.$v.username.$dirty) return errors;
-      !this.$v.username.required && errors.push("Username is required.");
-      return errors;
-    },
     firstnameErrors() {
       const errors = [];
       if (!this.$v.firstname.$dirty) return errors;
@@ -138,21 +120,6 @@ export default {
       !this.$v.email.email && errors.push("Must be valid e-mail");
       !this.$v.email.required && errors.push("E-mail is required");
       return errors;
-    },
-    passwordErrors() {
-      const errors = [];
-      if (!this.$v.password.$dirty) return errors;
-      !this.$v.password.minLength &&
-        errors.push("Password must be at most 6 characters long");
-      !this.$v.password.required && errors.push("Password is required.");
-      return errors;
-    },
-    sameAsPasswordErrors() {
-      const errors = [];
-      if (!this.$v.repeatPassword.$dirty) return errors;
-      !this.$v.repeatPassword.sameAsPassword &&
-        errors.push("Password must be identical.");
-      return errors;
     }
   },
   methods: {
@@ -172,12 +139,9 @@ export default {
         this.submitStatus = "PENDING";
         //create form data object
         const registerData = new FormData();
-        registerData.append("username", this.username);
         registerData.append("email", this.email);
         registerData.append("first_name", this.firstname);
         registerData.append("last_name", this.lastname);
-        registerData.append("password", this.password);
-
         //call VuexAction for login
         setTimeout(() => {
           this.doRegister(registerData)

@@ -25,7 +25,7 @@ const state = {
         { id: 9, text: 'Action History' }
     ],
     AccountUserMenu: [
-        { id: 0, text: 'Profile Settings' },
+        { id: 0, text: 'Profile Settings', path: 'profile-setting' },
         { id: 1, text: 'Company Profile', path: 'company-profile' },
         { id: 2, text: 'Finance', path: 'finance' },
         { id: 3, text: 'Subscriptions & services' },

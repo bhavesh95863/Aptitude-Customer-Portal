@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar flat dark color="#472F92">
-      <v-toolbar-title>Company Profile</v-toolbar-title>
+      <v-toolbar-title>Profile Settings</v-toolbar-title>
       <template v-slot:extension>
         <v-tabs v-model="tab" background-color="transparent" grow>
           <v-tabs-slider></v-tabs-slider>
@@ -25,34 +25,25 @@
 
 
 <script>
-import TechnicalContactsTab from "./CompanyProfileTabs/TechnicalContacts";
-import AdministrativeContactTabs from "./CompanyProfileTabs/AdministrativeContacts";
-import BillingContactTabs from "./CompanyProfileTabs/BillingContacts";
-
+import UserInformationTab from "./ProfileSettingsTabs/UserInformationTab"
+import SecuritySettingsTab from "./ProfileSettingsTabs/SecuritySettingsTab"
 
 export default {
-  name: "CompanyProfilePage",
+  name: "ProfileSettingPage",
   components: {
-    TechnicalContactsTab,
-    AdministrativeContactTabs,
-    BillingContactTabs
+    UserInformationTab,
+    SecuritySettingsTab
   },
   data() {
     return {
       tab: null,
       items: [
-        "Adminstrative Contacts",
-        "Technical Contacts",
-        "Billing Contacts",
-        "Bank Information",
-        "Aptitude Technologies"
+        "User Information",
+        "Security Settings"
       ],
       texts: [
-        "AdministrativeContactTabs",
-        "TechnicalContactsTab",
-        "BillingContactTabs",
-        "BankInformation",
-        "AptitudeTechnologies"
+        "UserInformationTab",
+        "SecuritySettingsTab"
       ]
     };
   }
