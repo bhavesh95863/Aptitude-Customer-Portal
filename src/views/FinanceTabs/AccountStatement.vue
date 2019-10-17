@@ -1,13 +1,7 @@
 <template>
   <v-card light flat class="mx-auto">
-    <v-card-title>Main Technical Contact</v-card-title>
+    <v-card-title>Account Statement</v-card-title>
     <v-card-text>
-      <ContactForm />
-    </v-card-text>
-    <v-divider></v-divider>
-    <v-card-title>Additional Technical Contacts</v-card-title>
-    <v-card-text>
-      <p class="subtitle-1">Technical Contact #2</p>
       <ContactForm />
     </v-card-text>
   </v-card>
@@ -17,20 +11,19 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
-import ContactForm from "./ContactForm";
+// import ContactForm from "./ContactForm";
 import {
   required,
   maxLength,
   minLength,
   email,
-  sameAs,
   numeric
 } from "vuelidate/lib/validators";
 
 export default {
-  name: "TechnicalContactsTab",
+  name: "AccountStatementTab",
   components: {
-    ContactForm
+    // ContactForm
   },
   data: () => ({
     username: "",
