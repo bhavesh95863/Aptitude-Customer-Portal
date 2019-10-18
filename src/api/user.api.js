@@ -8,8 +8,8 @@ export const userApi = {
     logout,
     register,
     // getAll,
-    // getById,
-    // update,
+    getById,
+    update,
     // delete: _delete
 };
 
@@ -78,37 +78,37 @@ async function register(registerData) {
         });
 }
 
-// async function getAll() {
-//     const requestOptions = {
-//         method: 'GET',
-//         headers: authHeader()
-//     };
+async function getById(id) {
+    let requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    };
+    return axios.get("http://localhost:8080/api/resource/User/" + id, requestOptions)
+        .then(response => { return response })
+        .catch(function (response) {
+            return handleResponse(response);
+        })
+}
 
-//     const response = await fetch(`${config.apiUrl}/users`, requestOptions);
-//     return handleResponse(response);
-// }
-
-
-// async function getById(id) {
-//     const requestOptions = {
-//         method: 'GET',
-//         headers: authHeader()
-//     };
-
-//     const response = await fetch(`${config.apiUrl}/users/${id}`, requestOptions);
-//     return handleResponse(response);
-// }
-
-// async function update(user) {
-//     const requestOptions = {
-//         method: 'PUT',
-//         headers: { ...authHeader(), 'Content-Type': 'application/json' },
-//         body: JSON.stringify(user)
-//     };
-
-//     const response = await fetch(`${config.apiUrl}/users/${user.id}`, requestOptions);
-//     return handleResponse(response);
-// }
+async function update(pera) {
+    // console.log(user.get('data'));
+    // console.log(pera[1].get('data'));
+    // console.log(email);
+    let requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    };
+    // return axios.put("http://localhost:8080/api/resource/User/" + user.get("email"), user, requestOptions)
+    return axios.put("http://localhost:8080/api/resource/User/" + pera[0], pera[1], requestOptions)
+        .then(response => { return response })
+        .catch(function (response) {
+            return handleResponse(response);
+        })
+}
 
 // // prefixed function name with underscore because delete is a reserved word in javascript
 // async function _delete(id) {

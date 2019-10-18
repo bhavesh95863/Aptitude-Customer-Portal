@@ -65,6 +65,35 @@ const actions = {
                 }
             );
     },
+    async getById({ dispatch }, id) {
+        return userApi.getById(id)
+            .then(
+                respone => {
+                    return respone;
+                },
+                error => {
+                    dispatch('error', error, { root: true });
+                    return Promise.reject(error);
+                }
+            );
+    },
+    async update({ dispatch }, pera) {
+        // alert('called update');
+
+        // console.log(emai/l);
+        return userApi.update(pera)
+            .then(
+                respone => {
+                    dispatch('success', "User Profile successfully updated!", { root: true });
+                    return respone;
+                },
+                error => {
+                    dispatch('error', error, { root: true });
+                    return Promise.reject(error);
+                }
+            );
+    },
+
 };
 
 const mutations = {

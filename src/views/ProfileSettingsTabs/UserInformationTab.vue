@@ -39,32 +39,28 @@
           @blur="$v.phone.$touch()"
         />
         <v-select
-          v-model="state"
-          :items="state"
+          v-model="language"
+          :items="languages"
           menu-props="auto"
           label="Language"
           prepend-inner-icon="mdi-earth"
-          :error-messages="languageError"
+          :error-messages="languageErrors"
           @input="$v.language.$touch()"
           @blur="$v.language.$touch()"
-        ></v-select>
+        >
+          <list-item>okok</list-item>
+        </v-select>
         <v-row>
           <header prepend-inner-icon="mdi-bell">Notification</header>
-          <v-checkbox
-            v-model="smsNotification"
-            label="SMS"
-          ></v-checkbox>
-          <v-checkbox
-            v-model="emailNotification"
-            label="EMAIL"
-          ></v-checkbox>
+          <v-checkbox v-model="smsNotification" label="SMS"></v-checkbox>
+          <v-checkbox v-model="emailNotification" label="EMAIL"></v-checkbox>
         </v-row>
         <v-card-actions>
           <v-btn :disabled="submitStatus == 'PENDING'" type="submit">Save</v-btn>
           <v-btn type="reset">Cancle</v-btn>
         </v-card-actions>
       </v-form>
-    </v-card-text>   
+    </v-card-text>
   </v-card>
 </template>
 
@@ -76,7 +72,8 @@ import {
   required,
   maxLength,
   minLength,
-  email
+  email,
+  numeric
 } from "vuelidate/lib/validators";
 
 export default {
@@ -86,8 +83,10 @@ export default {
     firstname: "",
     lastname: "",
     phone: "",
-    emailNotification:"",
-    smsNotification:"",
+    language: "",
+    languages: ["fr", "en", "hi"],
+    emailNotification: "",
+    smsNotification: "",
     submitStatus: null
   }),
   mixins: [validationMixin],
@@ -95,6 +94,8 @@ export default {
     email: { required, email },
     firstname: { required, maxLength: maxLength(10) },
     lastname: { required, maxLength: maxLength(10) },
+    language: { required },
+    phone: { required, numeric, minLength: minLength(7) }
   },
   computed: {
     ...mapGetters(["getCustomerEmail", "getLoggedIn"]),
@@ -120,10 +121,25 @@ export default {
       !this.$v.email.email && errors.push("Must be valid e-mail");
       !this.$v.email.required && errors.push("E-mail is required");
       return errors;
+    },
+    languageErrors() {
+      const errors = [];
+      if (!this.$v.language.$dirty) return errors;
+      !this.$v.language.required && errors.push("Language is required");
+      return errors;
+    },
+    phoneErrors() {
+      const errors = [];
+      if (!this.$v.phone.$dirty) return errors;
+      !this.$v.phone.minLength &&
+        errors.push("phone must be minimum 7 characters long");
+      !this.$v.phone.numeric && errors.push("phone must be numeric");
+      !this.$v.phone.required && errors.push("Phone is required.");
+      return errors;
     }
   },
   methods: {
-    ...mapActions(["doRegister"]),
+    ...mapActions(["doRegister", "getById", "update"]),
     onSubmit(e) {
       if (this.submitStatus == "PENDING") {
         return;
@@ -139,12 +155,23 @@ export default {
         this.submitStatus = "PENDING";
         //create form data object
         const registerData = new FormData();
-        registerData.append("email", this.email);
-        registerData.append("first_name", this.firstname);
-        registerData.append("last_name", this.lastname);
+        // registerData.append("email", this.email);
+        // registerData.append("first_name", this.firstname);
+        // registerData.append("last_name", this.lastname);
+        // registerData.append("phone", this.phone);
+        // registerData.append("language", this.language);
+        let userSubmitData = {
+          email: this.email,
+          first_name: this.firstname,
+          last_name: this.lastname,
+          phone: this.phone,
+          language: this.language
+        };
+        registerData.append("data", JSON.stringify(userSubmitData));
+        let pera = [this.getCustomerEmail, registerData];
         //call VuexAction for login
         setTimeout(() => {
-          this.doRegister(registerData)
+          this.update(pera)
             .then(() => {
               this.submitStatus = "DONE";
             })
@@ -154,6 +181,21 @@ export default {
         });
       }
     }
+  },
+  created() {
+    this.getById(this.getCustomerEmail)
+      .then(userData => {
+        // console.log(userData.data.data);
+        let userInfo = userData.data.data;
+        this.email = userInfo.email;
+        this.firstname = userInfo.first_name;
+        this.lastname = userInfo.last_name;
+        this.phone = userInfo.phone;
+        this.language = userInfo.language;
+      })
+      .catch(() => {
+        alert("something went wrong");
+      });
   }
 };
 </script>
