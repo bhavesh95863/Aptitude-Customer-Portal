@@ -85,8 +85,8 @@ export default {
     phone: "",
     language: "",
     languages: ["fr", "en", "hi"],
-    emailNotification: "",
-    smsNotification: "",
+    emailNotification: 0,
+    smsNotification: 0,
     submitStatus: null
   }),
   mixins: [validationMixin],
@@ -139,7 +139,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["doRegister", "getById", "update"]),
+    ...mapActions(["doRegister", "getUserInfo", "update"]),
     onSubmit(e) {
       if (this.submitStatus == "PENDING") {
         return;
@@ -165,13 +165,14 @@ export default {
           first_name: this.firstname,
           last_name: this.lastname,
           phone: this.phone,
-          language: this.language
+          language: this.language,
+          email_notification: this.emailNotification,
+          sms_notification: this.smsNotification
         };
-        registerData.append("data", JSON.stringify(userSubmitData));
-        let pera = [this.getCustomerEmail, registerData];
+        let userSubmitDataJson = JSON.stringify(userSubmitData);
         //call VuexAction for login
         setTimeout(() => {
-          this.update(pera)
+          this.update(userSubmitDataJson)
             .then(() => {
               this.submitStatus = "DONE";
             })
@@ -183,19 +184,16 @@ export default {
     }
   },
   created() {
-    this.getById(this.getCustomerEmail)
-      .then(userData => {
-        // console.log(userData.data.data);
-        let userInfo = userData.data.data;
-        this.email = userInfo.email;
-        this.firstname = userInfo.first_name;
-        this.lastname = userInfo.last_name;
-        this.phone = userInfo.phone;
-        this.language = userInfo.language;
-      })
-      .catch(() => {
-        alert("something went wrong");
-      });
+    this.getUserInfo(this.getCustomerEmail).then(userData => {
+      // console.log(userData);
+      this.email = userData.email;
+      this.firstname = userData.first_name;
+      this.lastname = userData.last_name;
+      this.phone = userData.phone;
+      this.language = userData.language;
+      this.emailNotification = userData.email_notification;
+      this.smsNotification = userData.sms_notification;
+    });
   }
 };
 </script>

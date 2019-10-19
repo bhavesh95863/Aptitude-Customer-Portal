@@ -8,7 +8,7 @@ export const userApi = {
     logout,
     register,
     // getAll,
-    getById,
+    getUserInfo,
     update,
     // delete: _delete
 };
@@ -78,24 +78,27 @@ async function register(registerData) {
         });
 }
 
-async function getById(id) {
+async function getUserInfo() {
     let requestOptions = {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
     };
-    return axios.get("http://localhost:8080/api/resource/User/" + id, requestOptions)
-        .then(response => { return response })
+    return axios.get("http://localhost:8080/api/method/apptitude.api.get_user_data", requestOptions)
+        .then(response => {
+            if (response.data.message.status == 200) {
+                return response.data.message.data;
+            } else {
+                return Promise.reject(response);
+            }
+        })
         .catch(function (response) {
             return handleResponse(response);
         })
 }
 
-async function update(pera) {
-    // console.log(user.get('data'));
-    // console.log(pera[1].get('data'));
-    // console.log(email);
+async function update(userSubmitDataJson) {
     let requestOptions = {
         headers: {
             'Content-Type': 'application/json',
@@ -103,8 +106,14 @@ async function update(pera) {
         }
     };
     // return axios.put("http://localhost:8080/api/resource/User/" + user.get("email"), user, requestOptions)
-    return axios.put("http://localhost:8080/api/resource/User/" + pera[0], pera[1], requestOptions)
-        .then(response => { return response })
+    return axios.put("http://localhost:8080/api/method/apptitude.api.update_profile", userSubmitDataJson, requestOptions)
+        .then(response => {
+            if (response.data.message.status == 200) {
+                return response.data.message.data;
+            } else {
+                return Promise.reject(response);
+            }
+        })
         .catch(function (response) {
             return handleResponse(response);
         })
