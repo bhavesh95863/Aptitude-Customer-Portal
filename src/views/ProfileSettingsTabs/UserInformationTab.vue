@@ -47,9 +47,7 @@
           :error-messages="languageErrors"
           @input="$v.language.$touch()"
           @blur="$v.language.$touch()"
-        >
-          <list-item>okok</list-item>
-        </v-select>
+        ></v-select>
         <v-row>
           <header prepend-inner-icon="mdi-bell">Notification</header>
           <v-checkbox v-model="smsNotification" label="SMS"></v-checkbox>
@@ -166,8 +164,8 @@ export default {
           last_name: this.lastname,
           phone: this.phone,
           language: this.language,
-          email_notification: this.emailNotification,
-          sms_notification: this.smsNotification
+          email_notification: this.emailNotification ? 1 : 0,
+          sms_notification: this.smsNotification ? 1 : 0
         };
         let userSubmitDataJson = JSON.stringify(userSubmitData);
         //call VuexAction for login
@@ -185,7 +183,7 @@ export default {
   },
   created() {
     this.getUserInfo(this.getCustomerEmail).then(userData => {
-      // console.log(userData);
+      console.log(userData);
       this.email = userData.email;
       this.firstname = userData.first_name;
       this.lastname = userData.last_name;

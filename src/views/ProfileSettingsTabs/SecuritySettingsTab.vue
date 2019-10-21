@@ -8,10 +8,10 @@
           v-model="currentPassword"
           type="password"
           prepend-inner-icon="mdi-lock"
-          :error-messages="passwordErrors"
+          :error-messages="currentPasswordErrors"
           required
-          @input="$v.password.$touch()"
-          @blur="$v.password.$touch()"
+          @input="$v.currentPassword.$touch()"
+          @blur="$v.currentPassword.$touch()"
         />
         <v-text-field
           label="New Passowrd"
@@ -40,7 +40,6 @@
       </v-form>
     </v-card-text>
     <v-divider></v-divider>
-   
   </v-card>
 </template>
 
@@ -61,22 +60,24 @@ export default {
   data: () => ({
     currentPassword: "",
     newPassword: "",
-    repeatPassword: ""
+    repeatPassword: "",
+    submitStatus: null
   }),
   mixins: [validationMixin],
   validations: {
-    password: { required, minLength: minLength(6) },
+    currentPassword: { required, minLength: minLength(6) },
     newPassword: { required, minLength: minLength(6) },
-    repeatPassword: { sameAsPassword: sameAs("password") }
+    repeatPassword: { sameAsPassword: sameAs("newPassword") }
   },
   computed: {
     ...mapGetters(["getCustomerEmail", "getLoggedIn"]),
-    passwordErrors() {
+    currentPasswordErrors() {
       const errors = [];
-      if (!this.$v.password.$dirty) return errors;
-      !this.$v.password.minLength &&
-        errors.push("Password must be at most 6 characters long");
-      !this.$v.password.required && errors.push("Password is required.");
+      if (!this.$v.currentPassword.$dirty) return errors;
+      !this.$v.currentPassword.minLength &&
+        errors.push("Current Password must be at most 6 characters long");
+      !this.$v.currentPassword.required &&
+        errors.push("currentPassword is required.");
       return errors;
     },
     newPasswordErrors() {
@@ -96,7 +97,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["doRegister"]),
+    ...mapActions(["changePassword"]),
     onSubmit(e) {
       if (this.submitStatus == "PENDING") {
         return;
@@ -111,16 +112,18 @@ export default {
       } else {
         this.submitStatus = "PENDING";
         //create form data object
-        const registerData = new FormData();
-        registerData.append("username", this.username);
-        registerData.append("email", this.email);
-        registerData.append("first_name", this.firstname);
-        registerData.append("last_name", this.lastname);
-        registerData.append("password", this.password);
+        const passwordData = new FormData();
+        // passwordData.append("username", this.username);
+        // passwordData.append("email", this.email);
+        // passwordData.append("first_name", this.firstname);
+        // passwordData.append("last_name", this.lastname);
+        passwordData.append("password", this.currentPassword);
+        passwordData.append("new_password", this.newPassword);
+        passwordData.append("conf_password", this.repeatPassword);
 
         //call VuexAction for login
         setTimeout(() => {
-          this.doRegister(registerData)
+          this.changePassword(passwordData)
             .then(() => {
               this.submitStatus = "DONE";
             })

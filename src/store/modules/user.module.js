@@ -20,9 +20,9 @@ const actions = {
                     router.push('/');
                 }
             ).catch(
-                () => {
+                (respone) => {
                     commit('loginFailure');
-                    dispatch('error', "Incorrect Username or Password, Please try again.", { root: true });
+                    dispatch('error', respone, { root: true });
                 }
             );
     },
@@ -84,7 +84,26 @@ const actions = {
         return userApi.update(userSubmitDataJson)
             .then(
                 respone => {
-                    dispatch('success', "User Profile successfully updated!", { root: true });
+                    router.push('/');
+                    setTimeout(() => {
+                        dispatch('success', "User Profile successfully updated!", { root: true });
+                    });
+                    return respone;
+                },
+                error => {
+                    dispatch('error', error, { root: true });
+                    return Promise.reject(error);
+                }
+            );
+    },
+    async changePassword({ dispatch }, passwordData) {
+        return userApi.changePassword(passwordData)
+            .then(
+                respone => {
+                    router.push('/');
+                    setTimeout(() => {
+                        dispatch('success', respone.message, { root: true });
+                    });
                     return respone;
                 },
                 error => {

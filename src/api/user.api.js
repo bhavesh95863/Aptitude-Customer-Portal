@@ -10,6 +10,7 @@ export const userApi = {
     // getAll,
     getUserInfo,
     update,
+    changePassword
     // delete: _delete
 };
 
@@ -28,7 +29,12 @@ async function login(loginData) {
             }
         })
         .catch(function (response) {
-            return handleResponse(response);
+            if (response.response.data.message) {
+                return Promise.reject(response.response.data.message);
+            } else {
+                return Promise.reject("something went wrong, please try again");
+            }
+            // return handleResponse(response);
         });
 }
 function getCurrentUser() {
@@ -105,11 +111,32 @@ async function update(userSubmitDataJson) {
             'Accept': 'application/json'
         }
     };
-    // return axios.put("http://localhost:8080/api/resource/User/" + user.get("email"), user, requestOptions)
+
     return axios.put("http://localhost:8080/api/method/apptitude.api.update_profile", userSubmitDataJson, requestOptions)
         .then(response => {
             if (response.data.message.status == 200) {
                 return response.data.message.data;
+            } else {
+                return Promise.reject(response);
+            }
+        })
+        .catch(function (response) {
+            return handleResponse(response);
+        })
+}
+
+async function changePassword(passwordData) {
+    let requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    };
+
+    return axios.put("http://localhost:8080/api/method/apptitude.api.change_password", passwordData, requestOptions)
+        .then(response => {
+            if (response.data.message.status == 200) {
+                return response.data.message;
             } else {
                 return Promise.reject(response);
             }
@@ -152,7 +179,7 @@ async function update(userSubmitDataJson) {
 
 function handleResponse(error) {
     if (error.response) {
-        return Promise.reject("Something went wrong, please try again..");
+        return Promise.reject("Something went wrong, please try again.");
     } else {
         if (error.data.message.message) {
             return Promise.reject(error.data.message.message);
