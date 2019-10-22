@@ -35,7 +35,7 @@
         />
         <v-card-actions>
           <v-btn :disabled="submitStatus == 'PENDING'" type="submit">Apply</v-btn>
-          <v-btn type="reset">Cancle</v-btn>
+          <v-btn @click="() => {this.clearPasswordData()}">Cancle</v-btn>
         </v-card-actions>
       </v-form>
     </v-card-text>
@@ -47,13 +47,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
-import {
-  required,
-  maxLength,
-  minLength,
-  email,
-  sameAs
-} from "vuelidate/lib/validators";
+import { required, minLength, sameAs } from "vuelidate/lib/validators";
 
 export default {
   name: "SecuritySettingsTab",
@@ -132,6 +126,11 @@ export default {
             });
         });
       }
+    },
+    clearPasswordData() {
+      this.currentPassword = "";
+      this.newPassword = "";
+      this.repeatPassword = "";
     }
   }
 };

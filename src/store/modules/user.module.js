@@ -17,6 +17,7 @@ const actions = {
             .then(
                 user => {
                     commit('setLogin', user.data);
+                    dispatch('getCurrentUserRole');
                     router.push('/');
                 }
             ).catch(
@@ -26,12 +27,22 @@ const actions = {
                 }
             );
     },
-    async getUsername({ commit }) {
+    async getUsername({ dispatch, commit }) {
         return userApi.getCurrentUser()
             .then(response => {
                 if (typeof response !== 'undefined' && response.status == 200) {
                     commit('autoLogin');
+                    dispatch('getCurrentUserRole');
                     router.push('/');
+                    return response
+                }
+            })
+    },
+    async getCurrentUserRole({ commit }) {
+        return userApi.getCurrentUserRole()
+            .then(response => {
+                if (response.status == 200) {
+                    commit('assignRole', response.data.message.data.role);
                     return response
                 }
             })
@@ -119,7 +130,7 @@ const mutations = {
     setLogin: (state) => {
         state.customer_email = $cookies.get('user_id');
         state.logged_in = true;
-        state.user_type = 'Account User';
+        // state.user_type = 'Account User';
     },
     loginFailure: (state) => {
         state.customer_email = null;
@@ -128,7 +139,7 @@ const mutations = {
     autoLogin: (state) => {
         state.customer_email = $cookies.get('user_id');
         state.logged_in = true;
-        state.user_type = 'Account User';
+        // state.user_type = 'Account User';
     },
     logout: (state) => {
         state.customer_email = null;
@@ -136,6 +147,10 @@ const mutations = {
     },
     setUserType: (state, UserType) => {
         state.user_type = UserType;
+    },
+    assignRole: (state, UserRole) => {
+        // alert(UserRole);
+        state.user_type = UserRole;
     },
 };
 

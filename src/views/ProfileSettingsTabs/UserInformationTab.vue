@@ -55,7 +55,7 @@
         </v-row>
         <v-card-actions>
           <v-btn :disabled="submitStatus == 'PENDING'" type="submit">Save</v-btn>
-          <v-btn type="reset">Cancle</v-btn>
+          <v-btn @click="() => {this.assignFetchedValue()}">Cancle</v-btn>
         </v-card-actions>
       </v-form>
     </v-card-text>
@@ -85,7 +85,16 @@ export default {
     languages: ["fr", "en", "hi"],
     emailNotification: 0,
     smsNotification: 0,
-    submitStatus: null
+    submitStatus: null,
+    fetched: {
+      email: "",
+      firstname: "",
+      lastname: "",
+      phone: "",
+      language: "",
+      emailNotification: 0,
+      smsNotification: 0
+    }
   }),
   mixins: [validationMixin],
   validations: {
@@ -151,13 +160,6 @@ export default {
         return;
       } else {
         this.submitStatus = "PENDING";
-        //create form data object
-        const registerData = new FormData();
-        // registerData.append("email", this.email);
-        // registerData.append("first_name", this.firstname);
-        // registerData.append("last_name", this.lastname);
-        // registerData.append("phone", this.phone);
-        // registerData.append("language", this.language);
         let userSubmitData = {
           email: this.email,
           first_name: this.firstname,
@@ -179,19 +181,32 @@ export default {
             });
         });
       }
+    },
+    getUserInfoData: function() {
+      this.getUserInfo(this.getCustomerEmail).then(userData => {
+        this.email = this.fetched.email = userData.email;
+        this.firstname = this.fetched.firstname = userData.first_name;
+        this.lastname = this.fetched.lastname = userData.last_name;
+        this.phone = this.fetched.phone = userData.phone;
+        this.language = this.fetched.language = userData.language;
+        this.emailNotification = this.fetched.emailNotification =
+          userData.email_notification;
+        this.smsNotification = this.fetched.smsNotification =
+          userData.sms_notification;
+      });
+    },
+    assignFetchedValue: function() {
+      this.email = this.fetched.email;
+      this.firstname = this.fetched.firstname;
+      this.lastname = this.fetched.lastname;
+      this.phone = this.fetched.phone;
+      this.language = this.fetched.language;
+      this.emailNotification = this.fetched.emailNotification;
+      this.smsNotification = this.fetched.smsNotification;
     }
   },
   created() {
-    this.getUserInfo(this.getCustomerEmail).then(userData => {
-      console.log(userData);
-      this.email = userData.email;
-      this.firstname = userData.first_name;
-      this.lastname = userData.last_name;
-      this.phone = userData.phone;
-      this.language = userData.language;
-      this.emailNotification = userData.email_notification;
-      this.smsNotification = userData.sms_notification;
-    });
+    this.getUserInfoData();
   }
 };
 </script>

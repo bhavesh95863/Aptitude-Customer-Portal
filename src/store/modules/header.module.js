@@ -1,43 +1,22 @@
 import store from '../../store'
 
 const state = {
-    SuperAdminMenus: [
-        { id: 0, text: 'Profile Settings' },
-        { id: 1, text: 'Company Profile' },
-        { id: 2, text: 'Company Settings' },
-        { id: 3, text: 'Company Users' },
-        { id: 4, text: 'Platform Groups and Users' },
-        { id: 5, text: 'Finance' },
-        { id: 6, text: 'Subscriptions & services' },
-        { id: 7, text: 'Insfrastructures Management' },
-        { id: 8, text: 'Tickets' },
-        { id: 9, text: 'Action History' }
-    ],
-    AdminMenus: [
-        { id: 0, text: 'Profile Settings' },
-        { id: 1, text: 'Company Profile' },
-        { id: 2, text: 'Company Settings' },
-        { id: 3, text: 'Company Users' },
-        { id: 4, text: 'Platform Groups and Users' },
-        { id: 6, text: 'Subscriptions & services' },
-        { id: 7, text: 'Insfrastructures Management' },
-        { id: 8, text: 'Tickets' },
-        { id: 9, text: 'Action History' }
-    ],
-    AccountUserMenu: [
+    Menus: [
         { id: 0, text: 'Profile Settings', path: 'profile-setting' },
         { id: 1, text: 'Company Profile', path: 'company-profile' },
-        { id: 2, text: 'Finance', path: 'finance' },
-        { id: 3, text: 'Subscriptions & services' },
-        { id: 4, text: 'Action History' }
+        { id: 2, text: 'Company Settings' },
+        { id: 3, text: 'Company Users' },
+        { id: 4, text: 'Platform Groups and Users' },
+        { id: 5, text: 'Finance', path: 'finance' },
+        { id: 6, text: 'Subscriptions & services' },
+        { id: 7, text: 'Insfrastructures Management' },
+        { id: 8, text: 'Tickets' },
+        { id: 9, text: 'Action History' }
     ],
-    NormalUserMenu: [
-        { id: 0, text: 'Profile Settings' },
-        { id: 1, text: 'Subscriptions & services' },
-        { id: 2, text: 'Insfrastructures Management' },
-        { id: 3, text: 'Tickets' },
-        { id: 4, text: 'Action History' }
-    ],
+    SuperAdminMenus: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    AdminMenus: [0, 1, 2, 3, 4, 6, 7, 8, 9],
+    AccountUserMenu: [0, 1, 5, 6, 9],
+    NormalUserMenu: [0, 6, 7, 8, 9],
     UserTypes: [
         { id: 0, name: 'Super Admin' },
         { id: 1, name: 'Admin' },
@@ -47,21 +26,32 @@ const state = {
 };
 
 const getters = {
-    // getMenuItems: (state) => {
-    //     return state.SuperAdminMenus;        
-    // },
     getMenuItems(state) {
         let UserType = store.getters.getUserType;
-        // alert(UserType);
         if (UserType == 'Super Admin') {
-            return state.SuperAdminMenus;
-            // return 'hello';
+            let menuItems = Array();
+            state.SuperAdminMenus.forEach((item) => {
+                menuItems.push(state.Menus[item]);
+            });
+            return menuItems;
         } else if (UserType == 'Admin') {
-            return state.AdminMenus;
-        } else if (UserType == 'Account User') {
-            return state.AccountUserMenu;
+            let menuItems = Array();
+            state.AdminMenus.forEach((item) => {
+                menuItems.push(state.Menus[item]);
+            });
+            return menuItems;
+        } else if (UserType == 'Finance User') {
+            let menuItems = Array();
+            state.AccountUserMenu.forEach((item) => {
+                menuItems.push(state.Menus[item]);
+            });
+            return menuItems;
         } else if (UserType == 'Normal User') {
-            return state.NormalUserMenu;
+            let menuItems = Array();
+            state.NormalUserMenu.forEach((item) => {
+                menuItems.push(state.Menus[item]);
+            });
+            return menuItems;
         }
     },
 

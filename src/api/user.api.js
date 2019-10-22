@@ -7,7 +7,7 @@ export const userApi = {
     getCurrentUser,
     logout,
     register,
-    // getAll,
+    getCurrentUserRole,
     getUserInfo,
     update,
     changePassword
@@ -46,6 +46,20 @@ function getCurrentUser() {
         withCredentials: true
     };
     return axios.get("http://localhost:8080/api/method/frappe.auth.get_logged_user", requestOptions)
+        .then(response => { return response })
+        .catch(function (response) {
+            return handleResponse(response);
+        })
+}
+function getCurrentUserRole() {
+    let requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        withCredentials: true
+    };
+    return axios.get("http://localhost:8080/api/method/apptitude.api.get_role", requestOptions)
         .then(response => { return response })
         .catch(function (response) {
             return handleResponse(response);
