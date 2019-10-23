@@ -11,7 +11,6 @@ export const userApi = {
     getUserInfo,
     update,
     changePassword
-    // delete: _delete
 };
 
 async function login(loginData) {
@@ -34,7 +33,6 @@ async function login(loginData) {
             } else {
                 return Promise.reject("something went wrong, please try again");
             }
-            // return handleResponse(response);
         });
 }
 function getCurrentUser() {
