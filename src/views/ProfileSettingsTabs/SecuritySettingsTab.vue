@@ -24,7 +24,7 @@
           @blur="$v.newPassword.$touch()"
         />
         <v-text-field
-          label="Repeat Password "
+          label="Repeat Password"
           v-model="repeatPassword"
           type="password"
           prepend-inner-icon="mdi-lock"

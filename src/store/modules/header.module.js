@@ -6,7 +6,7 @@ const state = {
         { id: 1, text: 'Company Profile', path: 'company-profile' },
         { id: 2, text: 'Company Settings' },
         { id: 3, text: 'Company Users' },
-        { id: 4, text: 'Platform Groups and Users' },
+        { id: 4, text: 'Platform Groups and Users', path: 'platform-groups-and-users' },
         { id: 5, text: 'Finance', path: 'finance' },
         { id: 6, text: 'Subscriptions & services' },
         { id: 7, text: 'Insfrastructures Management' },

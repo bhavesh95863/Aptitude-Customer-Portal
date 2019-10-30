@@ -7,6 +7,7 @@ import RegisterPage from './views/RegisterPage.vue'
 import CompanyProfilePage from './views/CompanyProfilePage.vue'
 import FinancePage from './views/FinancePage.vue'
 import ProfileSettingPage from './views/ProfileSettingPage.vue'
+import PlatformGroupsPage from './views/PlatformGroupsPage.vue'
 import store from './store'
 Vue.use(Router)
 
@@ -20,6 +21,7 @@ export const router = new Router({
     { path: '/company-profile', component: CompanyProfilePage },
     { path: '/finance', component: FinancePage },
     { path: '/profile-setting', component: ProfileSettingPage },
+    { path: '/platform-groups-and-users', component: PlatformGroupsPage },
 
     // otherwise redirect to home
     { path: '*', redirect: '/' }
@@ -32,7 +34,7 @@ router.onReady(() => {
 
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/about', '/login', '/register'];
+  const publicPages = ['/about', '/login'];
   const loginPages = ['/login', '/register'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = store.getters.getLoggedIn;

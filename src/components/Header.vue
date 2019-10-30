@@ -24,7 +24,7 @@
         </v-list>
       </v-menu>
       <v-btn text v-if="!getLoggedIn" to="/login">Login</v-btn>
-      <v-btn text v-if="!getLoggedIn" to="/register">Register</v-btn>
+      <!-- <v-btn text v-if="!getLoggedIn" to="/register">Register</v-btn> -->
     </v-toolbar-items>
   </v-app-bar>
 </template>
