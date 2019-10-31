@@ -97,7 +97,7 @@ export default {
     usertype: "",
     UserTypes: [
         'Super Admin',
-        'Admin',
+        'Admin User',
         'Billing User',
         'Normal User'
     ],

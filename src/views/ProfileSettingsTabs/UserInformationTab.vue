@@ -3,60 +3,80 @@
     <v-card-title>User Information</v-card-title>
     <v-card-text>
       <v-form @submit.prevent="onSubmit" :disabled="submitStatus === 'PENDING'">
-        <v-text-field
-          label="Firstname"
-          v-model="firstname"
-          prepend-inner-icon="mdi-account-circle"
-          :error-messages="firstnameErrors"
-          required
-          @input="$v.firstname.$touch()"
-          @blur="$v.firstname.$touch()"
-        />
-        <v-text-field
-          label="Lastname"
-          v-model="lastname"
-          prepend-inner-icon="mdi-account-circle"
-          :error-messages="lastnameErrors"
-          required
-          @input="$v.lastname.$touch()"
-          @blur="$v.lastname.$touch()"
-        />
-        <v-text-field
-          label="E-mail"
-          :error-messages="emailErrors"
-          required
-          @input="$v.email.$touch()"
-          @blur="$v.email.$touch()"
-          v-model="email"
-          prepend-inner-icon="mdi-email"
-        />
-        <v-text-field
-          label="Phone"
-          :error-messages="phoneErrors"
-          v-model="phone"
-          prepend-inner-icon="mdi-phone"
-          @input="$v.phone.$touch()"
-          @blur="$v.phone.$touch()"
-        />
-        <v-select
-          v-model="language"
-          :items="languages"
-          menu-props="auto"
-          label="Language"
-          prepend-inner-icon="mdi-earth"
-          :error-messages="languageErrors"
-          @input="$v.language.$touch()"
-          @blur="$v.language.$touch()"
-        ></v-select>
         <v-row>
-          <header prepend-inner-icon="mdi-bell">Notification</header>
-          <v-checkbox v-model="smsNotification" label="SMS"></v-checkbox>
-          <v-checkbox v-model="emailNotification" label="EMAIL"></v-checkbox>
+          <v-col>
+            <v-text-field
+              label="Firstname"
+              v-model="firstname"
+              prepend-inner-icon="mdi-account-circle"
+              :error-messages="firstnameErrors"
+              required
+              @input="$v.firstname.$touch()"
+              @blur="$v.firstname.$touch()"
+            />
+          </v-col>
+          <v-col>
+            <v-text-field
+              label="Lastname"
+              v-model="lastname"
+              prepend-inner-icon="mdi-account-circle"
+              :error-messages="lastnameErrors"
+              required
+              @input="$v.lastname.$touch()"
+              @blur="$v.lastname.$touch()"
+            />
+          </v-col>
         </v-row>
-        <v-card-actions>
-          <v-btn :disabled="submitStatus == 'PENDING'" type="submit">Save</v-btn>
-          <v-btn @click="() => {this.assignFetchedValue()}">Cancle</v-btn>
-        </v-card-actions>
+        <v-row>
+          <v-col>
+            <v-text-field
+              label="E-mail"
+              :error-messages="emailErrors"
+              required
+              @input="$v.email.$touch()"
+              @blur="$v.email.$touch()"
+              v-model="email"
+              prepend-inner-icon="mdi-email"
+            />
+          </v-col>
+          <v-col>
+            <v-text-field
+              label="Phone"
+              :error-messages="phoneErrors"
+              v-model="phone"
+              prepend-inner-icon="mdi-phone"
+              @input="$v.phone.$touch()"
+              @blur="$v.phone.$touch()"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-select
+              v-model="language"
+              :items="languages"
+              menu-props="auto"
+              label="Language"
+              prepend-inner-icon="mdi-earth"
+              :error-messages="languageErrors"
+              @input="$v.language.$touch()"
+              @blur="$v.language.$touch()"
+            ></v-select>
+          </v-col>
+          <v-col>
+            <v-row>
+              <span>Notifications</span>
+              <v-checkbox v-model="smsNotification" label="SMS"></v-checkbox>
+              <v-checkbox v-model="emailNotification" label="EMAIL"></v-checkbox>
+            </v-row>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-card-actions>
+            <v-btn :disabled="submitStatus == 'PENDING'" type="submit">Save</v-btn>
+            <v-btn @click="() => {this.assignFetchedValue()}">Cancle</v-btn>
+          </v-card-actions>
+        </v-row>
       </v-form>
     </v-card-text>
   </v-card>
