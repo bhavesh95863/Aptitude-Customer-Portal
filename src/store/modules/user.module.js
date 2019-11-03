@@ -76,6 +76,37 @@ const actions = {
                 }
             );
     },
+    async setContactDetails({ dispatch }, contactData) {
+        return userApi.setContactDetailsApi(contactData)
+            .then(
+                respone => {
+                    // router.push('/login');
+                    setTimeout(() => {
+                        dispatch('success', respone.message, { root: true });
+                    });
+                    return respone;
+                },
+                error => {
+                    dispatch('error', error, { root: true });
+                    return Promise.reject(error);
+                }
+            );
+    },
+    async getContactDetails({ dispatch }, contact_type) {
+        return userApi.getContactDetailsApi(contact_type)
+            .then(
+                respone => {
+                    return respone;
+                },
+                error => {
+                    // router.push('/');
+                    setTimeout(() => {
+                        dispatch('error', error, { root: true });
+                    });
+                    return Promise.reject(error);
+                }
+            );
+    },
     async getUserInfo({ dispatch }, id) {
         return userApi.getUserInfo(id)
             .then(

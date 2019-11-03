@@ -170,7 +170,7 @@ import {
 export default {
   name: "ContactForm",
   data: () => ({
-    username: "",
+    name: "",
     email: "",
     firstname: "",
     lastname: "",
@@ -185,7 +185,24 @@ export default {
     countryList: ["Canada", "india"],
     state: "",
     stateList: ["state1", "state2"],
-    submitStatus: null
+    submitStatus: null,
+    fetched: [
+      {
+        name: "",
+        email: "",
+        firstname: "",
+        lastname: "",
+        phone: "",
+        ext: "",
+        cell: "",
+        addressline1: "",
+        addressline2: "",
+        city: "",
+        postal: "",
+        country: "",
+        state: ""
+      }
+    ]
   }),
   props: ["contactType"],
   mixins: [validationMixin],
@@ -310,7 +327,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["doRegister"]),
+    ...mapActions(["getContactDetails", "setContactDetails"]),
     onSubmit(e) {
       if (this.submitStatus == "PENDING") {
         return;
@@ -325,27 +342,55 @@ export default {
       } else {
         this.submitStatus = "PENDING";
         //create form data object
-        const registerData = new FormData();
-        registerData.append("contact_type", this.contactType);
-        // registerData.append("username", this.username);
-        // registerData.append("email", this.email);
-        // registerData.append("first_name", this.firstname);
-        // registerData.append("last_name", this.lastname);
-        // registerData.append("password", this.password);
-
+        const contactData = new FormData();
+        contactData.append("contact_type", this.contactType);
+        contactData.append("name", this.fetched.name);
+        contactData.append("email", this.email);
+        contactData.append("first_name", this.firstname);
+        contactData.append("last_name", this.lastname);
+        contactData.append("phone", this.phone);
+        contactData.append("ext", this.ext);
+        contactData.append("cell", this.cell);
+        contactData.append("address_line1", this.addressline1);
+        contactData.append("address_line2", this.addressline2);
+        contactData.append("city", this.city);
+        contactData.append("postal", this.postal);
+        contactData.append("country", this.country);
+        contactData.append("state", this.state);
         //call VuexAction for login
-        // setTimeout(() => {
-        console.log(registerData);
-        //   this.doRegister(registerData)
-        //     .then(() => {
-        //       this.submitStatus = "DONE";
-        //     })
-        //     .catch(() => {
-        //       this.submitStatus = "ERROR";
-        //     });
-        // });
+        setTimeout(() => {
+          // console.log(registerData);
+          this.setContactDetails(contactData)
+            .then(() => {
+              this.submitStatus = "DONE";
+            })
+            .catch(() => {
+              this.submitStatus = "ERROR";
+            });
+        });
       }
+    },
+    getContactData: function() {
+      // console.log("created");
+      this.getContactDetails(this.contactType).then(userData => {
+        this.name = this.fetched.name = userData.name;
+        this.email = this.fetched.email = userData.email;
+        this.firstname = this.fetched.firstname = userData.first_name;
+        this.lastname = this.fetched.lastname = userData.last_name;
+        this.phone = this.fetched.phone = userData.phone;
+        this.ext = this.fetched.ext = userData.ext;
+        this.cell = this.fetched.cell = userData.cell;
+        this.addressline1 = this.fetched.addressline1 = userData.address_line1;
+        this.addressline2 = this.fetched.addressline2 = userData.address_line2;
+        this.city = this.fetched.city = userData.city;
+        this.postal = this.fetched.postal = userData.pincode;
+        this.country = this.fetched.country = userData.country;
+        this.state = this.fetched.state = userData.state;
+      });
     }
+  },
+  created() {
+    this.getContactData();
   }
 };
 </script>
