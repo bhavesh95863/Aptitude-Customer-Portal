@@ -67,7 +67,7 @@
         <v-card-actions>
           <v-btn :disabled="submitStatus == 'PENDING'" type="submit">Create</v-btn>
         </v-card-actions>
-        <!-- <div>{{submitStatus}}</div> -->
+        <div>{{submitStatus}}</div>
       </v-form>
     </v-card-text>
   </v-card>
@@ -95,12 +95,7 @@ export default {
     password: "",
     repeatPassword: "",
     usertype: "",
-    UserTypes: [
-        'Super Admin',
-        'Admin User',
-        'Billing User',
-        'Normal User'
-    ],
+    UserTypes: ["Super Admin", "Admin User", "Billing User", "Normal User"],
     submitStatus: null
   }),
   // data: () => ({
@@ -114,7 +109,7 @@ export default {
   // }),
   mixins: [validationMixin],
   validations: {
-    username: { required, maxLength: maxLength(10) },
+    username: { required },
     email: { required, email },
     firstname: { required, maxLength: maxLength(10) },
     lastname: { required, maxLength: maxLength(10) },
@@ -179,13 +174,13 @@ export default {
       e.preventDefault();
       this.$v.$touch();
       if (this.$v.$invalid) {
-        this.submitStatus = "ERROR";
+        this.submitStatus = "ERRORRR";
         return;
       } else {
         this.submitStatus = "PENDING";
         //create form data object
         const registerData = new FormData();
-        registerData.append("usertype", this.usertype);
+        registerData.append("user_type", this.usertype);
         registerData.append("username", this.username);
         registerData.append("email", this.email);
         registerData.append("first_name", this.firstname);

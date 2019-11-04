@@ -25,8 +25,8 @@
 
 
 <script>
-import GroupsTab from "./PlatformGroupsTabs/GroupsTab"
-import UsersTab from "./PlatformGroupsTabs/UsersTab"
+import GroupsTab from "./PlatformGroupsTabs/GroupsTab";
+import UsersTab from "./PlatformGroupsTabs/UsersTab";
 
 export default {
   name: "PlatformGroupsPage",
@@ -37,14 +37,8 @@ export default {
   data() {
     return {
       tab: null,
-      items: [
-        "Groups",
-        "Users"
-      ],
-      texts: [
-        "GroupsTab",
-        "UsersTab"
-      ]
+      items: ["Groups", "Users"],
+      texts: ["GroupsTab", "UsersTab"]
     };
   }
 };

@@ -122,6 +122,21 @@ const actions = {
                 }
             );
     },
+    async getUserGroups({ dispatch }) {
+        return userApi.getUserGroupsApi()
+            .then(
+                respone => {
+                    return respone;
+                },
+                error => {
+                    router.push('/');
+                    setTimeout(() => {
+                        dispatch('error', error, { root: true });
+                    });
+                    return Promise.reject(error);
+                }
+            );
+    },
     async update({ dispatch }, userSubmitDataJson) {
         return userApi.update(userSubmitDataJson)
             .then(

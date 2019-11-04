@@ -12,7 +12,8 @@ export const userApi = {
     update,
     changePassword,
     setContactDetailsApi,
-    getContactDetailsApi
+    getContactDetailsApi,
+    getUserGroupsApi
 };
 
 async function login(loginData) {
@@ -188,6 +189,26 @@ async function changePassword(passwordData) {
         .then(response => {
             if (response.data.message.status == 200) {
                 return response.data.message;
+            } else {
+                return Promise.reject(response);
+            }
+        })
+        .catch(function (response) {
+            return handleResponse(response);
+        })
+}
+
+async function getUserGroupsApi() {
+    let requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    };
+    return axios.get("http://localhost:8080/api/method/apptitude.api.get_user_information", requestOptions)
+        .then(response => {
+            if (response.data.message.status == 200) {
+                return response.data.message.data;
             } else {
                 return Promise.reject(response);
             }
