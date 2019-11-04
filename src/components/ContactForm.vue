@@ -1,7 +1,6 @@
 <template>
   <v-card light flat class="mx-auto">
     <v-card-text>
-      {{contactType}}
       <v-form @submit.prevent="onSubmit" :disabled="submitStatus === 'PENDING'">
         <v-row>
           <v-col class="pt-0 pb-0">
@@ -148,7 +147,7 @@
 
         <v-card-actions>
           <v-btn :disabled="submitStatus == 'PENDING'" type="submit">Apply</v-btn>
-          <v-btn type="reset">Cancle</v-btn>
+          <v-btn @click="() => {this.assignFetchedValue()}">Cancle</v-btn>
         </v-card-actions>
       </v-form>
     </v-card-text>
@@ -186,23 +185,21 @@ export default {
     state: "",
     stateList: ["state1", "state2"],
     submitStatus: null,
-    fetched: [
-      {
-        name: "",
-        email: "",
-        firstname: "",
-        lastname: "",
-        phone: "",
-        ext: "",
-        cell: "",
-        addressline1: "",
-        addressline2: "",
-        city: "",
-        postal: "",
-        country: "",
-        state: ""
-      }
-    ]
+    fetched: {
+      name: "",
+      email: "",
+      firstname: "",
+      lastname: "",
+      phone: "",
+      ext: "",
+      cell: "",
+      addressline1: "",
+      addressline2: "",
+      city: "",
+      postal: "",
+      country: "",
+      state: ""
+    }
   }),
   props: ["contactType"],
   mixins: [validationMixin],
@@ -371,22 +368,39 @@ export default {
       }
     },
     getContactData: function() {
-      // console.log("created");
       this.getContactDetails(this.contactType).then(userData => {
-        this.name = this.fetched.name = userData.name;
-        this.email = this.fetched.email = userData.email;
-        this.firstname = this.fetched.firstname = userData.first_name;
-        this.lastname = this.fetched.lastname = userData.last_name;
-        this.phone = this.fetched.phone = userData.phone;
-        this.ext = this.fetched.ext = userData.ext;
-        this.cell = this.fetched.cell = userData.cell;
-        this.addressline1 = this.fetched.addressline1 = userData.address_line1;
-        this.addressline2 = this.fetched.addressline2 = userData.address_line2;
-        this.city = this.fetched.city = userData.city;
-        this.postal = this.fetched.postal = userData.pincode;
-        this.country = this.fetched.country = userData.country;
-        this.state = this.fetched.state = userData.state;
+        if (typeof userData !== "undefined") {
+          this.name = this.fetched.name = userData.name;
+          this.email = this.fetched.email = userData.email;
+          this.firstname = this.fetched.firstname = userData.first_name;
+          this.lastname = this.fetched.lastname = userData.last_name;
+          this.phone = this.fetched.phone = userData.phone;
+          this.ext = this.fetched.ext = userData.ext;
+          this.cell = this.fetched.cell = userData.cell;
+          this.addressline1 = this.fetched.addressline1 =
+            userData.address_line1;
+          this.addressline2 = this.fetched.addressline2 =
+            userData.address_line2;
+          this.city = this.fetched.city = userData.city;
+          this.postal = this.fetched.postal = userData.pincode;
+          this.country = this.fetched.country = userData.country;
+          this.state = this.fetched.state = userData.state;
+        }
       });
+    },
+    assignFetchedValue: function() {
+      this.email = this.fetched.email;
+      this.firstname = this.fetched.firstname;
+      this.lastname = this.fetched.lastname;
+      this.phone = this.fetched.phone;
+      this.ext = this.fetched.ext;
+      this.cell = this.fetched.cell;
+      this.addressline1 = this.fetched.addressline1;
+      this.addressline2 = this.fetched.addressline2;
+      this.city = this.fetched.city;
+      this.postal = this.fetched.postal;
+      this.country = this.fetched.country;
+      this.state = this.fetched.state;
     }
   },
   created() {
