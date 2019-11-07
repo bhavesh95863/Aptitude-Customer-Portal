@@ -204,6 +204,7 @@ export default {
     },
     getUserInfoData: function() {
       this.getUserInfo(this.getCustomerEmail).then(userData => {
+        console.log(userData);
         this.email = this.fetched.email = userData.email;
         this.firstname = this.fetched.firstname = userData.first_name;
         this.lastname = this.fetched.lastname = userData.last_name;

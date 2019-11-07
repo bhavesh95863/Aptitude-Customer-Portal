@@ -8,6 +8,7 @@ import CompanyProfilePage from './views/CompanyProfilePage.vue'
 import FinancePage from './views/FinancePage.vue'
 import ProfileSettingPage from './views/ProfileSettingPage.vue'
 import PlatformGroupsPage from './views/PlatformGroupsPage.vue'
+import CompanySettingsPage from './views/CompanySettingsPage.vue'
 import store from './store'
 Vue.use(Router)
 
@@ -22,6 +23,7 @@ export const router = new Router({
     { path: '/finance', component: FinancePage },
     { path: '/profile-setting', component: ProfileSettingPage },
     { path: '/platform-groups-and-users', component: PlatformGroupsPage },
+    { path: '/company-settings', component: CompanySettingsPage },
 
     // otherwise redirect to home
     { path: '*', redirect: '/' }

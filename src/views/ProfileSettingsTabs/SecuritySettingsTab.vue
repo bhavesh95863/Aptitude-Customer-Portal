@@ -40,6 +40,31 @@
       </v-form>
     </v-card-text>
     <v-divider></v-divider>
+
+    <v-card-title>MFA Settings</v-card-title>
+    <v-card-text>
+      <v-form>
+        <v-row>
+          <v-col cols="2">
+            <v-text-field
+              label="Mobile Device"
+              v-model="mobileDevice"
+              type="text"
+              prepend-inner-icon="mdi-phone"
+              :error-messages="mobileDeviceErrors"
+              required
+              @input="$v.mobileDevice.$touch()"
+              @blur="$v.mobileDevice.$touch()"
+            />
+            <v-switch v-model="showMessages" label="Security Key"></v-switch>
+            <v-switch v-model="showMessages" label="Mobile App"></v-switch>
+            <v-card-actions>
+              <v-btn type="submit">Submit</v-btn>
+            </v-card-actions>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-card-text>
   </v-card>
 </template>
 

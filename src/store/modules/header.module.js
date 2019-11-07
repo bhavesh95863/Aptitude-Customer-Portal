@@ -4,7 +4,7 @@ const state = {
     Menus: [
         { id: 0, text: 'Profile Settings', path: 'profile-setting' },
         { id: 1, text: 'Company Profile', path: 'company-profile' },
-        { id: 2, text: 'Company Settings' },
+        { id: 2, text: 'Company Settings', path: 'company-settings' },
         { id: 3, text: 'Company Users' },
         { id: 4, text: 'Platform Groups and Users', path: 'platform-groups-and-users' },
         { id: 5, text: 'Finance', path: 'finance' },
