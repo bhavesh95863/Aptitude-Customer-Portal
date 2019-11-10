@@ -26,16 +26,20 @@
 
 <script>
 import AWSTab from "./CloudCredentialsTab/AWS";
+import MicrosoftTab from "./CloudCredentialsTab/Microsoft";
+import BackupsTab from "./CloudCredentialsTab/Backups";
 export default {
   name: "CloudCredentialsTab",
   components: {
-    AWSTab
+    AWSTab,
+    MicrosoftTab,
+    BackupsTab
   },
   data() {
     return {
       tab: null,
       items: ["AWS", "Microsoft", "Backups"],
-      texts: ["AWSTab", "Microsoft", "Backups"]
+      texts: ["AWSTab", "MicrosoftTab", "BackupsTab"]
     };
   }
 };
