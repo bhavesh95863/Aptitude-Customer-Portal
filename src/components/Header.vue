@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app>
-    <v-avatar tile height="48" width="auto">
-      <!-- <img src="../assets/Logo_AptitudeTechnologies.png" alt="logo" /> -->
+    <v-avatar tile height="48" width="auto" v-if="!getLoggedIn">
+      <img src="../assets/Logo_AptitudeTechnologies.png" alt="logo" />
       <!-- <router-link height="40px" to="/"><img src="../assets/Logo_AptitudeTechnologies.png" alt="logo"></router-link> -->
     </v-avatar>
 
@@ -18,6 +18,9 @@
           <!-- <v-list-item v-for="n in getMenuItems" @click="() => {}" :key="n.id" :to="n.path">
             <v-list-item-title>{{ n.text }}</v-list-item-title>
           </v-list-item>-->
+          <v-list-item to="profile-setting">
+            <v-list-item-title>Profile Settings</v-list-item-title>
+          </v-list-item>
           <v-list-item @click="() => {this.userLogout()}">
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item>
