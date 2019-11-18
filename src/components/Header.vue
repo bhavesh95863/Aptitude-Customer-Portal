@@ -4,7 +4,6 @@
       <img src="../assets/Logo_AptitudeTechnologies.png" alt="logo" />
       <!-- <router-link height="40px" to="/"><img src="../assets/Logo_AptitudeTechnologies.png" alt="logo"></router-link> -->
     </v-avatar>
-
     <div class="flex-grow-1"></div>
 
     <v-toolbar-items>
