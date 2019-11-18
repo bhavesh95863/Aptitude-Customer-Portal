@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <Header />
+    <Navigation />
     <v-content>
       <v-container fluid>
         <Alert />
@@ -16,6 +17,7 @@
 import Header from "./components/Header";
 import Alert from "./components/Alert";
 import Loader from "./components/Loader";
+import Navigation from "./components/Navigation";
 import { mapActions } from "vuex";
 
 export default {
@@ -23,7 +25,8 @@ export default {
   components: {
     Header,
     Alert,
-    Loader
+    Loader,
+    Navigation
   },
   methods: {
     ...mapActions(["getUsername"]),

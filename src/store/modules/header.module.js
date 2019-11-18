@@ -2,16 +2,16 @@ import store from '../../store'
 
 const state = {
     Menus: [
-        { id: 0, text: 'Profile Settings', path: 'profile-setting' },
-        { id: 1, text: 'Company Profile', path: 'company-profile' },
-        { id: 2, text: 'Company Settings', path: 'company-settings' },
-        { id: 3, text: 'Company Users' },
-        { id: 4, text: 'Platform Groups and Users', path: 'platform-groups-and-users' },
-        { id: 5, text: 'Finance', path: 'finance' },
-        { id: 6, text: 'Subscriptions & services' },
-        { id: 7, text: 'Insfrastructures Management' },
-        { id: 8, text: 'Tickets' },
-        { id: 9, text: 'Action History' }
+        { id: 0, text: 'Profile Settings', path: 'profile-setting', icon: 'mdi-account-edit' },
+        { id: 1, text: 'Company Profile', path: 'company-profile', icon: 'mdi-factory' },
+        { id: 2, text: 'Company Settings', path: 'company-settings', icon: 'mdi-settings' },
+        { id: 3, text: 'Company Users', icon: 'mdi-account-multiple' },
+        { id: 4, text: 'Platform Groups and Users', path: 'platform-groups-and-users', icon: 'mdi-account-network' },
+        { id: 5, text: 'Finance', path: 'finance', icon: 'mdi-cash-usd' },
+        { id: 6, text: 'Subscriptions & services', icon: 'mdi-server-network' },
+        { id: 7, text: 'Insfrastructures Management', icon: 'mdi-desktop-tower' },
+        { id: 8, text: 'Tickets', icon: 'mdi-ticket' },
+        { id: 9, text: 'Action History', icon: 'mdi-history' }
     ],
     SuperAdminMenus: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
     AdminMenus: [0, 1, 2, 3, 4, 6, 7, 8, 9],
