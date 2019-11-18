@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer expand-on-hover width="300" hide-overlay app>
+  <v-navigation-drawer expand-on-hover width="300" mini-variant-width="85" hide-overlay app>
     <v-list>
       <v-list-item>
         <v-list-item-title>
