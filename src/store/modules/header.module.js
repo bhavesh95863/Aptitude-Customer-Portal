@@ -8,7 +8,7 @@ const state = {
         { id: 3, text: 'Company Users', icon: 'mdi-account-multiple' },
         { id: 4, text: 'Platform Groups and Users', path: 'platform-groups-and-users', icon: 'mdi-account-network' },
         { id: 5, text: 'Finance', path: 'finance', icon: 'mdi-cash-usd' },
-        { id: 6, text: 'Subscriptions & services', icon: 'mdi-server-network' },
+        { id: 6, text: 'Subscriptions & services', path: 'subscriptions-services', icon: 'mdi-server-network' },
         { id: 7, text: 'Insfrastructures Management', icon: 'mdi-desktop-tower' },
         { id: 8, text: 'Tickets', icon: 'mdi-ticket' },
         { id: 9, text: 'Action History', icon: 'mdi-history' }
