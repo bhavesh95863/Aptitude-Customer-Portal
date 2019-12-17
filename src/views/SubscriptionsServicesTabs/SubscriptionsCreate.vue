@@ -1,11 +1,11 @@
 <template>
-  <v-card light flat class="mx-auto mt-10">
+  <v-card light flat class="mx-auto">
     <v-card-title>Create Stripe Subscriptions Account</v-card-title>
     <v-card-text>
       <v-form @submit.prevent="onSubmit" :disabled="submitStatus === 'PENDING'">
         <v-row>
           <v-col>
-            <v-card-title>Stripe Account</v-card-title>
+            <v-list-item-title class="headline mb-1">Stripe Account</v-list-item-title>
             <v-text-field
               label="Company Name"
               v-model="companyname"
@@ -61,7 +61,7 @@
             />
           </v-col>
           <v-col>
-            <v-card-title>Payment Method</v-card-title>
+            <v-list-item-title class="headline mb-1">Payment Method</v-list-item-title>
             <v-text-field
               label="TPS/TVH Registration ID"
               :error-messages="TPSErrors"

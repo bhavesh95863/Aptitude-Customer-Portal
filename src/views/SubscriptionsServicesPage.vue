@@ -11,13 +11,9 @@
     </v-toolbar>
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="text in texts" :key="text">
-        <v-card flat>
-          <v-card-text>
-            <keep-alive>
-              <component v-bind:is="text"></component>
-            </keep-alive>
-          </v-card-text>
-        </v-card>
+        <keep-alive>
+          <component v-bind:is="text"></component>
+        </keep-alive>
       </v-tab-item>
     </v-tabs-items>
   </v-card>

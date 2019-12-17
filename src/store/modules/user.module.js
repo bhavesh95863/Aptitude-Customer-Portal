@@ -80,7 +80,10 @@ const actions = {
         return userApi.createSubscriptionApi(data)
             .then(
                 respone => {
-                    console.log(respone);
+                    router.push('/');
+                    setTimeout(() => {
+                        dispatch('success', "Subscription Account Created successfully!", { root: true });
+                    });
                     return respone;
                 },
                 error => {
