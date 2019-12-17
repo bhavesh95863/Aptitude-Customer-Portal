@@ -93,6 +93,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
+
 import {
   required,
   maxLength,
@@ -110,17 +111,10 @@ export default {
     lastname: "",
     email: "",
     phone: "",
+    TPSTVH: "",
+    TVQ: "",
     submitStatus: null
   }),
-  // data: () => ({
-  //   username: "nilesh",
-  //   email: "nils.mkwna@gmail.com",
-  //   firstname: "nilesh",
-  //   lastname: "nilesh",
-  //   password: "nilesh",
-  //   repeatPassword: "nilesh",
-  //   submitStatus: null
-  // }),
   mixins: [validationMixin],
   validations: {
     companyname: { required, maxLength: maxLength(25) },
@@ -128,7 +122,9 @@ export default {
     firstname: { required, maxLength: maxLength(10) },
     lastname: { required, maxLength: maxLength(10) },
     email: { required, email },
-    phone: { required, numeric, minLength: minLength(7) }
+    phone: { required, numeric, minLength: minLength(7) },
+    TPSTVH: { required },
+    TVQ: { required }
   },
   computed: {
     ...mapGetters(["getCustomerEmail", "getLoggedIn"]),
@@ -180,16 +176,28 @@ export default {
       !this.$v.phone.numeric && errors.push("phone must be numeric");
       !this.$v.phone.required && errors.push("Phone is required.");
       return errors;
+    },
+    TPSErrors() {
+      const errors = [];
+      if (!this.$v.TPSTVH.$dirty) return errors;
+      !this.$v.TPSTVH.required &&
+        errors.push("TPS/TVH Registration ID is required.");
+      return errors;
+    },
+    TVQErrors() {
+      const errors = [];
+      if (!this.$v.TVQ.$dirty) return errors;
+      !this.$v.TVQ.required && errors.push("TVQ Registration ID is required.");
+      return errors;
     }
   },
   methods: {
-    ...mapActions(["doRegister"]),
+    ...mapActions(["createSubscription"]),
     onSubmit(e) {
       if (this.submitStatus == "PENDING") {
         return;
       }
       this.submitStatus = "SUBMITTED";
-      //prevent from form submit
       e.preventDefault();
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -197,25 +205,25 @@ export default {
         return;
       } else {
         this.submitStatus = "PENDING";
-        //create form data object
-        const registerData = new FormData();
-        registerData.append("companyname", this.companyname);
-        registerData.append("companyaddress", this.companyaddress);
-        registerData.append("first_name", this.firstname);
-        registerData.append("last_name", this.lastname);
-        registerData.append("email", this.email);
-        registerData.append("phone", this.phone);
-        console.log(registerData);
-        //call VuexAction for login
-        // setTimeout(() => {
-        //   this.doRegister(registerData)
-        //     .then(() => {
-        //       this.submitStatus = "DONE";
-        //     })
-        //     .catch(() => {
-        //       this.submitStatus = "ERROR";
-        //     });
-        // });
+
+        var customerData = [];
+        customerData["name"] = this.firstname + " " + this.lastname;
+        customerData["email"] = this.email;
+        customerData["phone"] = this.phone;
+        customerData["address[line1]"] = this.companyaddress;
+        customerData["metadata[company]"] = this.companyname;
+        customerData["metadata[TPS/TVH]"] = this.TPSTVH;
+        customerData["metadata[TVQ]"] = this.TVQ;
+
+        setTimeout(() => {
+          this.createSubscription(customerData)
+            .then(() => {
+              this.submitStatus = "DONE";
+            })
+            .catch(() => {
+              this.submitStatus = "ERROR";
+            });
+        });
       }
     }
   }

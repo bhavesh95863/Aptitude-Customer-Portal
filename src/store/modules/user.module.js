@@ -76,6 +76,19 @@ const actions = {
                 }
             );
     },
+    async createSubscription({ dispatch }, data) {
+        return userApi.createSubscriptionApi(data)
+            .then(
+                respone => {
+                    console.log(respone);
+                    return respone;
+                },
+                error => {
+                    dispatch('error', error, { root: true });
+                    return Promise.reject(error);
+                }
+            );
+    },
     async setContactDetails({ dispatch }, contactData) {
         return userApi.setContactDetailsApi(contactData)
             .then(
