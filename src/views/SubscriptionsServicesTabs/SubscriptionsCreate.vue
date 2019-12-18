@@ -1,11 +1,11 @@
 <template>
   <v-card light flat class="mx-auto">
-    <v-card-title>Create Stripe Subscriptions Account</v-card-title>
+    <v-card-title>Create Subscription Account</v-card-title>
     <v-card-text>
       <v-form @submit.prevent="onSubmit" :disabled="submitStatus === 'PENDING'">
         <v-row>
-          <v-col>
-            <v-list-item-title class="headline mb-1">Stripe Account</v-list-item-title>
+          <v-col cols="6">
+            <v-list-item-title class="headline mb-1">Account Details</v-list-item-title>
             <v-text-field
               label="Company Name"
               v-model="companyname"
@@ -14,33 +14,6 @@
               required
               @input="$v.companyname.$touch()"
               @blur="$v.companyname.$touch()"
-            />
-            <v-text-field
-              label="Company Billing Address"
-              v-model="companyaddress"
-              prepend-inner-icon="mdi-account-circle"
-              :error-messages="companyaddressErrors"
-              required
-              @input="$v.companyaddress.$touch()"
-              @blur="$v.companyaddress.$touch()"
-            />
-            <v-text-field
-              label="Firstname"
-              v-model="firstname"
-              prepend-inner-icon="mdi-account-circle"
-              :error-messages="firstnameErrors"
-              required
-              @input="$v.firstname.$touch()"
-              @blur="$v.firstname.$touch()"
-            />
-            <v-text-field
-              label="Lastname"
-              v-model="lastname"
-              prepend-inner-icon="mdi-account-circle"
-              :error-messages="lastnameErrors"
-              required
-              @input="$v.lastname.$touch()"
-              @blur="$v.lastname.$touch()"
             />
             <v-text-field
               label="E-mail"
@@ -60,23 +33,102 @@
               @blur="$v.phone.$touch()"
             />
           </v-col>
-          <v-col>
-            <v-list-item-title class="headline mb-1">Payment Method</v-list-item-title>
+          <v-col cols="6">
+            <v-list-item-title class="headline mb-1">Tax</v-list-item-title>
+            <v-select
+              v-model="taxType"
+              :items="taxList"
+              menu-props="auto"
+              label="Select Tax Type"
+              prepend-inner-icon="mdi-flag"
+              :error-messages="taxTypeErrors"
+              @input="$v.taxType.$touch()"
+              @blur="$v.taxType.$touch()"
+            ></v-select>
             <v-text-field
-              label="TPS/TVH Registration ID"
-              :error-messages="TPSErrors"
-              v-model="TPSTVH"
+              label="Registration ID"
+              :error-messages="taxIdErrors"
+              v-model="taxId"
               prepend-inner-icon="mdi-phone"
-              @input="$v.TPSTVH.$touch()"
-              @blur="$v.TPSTVH.$touch()"
+              @input="$v.taxId.$touch()"
+              @blur="$v.taxId.$touch()"
+            />
+
+            <!-- label="TPS/TVH Registration ID" -->
+            <!-- label="TVQ Registration ID" -->
+          </v-col>
+          <v-col cols="6">
+            <v-list-item-title class="headline mb-1">Billing Address</v-list-item-title>
+            <v-text-field
+              label="Address Line 1"
+              v-model="billingLine1"
+              prepend-inner-icon="mdi-account-circle"
+              :error-messages="billingLine1Errors"
+              required
+              @input="$v.billingLine1.$touch()"
+              @blur="$v.billingLine1.$touch()"
             />
             <v-text-field
-              label="TVQ Registration ID"
-              :error-messages="TVQErrors"
-              v-model="TVQ"
-              prepend-inner-icon="mdi-phone"
-              @input="$v.TVQ.$touch()"
-              @blur="$v.TVQ.$touch()"
+              label="Address Line 2"
+              v-model="billingLine2"
+              prepend-inner-icon="mdi-account-circle"
+            />
+            <v-text-field
+              label="City"
+              v-model="billingCity"
+              prepend-inner-icon="mdi-account-circle"
+            />
+            <v-text-field
+              label="State"
+              v-model="billingState"
+              prepend-inner-icon="mdi-account-circle"
+            />
+            <v-text-field
+              label="Country"
+              v-model="billingCountry"
+              prepend-inner-icon="mdi-account-circle"
+            />
+            <v-text-field
+              label="Postal Code"
+              v-model="billingPostalCode"
+              prepend-inner-icon="mdi-account-circle"
+            />
+          </v-col>
+          <v-col cols="6">
+            <v-list-item-title class="headline mb-1">Shipping Address</v-list-item-title>
+            <v-text-field
+              label="Address Line 1"
+              v-model="shippingLine1"
+              prepend-inner-icon="mdi-account-circle"
+              :error-messages="shippingLine1Errors"
+              required
+              @input="$v.shippingLine1.$touch()"
+              @blur="$v.shippingLine1.$touch()"
+            />
+            <v-text-field
+              label="Address Line 2"
+              v-model="shippingLine2"
+              prepend-inner-icon="mdi-account-circle"
+            />
+            <v-text-field
+              label="City"
+              v-model="shippingCity"
+              prepend-inner-icon="mdi-account-circle"
+            />
+            <v-text-field
+              label="State"
+              v-model="shippingState"
+              prepend-inner-icon="mdi-account-circle"
+            />
+            <v-text-field
+              label="Country"
+              v-model="shippingCountry"
+              prepend-inner-icon="mdi-account-circle"
+            />
+            <v-text-field
+              label="Postal Code"
+              v-model="shippingPostalCode"
+              prepend-inner-icon="mdi-account-circle"
             />
           </v-col>
         </v-row>
@@ -106,25 +158,34 @@ export default {
   name: "SubscriptionsCreate",
   data: () => ({
     companyname: "",
-    companyaddress: "",
-    firstname: "",
-    lastname: "",
     email: "",
     phone: "",
-    TPSTVH: "",
-    TVQ: "",
+    billingLine1: "",
+    billingLine2: "",
+    billingCity: "",
+    billingState: "",
+    billingCountry: "",
+    billingPostalCode: "",
+    shippingLine1: "",
+    shippingLine2: "",
+    shippingCity: "",
+    shippingState: "",
+    shippingCountry: "",
+    shippingPostalCode: "",
+    taxType: "",
+    taxId: "",
+    taxList: ["TPSTVH", "TVQ"],
     submitStatus: null
   }),
   mixins: [validationMixin],
   validations: {
     companyname: { required, maxLength: maxLength(25) },
-    companyaddress: { required, maxLength: maxLength(100) },
-    firstname: { required, maxLength: maxLength(10) },
-    lastname: { required, maxLength: maxLength(10) },
     email: { required, email },
     phone: { required, numeric, minLength: minLength(7) },
-    TPSTVH: { required },
-    TVQ: { required }
+    taxId: { required },
+    taxType: { required },
+    billingLine1: { required },
+    shippingLine1: { required }
   },
   computed: {
     ...mapGetters(["getCustomerEmail", "getLoggedIn"]),
@@ -136,29 +197,13 @@ export default {
       !this.$v.companyname.required && errors.push("company name is required.");
       return errors;
     },
-    companyaddressErrors() {
+    companyErrors() {
       const errors = [];
       if (!this.$v.companyaddress.$dirty) return errors;
       !this.$v.companyaddress.maxLength &&
         errors.push("company addresss must be at most 100 characters long");
       !this.$v.companyaddress.required &&
         errors.push("company address is required.");
-      return errors;
-    },
-    firstnameErrors() {
-      const errors = [];
-      if (!this.$v.firstname.$dirty) return errors;
-      !this.$v.firstname.maxLength &&
-        errors.push("Firstname must be at most 10 characters long");
-      !this.$v.firstname.required && errors.push("Firstame is required.");
-      return errors;
-    },
-    lastnameErrors() {
-      const errors = [];
-      if (!this.$v.lastname.$dirty) return errors;
-      !this.$v.lastname.maxLength &&
-        errors.push("Lastname must be at most 10 characters long");
-      !this.$v.lastname.required && errors.push("Lastname is required.");
       return errors;
     },
     emailErrors() {
@@ -177,17 +222,31 @@ export default {
       !this.$v.phone.required && errors.push("Phone is required.");
       return errors;
     },
-    TPSErrors() {
+    taxTypeErrors() {
       const errors = [];
-      if (!this.$v.TPSTVH.$dirty) return errors;
-      !this.$v.TPSTVH.required &&
-        errors.push("TPS/TVH Registration ID is required.");
+      if (!this.$v.taxType.$dirty) return errors;
+      !this.$v.taxType.required && errors.push("Tax Type is required.");
       return errors;
     },
-    TVQErrors() {
+    taxIdErrors() {
       const errors = [];
-      if (!this.$v.TVQ.$dirty) return errors;
-      !this.$v.TVQ.required && errors.push("TVQ Registration ID is required.");
+      if (!this.$v.taxId.$dirty) return errors;
+      !this.$v.taxId.required &&
+        errors.push("Tax Registration ID is required.");
+      return errors;
+    },
+    billingLine1Errors() {
+      const errors = [];
+      if (!this.$v.billingLine1.$dirty) return errors;
+      !this.$v.billingLine1.required &&
+        errors.push("Billing line 1 is required.");
+      return errors;
+    },
+    shippingLine1Errors() {
+      const errors = [];
+      if (!this.$v.shippingLine1.$dirty) return errors;
+      !this.$v.shippingLine1.required &&
+        errors.push("Shipping line 1 is required.");
       return errors;
     }
   },
@@ -207,14 +266,28 @@ export default {
         this.submitStatus = "PENDING";
 
         var customerData = [];
-        customerData["name"] = this.firstname + " " + this.lastname;
+        customerData["name"] = this.companyname;
         customerData["email"] = this.email;
         customerData["phone"] = this.phone;
-        customerData["address[line1]"] = this.companyaddress;
-        customerData["metadata[company]"] = this.companyname;
-        customerData["metadata[TPS/TVH]"] = this.TPSTVH;
-        customerData["metadata[TVQ]"] = this.TVQ;
-
+        customerData["metadata[tax_type]"] = this.taxType;
+        customerData["metadata[tax_id]"] = this.taxId;
+        customerData["address[line1]"] = this.billingLine1;
+        customerData["address[line2]"] = this.billingLine2;
+        customerData["address[city]"] = this.billingCity;
+        customerData["address[state]"] = this.billingState;
+        customerData["address[country]"] = this.billingCountry;
+        customerData["address[postal_code]"] = this.billingPostalCode;
+        customerData["shipping[name]"] = this.companyname;
+        customerData["shipping[phone]"] = this.phone;
+        customerData["shipping[address][line1]"] = this.shippingLine1;
+        customerData["shipping[address][line2]"] = this.shippingLine2;
+        customerData["shipping[address][city]"] = this.shippingCity;
+        customerData["shipping[address][state]"] = this.shippingState;
+        customerData["shipping[address][country]"] = this.shippingCountry;
+        customerData[
+          "shipping[address][postal_code]"
+        ] = this.shippingPostalCode;
+        // console.log(customerData);
         setTimeout(() => {
           this.createSubscription(customerData)
             .then(() => {
