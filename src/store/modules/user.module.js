@@ -92,6 +92,22 @@ const actions = {
                 }
             );
     },
+    async createSubscriptionCard({ dispatch }, data) {
+        return userApi.createSubscriptionCardApi(data)
+            .then(
+                respone => {
+                    router.push('/');
+                    setTimeout(() => {
+                        dispatch('success', "Subscription Card Created successfully!", { root: true });
+                    });
+                    return respone;
+                },
+                error => {
+                    dispatch('error', error, { root: true });
+                    return Promise.reject(error);
+                }
+            );
+    },
     async setContactDetails({ dispatch }, contactData) {
         return userApi.setContactDetailsApi(contactData)
             .then(

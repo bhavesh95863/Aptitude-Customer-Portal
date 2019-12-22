@@ -22,17 +22,19 @@
 
 <script>
 import SubscriptionsCreateTab from "./SubscriptionsServicesTabs/SubscriptionsCreate.vue";
+import SetupPaymentsTab from "./SubscriptionsServicesTabs/SetupPayments.vue";
 
 export default {
   name: "SubscriptionsServicesPage",
   components: {
-    SubscriptionsCreateTab
+    SubscriptionsCreateTab,
+    SetupPaymentsTab
   },
   data() {
     return {
       tab: null,
-      items: ["Create Subscription"],
-      texts: ["SubscriptionsCreateTab"]
+      items: ["Create Subscription Account", "Setup Payments"],
+      texts: ["SubscriptionsCreateTab", "SetupPaymentsTab"]
     };
   }
 };
