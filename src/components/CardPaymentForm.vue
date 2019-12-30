@@ -3,7 +3,20 @@
     <v-list-item-title class="headline mb-1">Card Details</v-list-item-title>
     <v-row>
       <v-col cols="6">
-        <v-text-field
+        <form action="/charge" method="post" id="payment-form">
+          <div class="form-row">
+            <label for="card-element">Credit or debit card</label>
+            <div id="card-element">
+              <!-- A Stripe Element will be inserted here. -->
+            </div>
+
+            <!-- Used to display form errors. -->
+            <div id="card-errors" role="alert"></div>
+          </div>
+
+          <button>Submit Payment</button>
+        </form>
+        <!-- <v-text-field
           label="Card Number"
           v-model="number"
           prepend-inner-icon="mdi-credit-card"
@@ -12,32 +25,10 @@
           required
           @input="$v.number.$touch()"
           @blur="$v.number.$touch()"
-        />
-      </v-col>
-      <v-col cols="3">
-        <v-text-field
-          label="Expiry Month"
-          v-model="exp_month"
-          maxlength="2"
-          :error-messages="exp_monthErrors"
-          required
-          @input="$v.exp_month.$touch()"
-          @blur="$v.exp_month.$touch()"
-        />
-      </v-col>
-      <v-col cols="3">
-        <v-text-field
-          label="Expiry Year"
-          v-model="exp_year"
-          maxlength="4"
-          :error-messages="exp_yearErrors"
-          required
-          @input="$v.exp_year.$touch()"
-          @blur="$v.exp_year.$touch()"
-        />
+        />-->
       </v-col>
     </v-row>
-    <v-label>More Details (optional)</v-label>
+    <!-- <v-label>More Details (optional)</v-label>
     <v-text-field
       label="Card holder's Name"
       v-model="name"
@@ -100,10 +91,10 @@
       required
       @input="$v.address_country.$touch()"
       @blur="$v.address_country.$touch()"
-    />
-    <v-card-actions>
+    />-->
+    <!-- <v-card-actions>
       <v-btn :disabled="submitStatus == 'PENDING'" type="submit">Create</v-btn>
-    </v-card-actions>
+    </v-card-actions>-->
   </v-form>
 </template>
 
@@ -276,7 +267,56 @@ export default {
             });
         });
       }
+    },
+    initStripe: function() {
+      const stripe = Stripe("pk_test_1DVuN8remPxTdd3fDERQ3jzM");
+      const elements = stripe.elements();
+      const cardElement = elements.create("card");
+      cardElement.mount("#card-element");
+      // Handle real-time validation errors from the card Element.
+      card.addEventListener("change", function(event) {
+        var displayError = document.getElementById("card-errors");
+        if (event.error) {
+          displayError.textContent = event.error.message;
+        } else {
+          displayError.textContent = "";
+        }
+      });
+
+      // Handle form submission.
+      var form = document.getElementById("payment-form");
+      form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function(result) {
+          if (result.error) {
+            // Inform the user if there was an error.
+            var errorElement = document.getElementById("card-errors");
+            errorElement.textContent = result.error.message;
+          } else {
+            // Send the token to your server.
+            stripeTokenHandler(result.token);
+          }
+        });
+      });
+
+      // Submit the form with the token ID.
+      function stripeTokenHandler(token) {
+        // Insert the token ID into the form so it gets submitted to the server
+        var form = document.getElementById("payment-form");
+        var hiddenInput = document.createElement("input");
+        hiddenInput.setAttribute("type", "hidden");
+        hiddenInput.setAttribute("name", "stripeToken");
+        hiddenInput.setAttribute("value", token.id);
+        form.appendChild(hiddenInput);
+
+        // Submit the form
+        form.submit();
+      }
     }
+  },
+  mounted() {
+    this.initStripe();
   }
 };
 </script>

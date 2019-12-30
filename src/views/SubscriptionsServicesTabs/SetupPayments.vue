@@ -7,7 +7,7 @@
           <CardPaymentForm />
         </v-col>
         <v-col cols="6">
-          <AccountPaymentForm />
+          <!-- <AccountPaymentForm /> -->
         </v-col>
       </v-row>
     </v-card-text>
