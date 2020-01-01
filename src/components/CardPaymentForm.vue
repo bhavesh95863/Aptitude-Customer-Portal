@@ -3,19 +3,25 @@
     <v-list-item-title class="headline mb-1">Card Details</v-list-item-title>
     <v-row>
       <v-col cols="6">
-        <form action="/charge" method="post" id="payment-form">
-          <div class="form-row">
-            <label for="card-element">Credit or debit card</label>
-            <div id="card-element">
-              <!-- A Stripe Element will be inserted here. -->
-            </div>
-
-            <!-- Used to display form errors. -->
-            <div id="card-errors" role="alert"></div>
+        <div class="sr-payment-form card">
+          <div class="sr-form-row">
+            <input type="text" id="email" placeholder="Email address" />
+            <br />
+            <br />
           </div>
 
-          <button>Submit Payment</button>
-        </form>
+          <div class="sr-form-row">
+            <div class="sr-input sr-element sr-card-element" id="card-element">
+              <!-- A Stripe card Element will be inserted here. -->
+            </div>
+          </div>
+          <div class="sr-field-error" id="card-errors" role="alert"></div>
+          <br />
+          <button id="submit">
+            <div class="spinner hidden" id="spinner"></div>
+            <span id="button-text">Link your card to your account</span>
+          </button>
+        </div>
         <!-- <v-text-field
           label="Card Number"
           v-model="number"
@@ -230,7 +236,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["createSubscriptionCard"]),
+    ...mapActions([
+      "createSubscriptionCard",
+      "getPublicKey",
+      "createSetupIntent"
+    ]),
     onSubmit(e) {
       if (this.submitStatus == "PENDING") {
         return;
@@ -268,51 +278,122 @@ export default {
         });
       }
     },
+    // initStripe: function() {
+    //   const stripe = Stripe("sk_test_LjTcfpPKfD8qX67Wk1rsf3JK");
+    //   const elements = stripe.elements();
+    //   const cardElement = elements.create("card");
+    //   cardElement.mount("#card-element");
+    //   // Handle real-time validation errors from the card Element.
+    //   card.addEventListener("change", function(event) {
+    //     var displayError = document.getElementById("card-errors");
+    //     if (event.error) {
+    //       displayError.textContent = event.error.message;
+    //     } else {
+    //       displayError.textContent = "";
+    //     }
+    //   });
+
+    //   // Handle form submission.
+    //   var form = document.getElementById("payment-form");
+    //   form.addEventListener("submit", function(event) {
+    //     event.preventDefault();
+
+    //     stripe.createToken(card).then(function(result) {
+    //       if (result.error) {
+    //         // Inform the user if there was an error.
+    //         var errorElement = document.getElementById("card-errors");
+    //         errorElement.textContent = result.error.message;
+    //       } else {
+    //         // Send the token to your server.
+    //         stripeTokenHandler(result.token);
+    //       }
+    //     });
+    //   });
+
+    //   // Submit the form with the token ID.
+    //   function stripeTokenHandler(token) {
+    //     // Insert the token ID into the form so it gets submitted to the server
+    //     var form = document.getElementById("payment-form");
+    //     var hiddenInput = document.createElement("input");
+    //     hiddenInput.setAttribute("type", "hidden");
+    //     hiddenInput.setAttribute("name", "stripeToken");
+    //     hiddenInput.setAttribute("value", token.id);
+    //     form.appendChild(hiddenInput);
+
+    //     // Submit the form
+    //     form.submit();
+    //   }
+    // },
     initStripe: function() {
-      const stripe = Stripe("pk_test_1DVuN8remPxTdd3fDERQ3jzM");
-      const elements = stripe.elements();
-      const cardElement = elements.create("card");
-      cardElement.mount("#card-element");
-      // Handle real-time validation errors from the card Element.
-      card.addEventListener("change", function(event) {
-        var displayError = document.getElementById("card-errors");
-        if (event.error) {
-          displayError.textContent = event.error.message;
-        } else {
-          displayError.textContent = "";
-        }
+      this.getPublicKey().then(publicKey => {
+        this.getSetupIntent(publicKey);
       });
+    },
+    getSetupIntent: function(publicKey) {
+      this.createSetupIntent().then(setupIntent => {
+        this.stripeElements(publicKey, setupIntent);
+      });
+    },
+    stripeElements: function(publicKey, setupIntent) {
+      var stripe = Stripe(publicKey);
+      var elements = stripe.elements();
 
-      // Handle form submission.
-      var form = document.getElementById("payment-form");
-      form.addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        stripe.createToken(card).then(function(result) {
-          if (result.error) {
-            // Inform the user if there was an error.
-            var errorElement = document.getElementById("card-errors");
-            errorElement.textContent = result.error.message;
-          } else {
-            // Send the token to your server.
-            stripeTokenHandler(result.token);
+      // Element styles
+      var style = {
+        base: {
+          fontSize: "16px",
+          color: "#32325d",
+          fontFamily:
+            "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif",
+          fontSmoothing: "antialiased",
+          "::placeholder": {
+            color: "rgba(0,0,0,0.4)"
           }
-        });
+        }
+      };
+
+      var card = elements.create("card", { style: style });
+
+      card.mount("#card-element");
+
+      // Element focus ring
+      card.on("focus", function() {
+        var el = document.getElementById("card-element");
+        el.classList.add("focused");
       });
 
-      // Submit the form with the token ID.
-      function stripeTokenHandler(token) {
-        // Insert the token ID into the form so it gets submitted to the server
-        var form = document.getElementById("payment-form");
-        var hiddenInput = document.createElement("input");
-        hiddenInput.setAttribute("type", "hidden");
-        hiddenInput.setAttribute("name", "stripeToken");
-        hiddenInput.setAttribute("value", token.id);
-        form.appendChild(hiddenInput);
+      card.on("blur", function() {
+        var el = document.getElementById("card-element");
+        el.classList.remove("focused");
+      });
 
-        // Submit the form
-        form.submit();
-      }
+      // Handle payment submission when user clicks the pay button.
+      var button = document.getElementById("submit");
+      button.addEventListener("click", function(event) {
+        event.preventDefault();
+        // changeLoadingState(true);
+        var email = document.getElementById("email").value;
+
+        stripe
+          .confirmCardSetup(setupIntent.client_secret, {
+            payment_method: {
+              card: card,
+              billing_details: { email: email }
+            }
+          })
+          .then(function(result) {
+            if (result.error) {
+              // changeLoadingState(false);
+              var displayError = document.getElementById("card-errors");
+              displayError.textContent = result.error.message;
+            } else {
+              // The PaymentMethod was successfully setup
+              // Be sure to attach the PaymentMethod to a Customer as shown by
+              // the server webhook in this sample
+              // orderComplete(stripe, setupIntent.client_secret);
+            }
+          });
+      });
     }
   },
   mounted() {

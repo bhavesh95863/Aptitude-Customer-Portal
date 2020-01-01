@@ -13,9 +13,7 @@ export const userApi = {
     changePassword,
     setContactDetailsApi,
     getContactDetailsApi,
-    getUserGroupsApi,
-    createSubscriptionApi,
-    createSubscriptionCardApi
+    getUserGroupsApi
 };
 
 async function login(loginData) {
@@ -95,44 +93,6 @@ async function register(registerData) {
             } else {
                 return Promise.reject(response);
             }
-        })
-        .catch(function (error) {
-            return handleResponse(error)
-        });
-}
-
-async function createSubscriptionApi(data) {
-    let requestOptions = {
-        method: 'POST',
-        headers: {
-            'Authorization': 'Bearer sk_test_LjTcfpPKfD8qX67Wk1rsf3JK',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': '*/*'
-        }
-    };
-    return axios.post("https://api.stripe.com/v1/customers", qs.stringify(data), requestOptions)
-        .then(response => {
-            return response;
-        })
-        .catch(function (error) {
-            return handleResponse(error)
-        });
-}
-async function createSubscriptionCardApi(data) {
-    let requestOptions = {
-        method: 'POST',
-        headers: {
-            'Authorization': 'Bearer sk_test_LjTcfpPKfD8qX67Wk1rsf3JK',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': '*/*'
-        }
-    };
-    // console.log(data);
-    // console.log(customer_data);
-
-    return axios.post("https://api.stripe.com/v1/customers/" + 'cus_GNtXzGqlQ2vYBK' + "/sources", qs.stringify(data), requestOptions)
-        .then(response => {
-            return response;
         })
         .catch(function (error) {
             return handleResponse(error)
