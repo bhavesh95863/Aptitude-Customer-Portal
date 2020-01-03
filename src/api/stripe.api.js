@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'querystring';
 export const stripeApi = {
     createSubscriptionApi,
     createSubscriptionCardApi,
@@ -7,15 +8,21 @@ export const stripeApi = {
 };
 
 async function createSubscriptionApi(data) {
+    console.log(qs.stringify(data));
     let requestOptions = {
         method: 'POST',
         headers: {
-            'Authorization': 'Bearer sk_test_LjTcfpPKfD8qX67Wk1rsf3JK',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': '*/*'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         }
+        // headers: {
+        //     'Authorization': 'Bearer sk_test_LjTcfpPKfD8qX67Wk1rsf3JK',
+        //     'Content-Type': 'application/x-www-form-urlencoded',
+        //     'Accept': '*/*'
+        // }
     };
-    return axios.post("https://api.stripe.com/v1/customers", qs.stringify(data), requestOptions)
+    // return axios.post("https://api.stripe.com/v1/customers", qs.stringify(data), requestOptions) 
+    return axios.post("http://localhost:8080/api/method/apptitude.api.create_subscription_account", data, requestOptions)
         .then(response => {
             return response;
         })

@@ -265,31 +265,63 @@ export default {
       } else {
         this.submitStatus = "PENDING";
 
-        var customerData = [];
-        customerData["name"] = this.companyname;
-        customerData["email"] = this.email;
-        customerData["phone"] = this.phone;
-        customerData["metadata[tax_type]"] = this.taxType;
-        customerData["metadata[tax_id]"] = this.taxId;
-        customerData["address[line1]"] = this.billingLine1;
-        customerData["address[line2]"] = this.billingLine2;
-        customerData["address[city]"] = this.billingCity;
-        customerData["address[state]"] = this.billingState;
-        customerData["address[country]"] = this.billingCountry;
-        customerData["address[postal_code]"] = this.billingPostalCode;
-        customerData["shipping[name]"] = this.companyname;
-        customerData["shipping[phone]"] = this.phone;
-        customerData["shipping[address][line1]"] = this.shippingLine1;
-        customerData["shipping[address][line2]"] = this.shippingLine2;
-        customerData["shipping[address][city]"] = this.shippingCity;
-        customerData["shipping[address][state]"] = this.shippingState;
-        customerData["shipping[address][country]"] = this.shippingCountry;
-        customerData[
-          "shipping[address][postal_code]"
-        ] = this.shippingPostalCode;
+        // var customerData = [];
+        // customerData["name"] = this.companyname;
+        // customerData["email"] = this.email;
+        // customerData["phone"] = this.phone;
+        // customerData["metadata[tax_type]"] = this.taxType;
+        // customerData["metadata[tax_id]"] = this.taxId;
+        // customerData["address[line1]"] = this.billingLine1;
+        // customerData["address[line2]"] = this.billingLine2;
+        // customerData["address[city]"] = this.billingCity;
+        // customerData["address[state]"] = this.billingState;
+        // customerData["address[country]"] = this.billingCountry;
+        // customerData["address[postal_code]"] = this.billingPostalCode;
+        // customerData["shipping[name]"] = this.companyname;
+        // customerData["shipping[phone]"] = this.phone;
+        // customerData["shipping[address][line1]"] = this.shippingLine1;
+        // customerData["shipping[address][line2]"] = this.shippingLine2;
+        // customerData["shipping[address][city]"] = this.shippingCity;
+        // customerData["shipping[address][state]"] = this.shippingState;
+        // customerData["shipping[address][country]"] = this.shippingCountry;
+        // customerData[
+        //   "shipping[address][postal_code]"
+        // ] = this.shippingPostalCode;
+        var customerData = {
+          name: this.companyname,
+          email: this.email,
+          phone: this.phone,
+          metadata: {
+            tax_type: this.taxType,
+            tax_id: this.taxId
+          },
+          address: {
+            line1: this.billingLine1,
+            line2: this.billingLine2,
+            city: this.billingCity,
+            state: this.billingState,
+            country: this.billingCountry,
+            postal_code: this.billingPostalCode
+          },
+          shipping: {
+            name: this.companyname,
+            phone: this.phone,
+            address: {
+              line1: this.shippingLine1,
+              line2: this.shippingLine2,
+              city: this.shippingCity,
+              state: this.shippingState,
+              country: this.shippingCountry,
+              postal_code: this.shippingPostalCode
+            }
+          }
+        };
+        const customerFormData = new FormData();
+        customerFormData.append("data", customerData);
+
         // console.log(customerData);
         setTimeout(() => {
-          this.createSubscription(customerData)
+          this.createSubscription(customerFormData)
             .then(() => {
               this.submitStatus = "DONE";
             })
