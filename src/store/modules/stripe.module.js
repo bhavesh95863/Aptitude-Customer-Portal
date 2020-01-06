@@ -25,8 +25,24 @@ const actions = {
                 }
             );
     },
-    async createSubscriptionCard({ dispatch }, data) {
-        return stripeApi.createSubscriptionCardApi(data)
+    // async createSubscriptionCard({ dispatch }, data) {
+    //     return stripeApi.createSubscriptionCardApi(data)
+    //         .then(
+    //             respone => {
+    //                 router.push('/');
+    //                 setTimeout(() => {
+    //                     dispatch('success', "Subscription Card Created successfully!", { root: true });
+    //                 });
+    //                 return respone;
+    //             },
+    //             error => {
+    //                 dispatch('error', error, { root: true });
+    //                 return Promise.reject(error);
+    //             }
+    //         );
+    // },
+    async syncCustomerCard({ dispatch }, data) {
+        return stripeApi.syncCustomerCardApi(data)
             .then(
                 respone => {
                     router.push('/');

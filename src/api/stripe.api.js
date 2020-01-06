@@ -2,7 +2,7 @@ import axios from 'axios';
 import qs from 'querystring';
 export const stripeApi = {
     createSubscriptionApi,
-    createSubscriptionCardApi,
+    syncCustomerCardApi,
     getPublicKeyApi,
     createSetupIntentApi
 };
@@ -30,19 +30,18 @@ async function createSubscriptionApi(data) {
             return handleResponse(error)
         });
 }
-async function createSubscriptionCardApi(data) {
+async function syncCustomerCardApi(data) {
     let requestOptions = {
         method: 'POST',
         headers: {
-            'Authorization': 'Bearer sk_test_LjTcfpPKfD8qX67Wk1rsf3JK',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': '*/*'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         }
     };
     // console.log(data);
     // console.log(customer_data);
 
-    return axios.post("https://api.stripe.com/v1/customers/" + 'cus_GNtXzGqlQ2vYBK' + "/sources", qs.stringify(data), requestOptions)
+    return axios.post("http://localhost:8080/api/method/apptitude.api.sync_customer_card", data, requestOptions)
         .then(response => {
             return response;
         })

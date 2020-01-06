@@ -35,7 +35,23 @@
           </v-col>
           <v-col cols="6">
             <v-list-item-title class="headline mb-1">Tax</v-list-item-title>
-            <v-select
+            <v-text-field
+              label="TPS/TVH Registration ID"
+              :error-messages="TPSErrors"
+              v-model="TPSTVH"
+              prepend-inner-icon="mdi-phone"
+              @input="$v.TPSTVH.$touch()"
+              @blur="$v.TPSTVH.$touch()"
+            />
+            <v-text-field
+              label="TVQ Registration ID"
+              :error-messages="TVQErrors"
+              v-model="TVQ"
+              prepend-inner-icon="mdi-phone"
+              @input="$v.TVQ.$touch()"
+              @blur="$v.TVQ.$touch()"
+            />
+            <!-- <v-select
               v-model="taxType"
               :items="taxList"
               menu-props="auto"
@@ -52,7 +68,7 @@
               prepend-inner-icon="mdi-phone"
               @input="$v.taxId.$touch()"
               @blur="$v.taxId.$touch()"
-            />
+            />-->
 
             <!-- label="TPS/TVH Registration ID" -->
             <!-- label="TVQ Registration ID" -->
@@ -172,9 +188,8 @@ export default {
     shippingState: "",
     shippingCountry: "",
     shippingPostalCode: "",
-    taxType: "",
-    taxId: "",
-    taxList: ["TPSTVH", "TVQ"],
+    TPSTVH: "",
+    TVQ: "",
     submitStatus: null
   }),
   mixins: [validationMixin],
@@ -182,8 +197,8 @@ export default {
     companyname: { required, maxLength: maxLength(25) },
     email: { required, email },
     phone: { required, numeric, minLength: minLength(7) },
-    taxId: { required },
-    taxType: { required },
+    TPSTVH: { required },
+    TVQ: { required },
     billingLine1: { required },
     shippingLine1: { required }
   },
@@ -222,17 +237,17 @@ export default {
       !this.$v.phone.required && errors.push("Phone is required.");
       return errors;
     },
-    taxTypeErrors() {
+    TPSErrors() {
       const errors = [];
-      if (!this.$v.taxType.$dirty) return errors;
-      !this.$v.taxType.required && errors.push("Tax Type is required.");
+      if (!this.$v.TPSTVH.$dirty) return errors;
+      !this.$v.TPSTVH.required &&
+        errors.push("TPS/TVH Registration ID is required.");
       return errors;
     },
-    taxIdErrors() {
+    TVQErrors() {
       const errors = [];
-      if (!this.$v.taxId.$dirty) return errors;
-      !this.$v.taxId.required &&
-        errors.push("Tax Registration ID is required.");
+      if (!this.$v.TVQ.$dirty) return errors;
+      !this.$v.TVQ.required && errors.push("TVQ Registration ID is required.");
       return errors;
     },
     billingLine1Errors() {
@@ -265,63 +280,40 @@ export default {
       } else {
         this.submitStatus = "PENDING";
 
-        // var customerData = [];
-        // customerData["name"] = this.companyname;
-        // customerData["email"] = this.email;
-        // customerData["phone"] = this.phone;
-        // customerData["metadata[tax_type]"] = this.taxType;
-        // customerData["metadata[tax_id]"] = this.taxId;
-        // customerData["address[line1]"] = this.billingLine1;
-        // customerData["address[line2]"] = this.billingLine2;
-        // customerData["address[city]"] = this.billingCity;
-        // customerData["address[state]"] = this.billingState;
-        // customerData["address[country]"] = this.billingCountry;
-        // customerData["address[postal_code]"] = this.billingPostalCode;
-        // customerData["shipping[name]"] = this.companyname;
-        // customerData["shipping[phone]"] = this.phone;
-        // customerData["shipping[address][line1]"] = this.shippingLine1;
-        // customerData["shipping[address][line2]"] = this.shippingLine2;
-        // customerData["shipping[address][city]"] = this.shippingCity;
-        // customerData["shipping[address][state]"] = this.shippingState;
-        // customerData["shipping[address][country]"] = this.shippingCountry;
-        // customerData[
-        //   "shipping[address][postal_code]"
-        // ] = this.shippingPostalCode;
-        var customerData = {
-          name: this.companyname,
-          email: this.email,
-          phone: this.phone,
-          metadata: {
-            tax_type: this.taxType,
-            tax_id: this.taxId
-          },
-          address: {
-            line1: this.billingLine1,
-            line2: this.billingLine2,
-            city: this.billingCity,
-            state: this.billingState,
-            country: this.billingCountry,
-            postal_code: this.billingPostalCode
-          },
-          shipping: {
+        var submitedData = {
+          customerdata: {
             name: this.companyname,
+            email: this.email,
             phone: this.phone,
+            metadata: {
+              "TPS/TVH": this.TPSTVH,
+              TVQ: this.TVQ
+            },
             address: {
-              line1: this.shippingLine1,
-              line2: this.shippingLine2,
-              city: this.shippingCity,
-              state: this.shippingState,
-              country: this.shippingCountry,
-              postal_code: this.shippingPostalCode
+              line1: this.billingLine1,
+              line2: this.billingLine2,
+              city: this.billingCity,
+              state: this.billingState,
+              country: this.billingCountry,
+              postal_code: this.billingPostalCode
+            },
+            shipping: {
+              name: this.companyname,
+              phone: this.phone,
+              address: {
+                line1: this.shippingLine1,
+                line2: this.shippingLine2,
+                city: this.shippingCity,
+                state: this.shippingState,
+                country: this.shippingCountry,
+                postal_code: this.shippingPostalCode
+              }
             }
           }
         };
-        const customerFormData = new FormData();
-        customerFormData.append("data", customerData);
-
-        // console.log(customerData);
+        let submitedDataJson = JSON.stringify(submitedData);
         setTimeout(() => {
-          this.createSubscription(customerFormData)
+          this.createSubscription(submitedDataJson)
             .then(() => {
               this.submitStatus = "DONE";
             })
