@@ -4,7 +4,8 @@ export const stripeApi = {
     createSubscriptionApi,
     syncCustomerCardApi,
     getPublicKeyApi,
-    createSetupIntentApi
+    createSetupIntentApi,
+    getStripeCustomerIdApi
 };
 
 async function createSubscriptionApi(data) {
@@ -79,6 +80,24 @@ async function createSetupIntentApi() {
     return axios.get("http://localhost:8080/api/method/apptitude.api.create_setup_intent", requestOptions)
         .then(response => {
             return response.data.message;
+        })
+        .catch(function (error) {
+            return handleResponse(error)
+        });
+}
+
+async function getStripeCustomerIdApi() {
+    let requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+    };
+    return axios.get("http://localhost:8080/api/method/apptitude.api.get_stripe_customer_id", requestOptions)
+        .then(response => {
+            if (response.data.message.status == 200 && response.data.message.data == true) {
+                return response.data.message.data;
+            }
         })
         .catch(function (error) {
             return handleResponse(error)

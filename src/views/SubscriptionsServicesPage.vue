@@ -21,6 +21,7 @@
 
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import SubscriptionsCreateTab from "./SubscriptionsServicesTabs/SubscriptionsCreate.vue";
 import SetupPaymentsTab from "./SubscriptionsServicesTabs/SetupPayments.vue";
 
@@ -31,11 +32,26 @@ export default {
     SetupPaymentsTab
   },
   data() {
+    // var items[] = "Create Subscription Account";
     return {
       tab: null,
-      items: ["Create Subscription Account", "Setup Payments"],
-      texts: ["SubscriptionsCreateTab", "SetupPaymentsTab"]
+      items: ["Create Subscription Account"],
+      texts: ["SubscriptionsCreateTab"]
     };
+  },
+  methods: {
+    ...mapActions(["get_stripe_customer_id"]),
+    checkStripeCustomerId: function() {
+      this.get_stripe_customer_id().then(result => {
+        if (result == true) {
+          this.items.push("Setup Payments");
+          this.texts.push("SetupPaymentsTab");
+        }
+      });
+    }
+  },
+  mounted() {
+    this.checkStripeCustomerId();
   }
 };
 </script>

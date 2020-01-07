@@ -69,6 +69,18 @@ const actions = {
                 }
             );
     },
+    async get_stripe_customer_id({ dispatch }) {
+        return stripeApi.getStripeCustomerIdApi()
+            .then(
+                respone => {
+                    return respone;
+                },
+                error => {
+                    dispatch('error', error, { root: true });
+                    return Promise.reject(error);
+                }
+            );
+    },
     async createSetupIntent({ dispatch }) {
         return stripeApi.createSetupIntentApi()
             .then(
