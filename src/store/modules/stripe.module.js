@@ -92,7 +92,19 @@ const actions = {
                     return Promise.reject(error);
                 }
             );
-    }
+    },
+    async getCustomerData({ dispatch }) {
+        return stripeApi.getCustomerDataApi()
+            .then(
+                respone => {
+                    return respone;
+                },
+                error => {
+                    dispatch('error', error, { root: true });
+                    return Promise.reject(error);
+                }
+            );
+    },
 
 };
 

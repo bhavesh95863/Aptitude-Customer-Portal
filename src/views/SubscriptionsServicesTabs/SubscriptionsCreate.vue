@@ -190,7 +190,26 @@ export default {
     shippingPostalCode: "",
     TPSTVH: "",
     TVQ: "",
-    submitStatus: null
+    submitStatus: null,
+    fetched: {
+      companyname: "",
+      email: "",
+      phone: "",
+      billingLine1: "",
+      billingLine2: "",
+      billingCity: "",
+      billingState: "",
+      billingCountry: "",
+      billingPostalCode: "",
+      shippingLine1: "",
+      shippingLine2: "",
+      shippingCity: "",
+      shippingState: "",
+      shippingCountry: "",
+      shippingPostalCode: "",
+      TPSTVH: "",
+      TVQ: ""
+    }
   }),
   mixins: [validationMixin],
   validations: {
@@ -266,7 +285,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["createSubscription"]),
+    ...mapActions(["createSubscription", "getCustomerData"]),
     onSubmit(e) {
       if (this.submitStatus == "PENDING") {
         return;
@@ -322,7 +341,45 @@ export default {
             });
         });
       }
+    },
+    initCustomerData: function() {
+      this.getCustomerData().then(customerData => {
+        if (typeof customerData !== "undefined") {
+          this.companyname = this.fetched.companyname = customerData.name;
+          this.email = this.fetched.email = customerData.email;
+          this.phone = this.fetched.phone = customerData.phone;
+          this.billingLine1 = this.fetched.billingLine1 =
+            customerData.address.line1;
+          this.billingLine2 = this.fetched.billingLine2 =
+            customerData.address.line2;
+          this.billingCity = this.fetched.billingCity =
+            customerData.address.city;
+          this.billingState = this.fetched.billingState =
+            customerData.address.state;
+          this.billingCountry = this.fetched.billingCountry =
+            customerData.address.country;
+          this.billingPostalCode = this.fetched.billingPostalCode =
+            customerData.address.postal_code;
+          this.shippingLine1 = this.fetched.shippingLine1 =
+            customerData.shipping.address.line1;
+          this.shippingLine2 = this.fetched.shippingLine2 =
+            customerData.shipping.address.line2;
+          this.shippingCity = this.fetched.shippingCity =
+            customerData.shipping.address.city;
+          this.shippingState = this.fetched.shippingState =
+            customerData.shipping.address.state;
+          this.shippingCountry = this.fetched.shippingCountry =
+            customerData.shipping.address.country;
+          this.shippingPostalCode = this.fetched.shippingPostalCode =
+            customerData.shipping.address.postal_code;
+          this.TPSTVH = this.fetched.TPSTVH = customerData.metadata["TPS/TVH"];
+          this.TVQ = this.fetched.TVQ = customerData.metadata.TVQ;
+        }
+      });
     }
+  },
+  created() {
+    this.initCustomerData();
   }
 };
 </script>
