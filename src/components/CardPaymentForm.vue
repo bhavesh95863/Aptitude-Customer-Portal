@@ -22,6 +22,11 @@
         </v-card-actions>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-data-table :headers="headers" :items="cards"></v-data-table>
+      </v-col>
+    </v-row>
   </v-form>
 </template>
 
@@ -42,7 +47,14 @@ export default {
     stripe: "",
     elements: "",
     setupIntent: "",
-    submitStatus: null
+    submitStatus: null,
+    headers: [
+      { text: "name", value: "name" },
+      { text: "brand", value: "brand" },
+      { text: "last4", value: "last4" },
+      { text: "expire", value: "exp_month_year" }
+    ],
+    cards: []
   }),
 
   mixins: [validationMixin],
@@ -62,10 +74,10 @@ export default {
   },
   methods: {
     ...mapActions([
-      "createSubscriptionCard",
       "getPublicKey",
       "createSetupIntent",
-      "syncCustomerCard"
+      "syncCustomerCard",
+      "getCardsData"
     ]),
     onSubmit(e) {
       e.preventDefault();
@@ -152,10 +164,16 @@ export default {
         var el = document.getElementById("card-element");
         el.classList.remove("focused");
       });
+    },
+    initCardsData: function() {
+      this.getCardsData().then(cardsData => {
+        this.cards = cardsData;
+      });
     }
   },
   mounted() {
     this.initStripe();
+    this.initCardsData();
   }
 };
 </script>

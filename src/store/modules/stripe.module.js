@@ -105,6 +105,17 @@ const actions = {
                 }
             );
     },
+    async getCardsData({ dispatch }) {
+        return stripeApi.getCardsDataApi()
+            .then(
+                respone => {
+                    return respone;
+                },
+                error => {
+                    return Promise.reject(error);
+                }
+            );
+    },
 
 };
 

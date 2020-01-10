@@ -82,7 +82,10 @@ export default {
 
   mixins: [validationMixin],
   validations: {
-    companyname: { required, maxLength: maxLength(25) }
+    account_holder_type: { required },
+    account_number: { required },
+    account_holder_name: { required },
+    routing_number: { required }
   },
   computed: {
     ...mapGetters(["getCustomerEmail", "getLoggedIn"]),
@@ -110,38 +113,26 @@ export default {
       } else {
         this.submitStatus = "PENDING";
 
-        var customerData = [];
-        customerData["name"] = this.companyname;
-        customerData["email"] = this.email;
-        customerData["phone"] = this.phone;
-        customerData["metadata[tax_type]"] = this.taxType;
-        customerData["metadata[tax_id]"] = this.taxId;
-        customerData["address[line1]"] = this.billingLine1;
-        customerData["address[line2]"] = this.billingLine2;
-        customerData["address[city]"] = this.billingCity;
-        customerData["address[state]"] = this.billingState;
-        customerData["address[country]"] = this.billingCountry;
-        customerData["address[postal_code]"] = this.billingPostalCode;
-        customerData["shipping[name]"] = this.companyname;
-        customerData["shipping[phone]"] = this.phone;
-        customerData["shipping[address][line1]"] = this.shippingLine1;
-        customerData["shipping[address][line2]"] = this.shippingLine2;
-        customerData["shipping[address][city]"] = this.shippingCity;
-        customerData["shipping[address][state]"] = this.shippingState;
-        customerData["shipping[address][country]"] = this.shippingCountry;
-        customerData[
-          "shipping[address][postal_code]"
-        ] = this.shippingPostalCode;
-        // console.log(customerData);
-        setTimeout(() => {
-          this.createSubscription(customerData)
-            .then(() => {
-              this.submitStatus = "DONE";
-            })
-            .catch(() => {
-              this.submitStatus = "ERROR";
-            });
-        });
+        var submitedData = {
+          accountdata: {
+            account_holder_type: this.account_holder_type,
+            account_number: this.account_number,
+            account_holder_name: this.account_holder_name,
+            routing_number: this.routing_number,
+            country: this.country,
+            currency: this.currency
+          }
+        };
+        console.log(submitedData);
+        // setTimeout(() => {
+        //   this.createSubscription(customerData)
+        //     .then(() => {
+        //       this.submitStatus = "DONE";
+        //     })
+        //     .catch(() => {
+        //       this.submitStatus = "ERROR";
+        //     });
+        // });
       }
     }
   }
