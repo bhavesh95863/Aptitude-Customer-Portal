@@ -7,7 +7,8 @@ export const stripeApi = {
     createSetupIntentApi,
     getStripeCustomerIdApi,
     getCustomerDataApi,
-    getCardsDataApi
+    getCardsDataApi,
+    createBankAccountApi
 };
 
 async function createSubscriptionApi(data) {
@@ -20,7 +21,7 @@ async function createSubscriptionApi(data) {
         }
         // headers: {
         //     'Authorization': 'Bearer sk_test_LjTcfpPKfD8qX67Wk1rsf3JK',
-        //     'Content-Type': 'application/x-www-form-urlencoded',
+        // create'bankTaccont': 'application/x-www-form-urlencoded',
         //     'Accept': '*/*'
         // }
     };
@@ -45,6 +46,25 @@ async function syncCustomerCardApi(data) {
     // console.log(customer_data);
 
     return axios.post("http://localhost:8080/api/method/apptitude.api.sync_customer_card", data, requestOptions)
+        .then(response => {
+            return response;
+        })
+        .catch(function (error) {
+            return handleResponse(error)
+        });
+}
+async function createBankAccountApi(data) {
+    let requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    };
+    // console.log(data);
+    // console.log(customer_data);
+
+    return axios.post("http://localhost:8080/api/method/apptitude.api.create_bank_account", data, requestOptions)
         .then(response => {
             return response;
         })

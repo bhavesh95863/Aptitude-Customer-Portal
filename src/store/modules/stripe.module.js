@@ -57,6 +57,22 @@ const actions = {
                 }
             );
     },
+    async createBankAccount({ dispatch }, data) {
+        return stripeApi.createBankAccountApi(data)
+            .then(
+                respone => {
+                    router.push('/');
+                    setTimeout(() => {
+                        dispatch('success', "Bank account Created successfully!", { root: true });
+                    });
+                    return respone;
+                },
+                error => {
+                    dispatch('error', error, { root: true });
+                    return Promise.reject(error);
+                }
+            );
+    },
     async getPublicKey({ dispatch }) {
         return stripeApi.getPublicKeyApi()
             .then(

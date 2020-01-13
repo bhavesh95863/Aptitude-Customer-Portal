@@ -60,12 +60,13 @@ import {
 export default {
   name: "AccountPaymentForm",
   data: () => ({
+    stripe: "",
     submitStatus: null,
     object: "bank_account",
     account_holder_type: "",
-    account_number: "",
-    account_holder_name: "",
-    routing_number: "",
+    account_number: "000123456789",
+    account_holder_name: "sss",
+    routing_number: "110000000",
     country: "",
     currency: "",
     account_holder_type_list: [
@@ -89,17 +90,33 @@ export default {
   },
   computed: {
     ...mapGetters(["getCustomerEmail", "getLoggedIn"]),
-    companynameErrors() {
+    account_holder_typeErrors() {
       const errors = [];
-      if (!this.$v.companyname.$dirty) return errors;
-      !this.$v.companyname.maxLength &&
-        errors.push("company name must be at most 25 characters long");
-      !this.$v.companyname.required && errors.push("company name is required.");
+      if (!this.$v.account_holder_type.$dirty) return errors;
+      !this.$v.account_holder_type.required && errors.push("It is required.");
+      return errors;
+    },
+    account_numberErrors() {
+      const errors = [];
+      if (!this.$v.account_number.$dirty) return errors;
+      !this.$v.account_number.required && errors.push("It is required.");
+      return errors;
+    },
+    account_holder_nameErrors() {
+      const errors = [];
+      if (!this.$v.account_holder_name.$dirty) return errors;
+      !this.$v.account_holder_name.required && errors.push("It is required.");
+      return errors;
+    },
+    routing_numberErrors() {
+      const errors = [];
+      if (!this.$v.routing_number.$dirty) return errors;
+      !this.$v.routing_number.required && errors.push("It is required.");
       return errors;
     }
   },
   methods: {
-    ...mapActions(["createSubscription"]),
+    ...mapActions(["createBankAccount", "getPublicKey"]),
     onSubmit(e) {
       if (this.submitStatus == "PENDING") {
         return;
@@ -112,29 +129,46 @@ export default {
         return;
       } else {
         this.submitStatus = "PENDING";
-
         var submitedData = {
-          accountdata: {
-            account_holder_type: this.account_holder_type,
-            account_number: this.account_number,
+          type: "bank_account",
+          bank_account: {
+            country: "US",
+            currency: "usd",
             account_holder_name: this.account_holder_name,
+            account_holder_type: this.account_holder_type,
             routing_number: this.routing_number,
-            country: this.country,
-            currency: this.currency
+            account_number: this.account_number
           }
         };
-        console.log(submitedData);
-        // setTimeout(() => {
-        //   this.createSubscription(customerData)
-        //     .then(() => {
-        //       this.submitStatus = "DONE";
-        //     })
-        //     .catch(() => {
-        //       this.submitStatus = "ERROR";
-        //     });
-        // });
+
+        this.stripe.createToken("bank_account", submitedData).then(bank => {
+          if (bank.token) {
+            var tokenData = {
+              token: bank.token.id
+            };
+            setTimeout(() => {
+              this.createBankAccount(tokenData)
+                .then(() => {
+                  this.submitStatus = "DONE";
+                })
+                .catch(() => {
+                  this.submitStatus = "ERROR";
+                });
+            });
+          } else {
+            this.submitStatus = "ERROR";
+          }
+        });
       }
+    },
+    initStripe: function() {
+      this.getPublicKey().then(publicKey => {
+        this.stripe = Stripe(publicKey);
+      });
     }
+  },
+  created() {
+    this.initStripe();
   }
 };
 </script>
