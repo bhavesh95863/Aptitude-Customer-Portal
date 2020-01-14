@@ -132,6 +132,17 @@ const actions = {
                 }
             );
     },
+    async getAccountsData({ dispatch }) {
+        return stripeApi.getAccountsDataApi()
+            .then(
+                respone => {
+                    return respone;
+                },
+                error => {
+                    return Promise.reject(error);
+                }
+            );
+    },
 
 };
 

@@ -64,9 +64,9 @@ export default {
     submitStatus: null,
     object: "bank_account",
     account_holder_type: "",
-    account_number: "000123456789",
-    account_holder_name: "sss",
-    routing_number: "110000000",
+    account_number: "",
+    account_holder_name: "",
+    routing_number: "",
     country: "",
     currency: "",
     account_holder_type_list: [

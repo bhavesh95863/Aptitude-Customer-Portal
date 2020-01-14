@@ -5,9 +5,11 @@
       <v-row>
         <v-col cols="6">
           <CardPaymentForm />
+          <!-- <CardPaymentGrid /> -->
         </v-col>
         <v-col cols="6">
           <AccountPaymentForm />
+          <AccountPaymentGrid />
         </v-col>
       </v-row>
     </v-card-text>
@@ -19,12 +21,14 @@
 import { mapActions, mapGetters } from "vuex";
 import CardPaymentForm from "../../components/CardPaymentForm.vue";
 import AccountPaymentForm from "../../components/AccountPaymentForm.vue";
+import AccountPaymentGrid from "../../components/AccountPaymentGrid.vue";
 
 export default {
   name: "SetupPayments",
   components: {
     CardPaymentForm,
-    AccountPaymentForm
+    AccountPaymentForm,
+    AccountPaymentGrid
   }
 };
 </script>

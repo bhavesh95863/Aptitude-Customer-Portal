@@ -8,7 +8,8 @@ export const stripeApi = {
     getStripeCustomerIdApi,
     getCustomerDataApi,
     getCardsDataApi,
-    createBankAccountApi
+    createBankAccountApi,
+    getAccountsDataApi
 };
 
 async function createSubscriptionApi(data) {
@@ -150,6 +151,23 @@ async function getCardsDataApi() {
         },
     };
     return axios.get("http://localhost:8080/api/method/apptitude.api.get_card_details", requestOptions)
+        .then(response => {
+            if (response.data.message.status == 200) {
+                return response.data.message.data;
+            }
+        })
+        .catch(function (error) {
+            return handleResponse(error)
+        });
+}
+async function getAccountsDataApi() {
+    let requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+    };
+    return axios.get("http://localhost:8080/api/method/apptitude.api.get_account_details", requestOptions)
         .then(response => {
             if (response.data.message.status == 200) {
                 return response.data.message.data;
