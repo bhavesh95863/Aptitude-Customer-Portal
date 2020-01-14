@@ -2,11 +2,13 @@
   <v-card light flat class="mx-auto">
     <v-card-title>Setup Subscription Payments</v-card-title>
     <v-card-text>
-      <v-row>
+      <v-row align="center" justify="center">
         <v-col cols="6">
           <CardPaymentForm />
           <!-- <CardPaymentGrid /> -->
         </v-col>
+      </v-row>
+      <v-row align="center" justify="center">
         <v-col cols="6">
           <AccountPaymentForm />
           <AccountPaymentGrid />
