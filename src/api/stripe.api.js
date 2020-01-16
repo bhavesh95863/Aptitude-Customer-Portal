@@ -9,7 +9,8 @@ export const stripeApi = {
     getCustomerDataApi,
     getCardsDataApi,
     createBankAccountApi,
-    getAccountsDataApi
+    getAccountsDataApi,
+    deleteCustomerCardApi
 };
 
 async function createSubscriptionApi(data) {
@@ -66,6 +67,25 @@ async function createBankAccountApi(data) {
     // console.log(customer_data);
 
     return axios.post("http://localhost:8080/api/method/apptitude.api.create_bank_account", data, requestOptions)
+        .then(response => {
+            return response;
+        })
+        .catch(function (error) {
+            return handleResponse(error)
+        });
+}
+async function deleteCustomerCardApi(data) {
+    let requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    };
+    // console.log(data);
+    // console.log(customer_data);
+
+    return axios.post("http://localhost:8080/api/method/apptitude.api.detach_card", data, requestOptions)
         .then(response => {
             return response;
         })

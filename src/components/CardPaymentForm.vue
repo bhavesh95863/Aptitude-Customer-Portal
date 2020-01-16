@@ -24,7 +24,11 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-data-table :headers="headers" :items="cards"></v-data-table>
+        <v-data-table :headers="headers" :items="cards">
+          <template v-slot:item.action="{ item }">
+            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+          </template>
+        </v-data-table>
       </v-col>
     </v-row>
   </v-form>
@@ -40,7 +44,6 @@ import { required, maxLength } from "vuelidate/lib/validators";
 export default {
   name: "CardPaymentForm",
   data: () => ({
-    id: "cus_GNtXzGqlQ2vYBK",
     number: "",
     name: "",
     card: "",
@@ -52,7 +55,8 @@ export default {
       { text: "name", value: "name" },
       { text: "brand", value: "brand" },
       { text: "last4", value: "last4" },
-      { text: "expire", value: "exp_month_year" }
+      { text: "expire", value: "exp_month_year" },
+      { text: "Actions", value: "action", sortable: false }
     ],
     cards: []
   }),
@@ -77,7 +81,8 @@ export default {
       "getPublicKey",
       "createSetupIntent",
       "syncCustomerCard",
-      "getCardsData"
+      "getCardsData",
+      "deleteCustomerCard"
     ]),
     onSubmit(e) {
       e.preventDefault();
@@ -112,6 +117,19 @@ export default {
             }
           });
       }
+    },
+    deleteItem: function(item) {
+      var submitedData = {
+        token: item.card_id
+      };
+      confirm("Are you sure you want to delete this item?") &&
+        this.deleteCustomerCard(submitedData)
+          .then(() => {
+            this.submitStatus = "DONE";
+          })
+          .catch(() => {
+            this.submitStatus = "ERROR";
+          });
     },
     initSyncCustomerCard: function(submitedData) {
       this.syncCustomerCard(submitedData)

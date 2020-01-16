@@ -73,6 +73,22 @@ const actions = {
                 }
             );
     },
+    async deleteCustomerCard({ dispatch }, data) {
+        return stripeApi.deleteCustomerCardApi(data)
+            .then(
+                respone => {
+                    router.push('/');
+                    setTimeout(() => {
+                        dispatch('success', "Card Deleted successfully!", { root: true });
+                    });
+                    return respone;
+                },
+                error => {
+                    dispatch('error', error, { root: true });
+                    return Promise.reject(error);
+                }
+            );
+    },
     async getPublicKey({ dispatch }) {
         return stripeApi.getPublicKeyApi()
             .then(
@@ -143,6 +159,7 @@ const actions = {
                 }
             );
     },
+
 
 };
 
