@@ -89,6 +89,22 @@ const actions = {
                 }
             );
     },
+    async deleteBankAccount({ dispatch }, data) {
+        return stripeApi.deleteBankAccountApi(data)
+            .then(
+                respone => {
+                    router.push('/');
+                    setTimeout(() => {
+                        dispatch('success', "Bank account Deleted successfully!", { root: true });
+                    });
+                    return respone;
+                },
+                error => {
+                    dispatch('error', error, { root: true });
+                    return Promise.reject(error);
+                }
+            );
+    },
     async getPublicKey({ dispatch }) {
         return stripeApi.getPublicKeyApi()
             .then(
