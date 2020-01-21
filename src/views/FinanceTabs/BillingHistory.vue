@@ -42,7 +42,7 @@ export default {
       },
       uiSchema: [
         {
-          component: "vSelect",
+          component: "v-select",
           model: "type",
           errorOptions: {
             class: ["error-options"],
