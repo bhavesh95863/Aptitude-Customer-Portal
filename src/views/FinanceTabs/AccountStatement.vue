@@ -2,7 +2,8 @@
   <v-card light flat class="mx-auto">
     <v-card-title>Account Statement</v-card-title>
     <v-card-text>
-      <ContactForm />
+      <!-- <ContactForm /> -->
+      <SimpleSchemaForm />
     </v-card-text>
   </v-card>
 </template>
@@ -12,6 +13,7 @@
 import { mapActions, mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
 // import ContactForm from "./ContactForm";
+import SimpleSchemaForm from "../../components/SimpleSchemaForm.vue";
 import {
   required,
   maxLength,
@@ -24,6 +26,7 @@ export default {
   name: "AccountStatementTab",
   components: {
     // ContactForm
+    SimpleSchemaForm
   },
   data: () => ({
     username: "",

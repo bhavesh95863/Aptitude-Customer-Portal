@@ -26,17 +26,19 @@
 
 <script>
 import AccountStatementTab from "./FinanceTabs/AccountStatement";
+import BillingHistory from "./FinanceTabs/BillingHistory";
 
 export default {
   name: "FinancePage",
   components: {
-    AccountStatementTab
+    AccountStatementTab,
+    BillingHistory: BillingHistory
   },
   data() {
     return {
       tab: null,
       items: ["Account Statement", "Billing History"],
-      texts: ["AccountStatement", "BillingHistory"]
+      texts: ["AccountStatementTab", "BillingHistory"]
     };
   }
 };

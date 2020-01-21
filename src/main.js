@@ -5,6 +5,10 @@ import { router } from './router'
 import store from './store'
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
+import VueFormGenerator from "vue-form-generator";
+Vue.use(VueFormGenerator);
+import VueFormJsonSchema from "vue-form-json-schema";
+Vue.use(VueFormJsonSchema);
 Vue.config.productionTip = false
 
 new Vue({
