@@ -1,86 +1,109 @@
 <template>
-  <v-card class="mx-auto">
-    <v-card-title>Simple Schema Form</v-card-title>
-    <v-card-text>
-      <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
-    </v-card-text>
-  </v-card>
+  <!-- <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator> -->
+
+  <vue-form-json-schema
+    v-model="model"
+    :schema="schema"
+    :ui-schema="uiSchema"
+    :options="options"
+    v-on:state-change="onChangeState"
+    v-on:validated="onValidated"
+    data-app
+  ></vue-form-json-schema>
 </template>
 
 
+
 <script>
-import { mapActions, mapGetters } from "vuex";
-import VueFormGenerator from "vue-form-generator";
-import "vue-form-generator/dist/vfg.css";
+import VueFormJsonSchema from "vue-form-json-schema";
 
 export default {
   name: "SimpleSchemaForm",
+  components: {
+    "vue-form-json-schema": VueFormJsonSchema
+  },
   data() {
     return {
-      model: {
-        id: 1,
-        name: "John Doe",
-        password: "J0hnD03!x4",
-        skills: ["Javascript", "VueJS"],
-        email: "john.doe@gmail.com",
-        status: true
+      model: {},
+      state: {},
+      options: {
+        showValidationErrors: true,
+        validate: true,
+        validateOnLoad: true
       },
+      valid: false,
       schema: {
-        fields: [
-          {
-            type: "input",
-            inputType: "text",
-            label: "ID (disabled text field)",
-            model: "id",
-            readonly: true,
-            disabled: true
+        type: "object",
+        required: ["type"],
+        properties: {
+          name: {
+            type: "string"
           },
-          {
-            type: "input",
-            inputType: "text",
-            label: "Name",
-            model: "name",
-            placeholder: "Your name",
-            featured: true,
-            required: true
-          },
-          {
-            type: "input",
-            inputType: "password",
-            label: "Password",
-            model: "password",
-            min: 6,
-            required: true,
-            hint: "Minimum 6 characters",
-            validator: VueFormGenerator.validators.string
-          },
-          {
-            type: "select",
-            label: "Skills",
-            model: "skills",
-            values: ["Javascript", "VueJS", "CSS3", "HTML5"]
-          },
-          {
-            type: "input",
-            inputType: "email",
-            label: "E-mail",
-            model: "email",
-            placeholder: "User's e-mail address"
-          },
-          {
-            type: "checkbox",
-            label: "Status",
-            model: "status",
-            default: true
+          type: {
+            type: "string"
           }
-        ]
+        }
       },
-      formOptions: {
-        validateAfterLoad: true,
-        validateAfterChanged: true,
-        validateAsync: true
-      }
+      uiSchema: [
+        {
+          component: "v-text-field",
+          model: "name",
+          errorOptions: {
+            class: ["error-options"],
+            attrs: {
+              error: true,
+              "error-messages": "This field is required"
+            }
+          },
+          fieldOptions: {
+            class: ["xs12"],
+            on: ["input"],
+            attrs: {
+              placeholder: "Enter your fullame",
+              label: "Name",
+              disabled: false,
+              readonly: false
+            }
+          }
+        },
+        {
+          component: "v-select",
+          model: "type",
+          errorOptions: {
+            class: ["error-options"],
+            attrs: {
+              error: true,
+              "error-messages": "This field is required"
+            }
+          },
+          fieldOptions: {
+            class: ["xs12"],
+            on: ["input"],
+            attrs: {
+              placeholder: "Please select a audit type",
+              label: "Audit Type",
+              disabled: false,
+              readonly: false,
+              items: ["Audit 1", "Audit 2", "Audit 3"]
+            }
+          }
+        }
+      ]
     };
+  },
+  methods: {
+    onChangeState(value) {
+      this.state = value;
+    },
+    onValidated(value) {
+      this.valid = value;
+    },
+    onSubmit() {
+      this.options = {
+        ...this.options,
+        showValidationErrors: true
+      };
+    }
   }
 };
 </script>

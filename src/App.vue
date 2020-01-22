@@ -19,7 +19,7 @@ import Alert from "./components/Alert";
 import Loader from "./components/Loader";
 import Navigation from "./components/Navigation";
 import { mapActions } from "vuex";
-
+import "vuetify/dist/vuetify.min.css";
 export default {
   name: "App",
   components: {
