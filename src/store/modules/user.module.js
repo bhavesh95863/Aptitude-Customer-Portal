@@ -169,7 +169,139 @@ const actions = {
                 }
             );
     },
-
+    async getJsonSchema({ dispatch }) {
+        var jsonSchema = {
+            options: {
+                showValidationErrors: true,
+                validate: true,
+                validateOnLoad: false
+            },
+            valid: false,
+            schema: {
+                type: "object",
+                required: ["type", "name", "email", "notify"],
+                properties: {
+                    name: {
+                        type: "string",
+                        minLength: 5,
+                        maxLength: 10
+                    },
+                    email: {
+                        type: "string",
+                        format: "email"
+                    },
+                    type: {
+                        type: "string"
+                    },
+                    notify: {
+                        type: "boolean",
+                        const: true
+                    }
+                }
+            },
+            uiSchema: [
+                {
+                    component: "v-text-field",
+                    model: "name",
+                    errorOptions: {
+                        class: ["error-options"],
+                        attrs: {
+                            error: true,
+                            "error-messages": "This field is required"
+                        }
+                    },
+                    fieldOptions: {
+                        class: ["xs12"],
+                        on: ["input"],
+                        attrs: {
+                            placeholder: "Enter your fullame",
+                            label: "Name",
+                            disabled: false,
+                            readonly: false
+                        }
+                    }
+                },
+                {
+                    component: "v-text-field",
+                    model: "email",
+                    errorOptions: {
+                        class: ["error-options"],
+                        attrs: {
+                            error: true,
+                            "error-messages": "This field is required"
+                        }
+                    },
+                    fieldOptions: {
+                        class: ["xs12"],
+                        on: ["input"],
+                        attrs: {
+                            placeholder: "Enter your email id",
+                            label: "Email",
+                            disabled: false,
+                            readonly: false
+                        }
+                    }
+                },
+                {
+                    component: "v-select",
+                    model: "type",
+                    errorOptions: {
+                        class: ["error-options"],
+                        attrs: {
+                            error: true,
+                            "error-messages": "This field is required"
+                        }
+                    },
+                    fieldOptions: {
+                        class: ["xs12"],
+                        on: ["input"],
+                        attrs: {
+                            placeholder: "Please select a audit type",
+                            label: "Audit Type",
+                            disabled: false,
+                            readonly: false,
+                            items: ["Audit 1", "Audit 2", "Audit 3"]
+                        }
+                    }
+                },
+                {
+                    component: "v-checkbox",
+                    model: "notify",
+                    errorOptions: {
+                        class: ["error-options"],
+                        attrs: {
+                            error: true,
+                            "error-messages": "Please select this to submit data."
+                        }
+                    },
+                    fieldOptions: {
+                        class: ["xs12"],
+                        on: ["change"],
+                        attrs: {
+                            placeholder: "Please select this to submit data..",
+                            label: "Notify Me",
+                            disabled: false
+                        }
+                    }
+                }
+            ]
+        };
+        return jsonSchema;
+        // return userApi.changePassword(passwordData)
+        //     .then(
+        //         respone => {
+        //             router.push('/');
+        //             setTimeout(() => {
+        //                 dispatch('success', respone.message, { root: true });
+        //             });
+        //             return respone;
+        //         },
+        //         error => {
+        //             dispatch('error', error, { root: true });
+        //             return Promise.reject(error);
+        //         }
+        //     );
+    },
 };
 
 const mutations = {
