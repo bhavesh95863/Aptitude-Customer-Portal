@@ -16,6 +16,7 @@
     "vue-cookies": "^1.6.1",
     "vue-form-json-schema": "^2.4.0",
     "vue-loader": "^15.8.3",
+    "vue-openapi": "^0.10.0",
     "vue-router": "^3.1.5",
     "vuelidate": "^0.7.5",
     "vuetify": "^2.2.6",

@@ -25,20 +25,24 @@
 
 
 <script>
-import AccountStatementTab from "./FinanceTabs/AccountStatement";
-import BillingHistory from "./FinanceTabs/BillingHistory";
+// import AccountStatementTab from "./FinanceTabs/AccountStatement";
+// import BillingHistory from "./FinanceTabs/BillingHistory";
+import OpenApiDemo from "./FinanceTabs/OpenApi";
 
 export default {
   name: "FinancePage",
   components: {
-    AccountStatementTab,
-    BillingHistory: BillingHistory
+    // AccountStatementTab,
+    // BillingHistory: BillingHistory,
+    OpenApiDemo
   },
   data() {
     return {
       tab: null,
-      items: ["Account Statement", "Billing History"],
-      texts: ["AccountStatementTab", "BillingHistory"]
+      items: ["OpenApiDemo"],
+      texts: ["OpenApiDemo"]
+      // items: ["Account Statement", "Billing History", "OpenApiDemo"],
+      // texts: ["AccountStatementTab", "BillingHistory", "OpenApiDemo"]
     };
   }
 };
