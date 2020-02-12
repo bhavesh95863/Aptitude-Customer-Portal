@@ -1,6 +1,7 @@
 // import config from 'config';
 // import { authHeader } from '../helpers';
 import axios from 'axios';
+import jsonApi from "@/api-docs.json";
 // import qs from 'querystring';
 export const userApi = {
     login,
@@ -13,7 +14,8 @@ export const userApi = {
     changePassword,
     setContactDetailsApi,
     getContactDetailsApi,
-    getUserGroupsApi
+    getUserGroupsApi,
+    getOpenApifromApi
 };
 
 async function login(loginData) {
@@ -217,6 +219,30 @@ async function getUserGroupsApi() {
             return handleResponse(response);
         })
 }
+async function getOpenApifromApi() {
+
+    return jsonApi;
+    // let requestOptions = {
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Accept': 'application/json'
+    //     }
+    // };
+
+    // api to get open api file
+    // return axios.get("http://localhost:8080/api/method/apptitude.api.get_user_information", requestOptions)
+    //     .then(response => {
+    //         if (response.data.message.status == 200) {
+    //             return response.data.message.data;
+    //         } else {
+    //             return Promise.reject(response);
+    //         }
+    //     })
+    //     .catch(function (response) {
+    //         return handleResponse(response);
+    //     })
+}
+
 
 // // prefixed function name with underscore because delete is a reserved word in javascript
 // async function _delete(id) {

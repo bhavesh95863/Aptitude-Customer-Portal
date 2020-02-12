@@ -14,10 +14,13 @@ export default {
   name: "HomePage",
   components: {},
   methods: {
-    ...mapActions(["getUsername"]),
+    ...mapActions(["getUsername", "initOpenApi"]),
     getCUsername() {
       this.getUsername();
     }
+  },
+  created() {
+    this.initOpenApi();
   }
 };
 </script>

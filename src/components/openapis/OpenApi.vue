@@ -24,28 +24,25 @@
     </md-list>-->
 
     <v-col v-if="selectedEntry">
-      <h2 class="title">{{selectedEntry.title || selectedEntry.summary}}</h2>
-      <v-col class="md-transparent" style="margin-top:-54px">
-        <v-col v-if="api.servers && api.servers.length">
-          <v-col md-flex="40">
-            <!-- <h2>Request</h2> -->
-            <!-- <p>{{selectedEntry.operationId}}</p> -->
-            <request-form :selectedEntry="selectedEntry" :currentRequest="currentRequest"></request-form>
-            <div>
-              <!-- <md-button @click.native="request">Execute</md-button> -->
-              <v-btn @click="request">Execute</v-btn>
-            </div>
-          </v-col>
+      <v-col
+        class="md-transparent"
+        style="margin-top:-14px"
+        v-if="api.servers && api.servers.length"
+      >
+        <h2 class="title">{{selectedEntry.title || selectedEntry.summary}}</h2>
+        <!-- <p>{{selectedEntry.operationId}}</p> -->
+        <request-form :selectedEntry="selectedEntry" :currentRequest="currentRequest"></request-form>
 
-          <!-- <md-layout md-column md-flex="60">
+        <v-btn @click="request">Execute</v-btn>
+
+        <!-- <md-layout md-column md-flex="60">
                 <h2>Response</h2>
                 <response-display
                   v-if="currentResponse"
                   :entry="selectedEntry"
                   :response="currentResponse"
                 ></response-display>
-          </md-layout>-->
-        </v-col>
+        </md-layout>-->
       </v-col>
     </v-col>
   </div>
@@ -87,6 +84,7 @@ import RequestForm from "./RequestForm.vue";
 // import VueMaterial from "vue-material";
 import deref from "json-schema-ref-parser";
 import stringify from "json-stringify-pretty-compact";
+import axios from "axios";
 
 // Vue.use(VueMaterial);
 
@@ -257,6 +255,7 @@ function fetch(request, entry, api) {
             : request.params[p.name]
       }))
   );
+  const data = params;
   const httpRequest = {
     method: entry.method,
     url:
@@ -265,7 +264,7 @@ function fetch(request, entry, api) {
         entry.path.replace(/{(\w*)}/g, (m, key) => {
           return request.params[key];
         }),
-    params,
+    data,
     headers
   };
   if (entry.requestBody) {
@@ -273,7 +272,9 @@ function fetch(request, entry, api) {
     httpRequest.body = request.body;
   }
 
-  return Vue.http(httpRequest);
+  // console.log(JSON.stringify(httpRequest));
+  return axios(httpRequest);
+  // return Vue.http(httpRequest);
 }
 
 /*
