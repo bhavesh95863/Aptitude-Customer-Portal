@@ -20,7 +20,6 @@
 
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import CardPaymentForm from "../../components/CardPaymentForm.vue";
 import AccountPaymentForm from "../../components/AccountPaymentForm.vue";
 import AccountPaymentGrid from "../../components/AccountPaymentGrid.vue";

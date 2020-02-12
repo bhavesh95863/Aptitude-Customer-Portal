@@ -49,13 +49,7 @@
 import { mapActions, mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
 
-import {
-  required,
-  maxLength,
-  minLength,
-  email,
-  numeric
-} from "vuelidate/lib/validators";
+import { required } from "vuelidate/lib/validators";
 
 export default {
   name: "AccountPaymentForm",
@@ -163,7 +157,7 @@ export default {
     },
     initStripe: function() {
       this.getPublicKey().then(publicKey => {
-        this.stripe = Stripe(publicKey);
+        this.stripe = window.Stripe(publicKey);
       });
     }
   },

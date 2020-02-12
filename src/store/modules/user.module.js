@@ -169,7 +169,7 @@ const actions = {
                 }
             );
     },
-    async getJsonSchema({ dispatch }) {
+    async getJsonSchema() {
         var jsonSchema = {
             options: {
                 showValidationErrors: true,
@@ -306,7 +306,7 @@ const actions = {
 
 const mutations = {
     setLogin: (state) => {
-        state.customer_email = $cookies.get('user_id');
+        state.customer_email = window.$cookies.get('user_id');
         state.logged_in = true;
         // state.user_type = 'Account User';
     },
@@ -315,7 +315,7 @@ const mutations = {
         state.logged_in = false;
     },
     autoLogin: (state) => {
-        state.customer_email = $cookies.get('user_id');
+        state.customer_email = window.$cookies.get('user_id');
         state.logged_in = true;
         // state.user_type = 'Account User';
     },

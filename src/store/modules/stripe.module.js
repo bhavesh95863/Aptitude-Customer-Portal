@@ -153,7 +153,7 @@ const actions = {
                 }
             );
     },
-    async getCardsData({ dispatch }) {
+    async getCardsData() {
         return stripeApi.getCardsDataApi()
             .then(
                 respone => {
@@ -164,7 +164,7 @@ const actions = {
                 }
             );
     },
-    async getAccountsData({ dispatch }) {
+    async getAccountsData() {
         return stripeApi.getAccountsDataApi()
             .then(
                 respone => {

@@ -152,7 +152,7 @@ export default {
       });
     },
     stripeElements: function(publicKey, setupIntent) {
-      this.stripe = Stripe(publicKey);
+      this.stripe = window.Stripe(publicKey);
       this.elements = this.stripe.elements();
       this.setupIntent = setupIntent;
       // Element styles

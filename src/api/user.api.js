@@ -1,7 +1,7 @@
 // import config from 'config';
 // import { authHeader } from '../helpers';
 import axios from 'axios';
-import qs from 'querystring';
+// import qs from 'querystring';
 export const userApi = {
     login,
     getCurrentUser,

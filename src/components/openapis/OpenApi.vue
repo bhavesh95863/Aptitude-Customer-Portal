@@ -80,7 +80,7 @@
 import Vue from "vue";
 import marked from "marked";
 import RequestForm from "./RequestForm.vue";
-import ResponseDisplay from "./ResponseDisplay.vue";
+// import ResponseDisplay from "./ResponseDisplay.vue";
 // import ResponsesTable from "./ResponsesTable.vue";
 // import ParametersTable from "./ParametersTable.vue";
 // import SchemaView from "./SchemaView.vue";
@@ -93,8 +93,8 @@ import stringify from "json-stringify-pretty-compact";
 export default {
   name: "open-api",
   components: {
-    RequestForm,
-    ResponseDisplay
+    RequestForm
+    // ResponseDisplay
     // ResponsesTable,
     // ParametersTable,
     // SchemaView

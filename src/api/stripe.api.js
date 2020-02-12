@@ -1,5 +1,5 @@
 import axios from 'axios';
-import qs from 'querystring';
+// import qs from 'querystring';
 export const stripeApi = {
     createSubscriptionApi,
     syncCustomerCardApi,
@@ -15,7 +15,7 @@ export const stripeApi = {
 };
 
 async function createSubscriptionApi(data) {
-    console.log(qs.stringify(data));
+    // console.log(qs.stringify(data));
     let requestOptions = {
         method: 'POST',
         headers: {
