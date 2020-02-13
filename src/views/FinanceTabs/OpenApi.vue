@@ -18,7 +18,8 @@ export default {
   data: () => ({
     queryParams: {
       userId: "john_doe",
-      operationId: "postGeocode"
+      operationId: "findPetsByStatus"
+      // operationId: "get_contact_list_check_get_contact_list_post"
     },
     headers: {
       api_key: "my_api_key"

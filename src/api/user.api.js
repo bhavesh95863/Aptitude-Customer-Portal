@@ -1,7 +1,8 @@
 // import config from 'config';
 // import { authHeader } from '../helpers';
 import axios from 'axios';
-import jsonApi from "@/api-docs.json";
+// import jsonApi from "@/openapi.json";
+import jsonApi from "@/oldopenapi.json";
 // import qs from 'querystring';
 export const userApi = {
     login,
@@ -220,8 +221,8 @@ async function getUserGroupsApi() {
         })
 }
 async function getOpenApifromApi() {
-
     return jsonApi;
+    // // return jsonApi;
     // let requestOptions = {
     //     headers: {
     //         'Content-Type': 'application/json',
@@ -229,14 +230,11 @@ async function getOpenApifromApi() {
     //     }
     // };
 
-    // api to get open api file
-    // return axios.get("http://localhost:8080/api/method/apptitude.api.get_user_information", requestOptions)
+    // // api to get open api file
+    // return axios.get("http://agw.aptitude.cloud/openapi.json", requestOptions)
     //     .then(response => {
-    //         if (response.data.message.status == 200) {
-    //             return response.data.message.data;
-    //         } else {
-    //             return Promise.reject(response);
-    //         }
+    //         alert(response.openapi);
+    //         return response;
     //     })
     //     .catch(function (response) {
     //         return handleResponse(response);
