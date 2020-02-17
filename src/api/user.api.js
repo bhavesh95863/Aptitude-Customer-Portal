@@ -1,8 +1,8 @@
 // import config from 'config';
 // import { authHeader } from '../helpers';
 import axios from 'axios';
-// import jsonApi from "@/openapi.json";
-import jsonApi from "@/oldopenapi.json";
+import jsonApi from "@/openapi.json";
+// import jsonApi from "@/oldopenapi.json";
 // import qs from 'querystring';
 export const userApi = {
     login,

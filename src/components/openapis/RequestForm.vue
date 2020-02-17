@@ -1,9 +1,12 @@
 <template lang="html">
   <form novalidate @submit.stop.prevent="submit" v-if="selectedEntry" id="request-form" class="pa-0">
-    <!-- <md-input-container v-if="selectedEntry.requestBody">
-      <label for="payload">Payload ({{selectedEntry.requestBody.selectedType}})</label>
-      <md-textarea name="payload" v-model="currentRequest.body"></md-textarea>
-    </md-input-container> -->
+    <!-- <p>ok</p> -->
+    <md-input-container v-if="selectedEntry.requestBody">
+      <!-- <label for="payload">Payload ({{selectedEntry.requestBody.selectedType}})</label>
+      <md-textarea name="payload" v-model="currentRequest.body"></md-textarea> -->
+      <!-- <p>{{selectedEntry['requestBody']['content']['application/json']['schema']}}</p> -->
+      <v-jsonschema-form v-if="selectedEntry['requestBody']['content']['application/json']['schema']" :schema="selectedEntry['requestBody']['content']['application/json']['schema']" :model="dataObject" :options="options"  />
+    </md-input-container>
 
     <div v-for="(parameter, i) in selectedEntry.parameters" :key="i">
       <!-- <md-input-container v-if="(parameter.schema.type === 'string' || parameter.schema.type === 'integer' || parameter.schema.type === 'number') && !parameter.schema.enum">
@@ -57,8 +60,22 @@
 </template>
 
 <script>
+import VJsonschemaForm from "@koumoul/vuetify-jsonschema-form";
+
 export default {
-  props: ["selectedEntry", "currentRequest"]
+  props: ["selectedEntry", "currentRequest"],
+  components: { VJsonschemaForm },
+  data() {
+    return {
+      dataObject: {},
+      formValid: false,
+      options: {
+        debug: false,
+        disableAll: false,
+        autoFoldObjects: true
+      }
+    };
+  }
 };
 </script>
 

@@ -1,5 +1,6 @@
 <template>
   <div class="openapi">
+    <!-- <p>{{tags}}</p> -->
     <!-- <md-list class="md-dense" ref="menu">
           <md-list-item v-for="(entries, tag) in tags" :key="tag" md-expand-multiple>
             <span class="md-title">{{tag}}</span>
@@ -24,13 +25,10 @@
     </md-list>-->
 
     <v-col v-if="selectedEntry">
-      <v-col
-        class="md-transparent"
-        style="margin-top:-14px"
-        v-if="api.servers && api.servers.length"
-      >
+      <v-col class="md-transparent" style="margin-top:-14px">
+        <!-- v-if="api.servers && api.servers.length" -->
         <h2 class="title">{{selectedEntry.title || selectedEntry.summary}}</h2>
-        <!-- <p>{{selectedEntry.operationId}}</p> -->
+        <!-- <p>{{selectedEntry}}</p> -->
         <request-form :selectedEntry="selectedEntry" :currentRequest="currentRequest"></request-form>
 
         <v-btn @click="request">Execute</v-btn>
@@ -123,7 +121,7 @@ export default {
         for (const tagApi in tagsItem) {
           if (this.queryParams.operationId == tagsItem[tagApi].operationId) {
             /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
-            // console.log(JSON.stringify(tagsItem[tagApi], null, 2));
+            console.log(JSON.stringify(tagsItem[tagApi], null, 2));
             this.reset(tagsItem[tagApi]);
             this.selectedEntry = tagsItem[tagApi];
           }
@@ -268,11 +266,12 @@ function fetch(request, entry, api) {
     headers
   };
   if (entry.requestBody) {
+    console.log(JSON.stringify(entry.requestBody));
     httpRequest.headers["Content-type"] = entry.requestBody.selectedType;
     httpRequest.body = request.body;
   }
 
-  // console.log(JSON.stringify(httpRequest));
+  console.log(JSON.stringify(httpRequest));
   return axios(httpRequest);
   // return Vue.http(httpRequest);
 }

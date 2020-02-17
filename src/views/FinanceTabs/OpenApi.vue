@@ -1,5 +1,8 @@
 <template>
-  <open-api v-if="getOpenApi" :api="getOpenApi" :query-params="queryParams" :headers="headers"></open-api>
+  <div>
+    <!-- <p>{{getOpenApi}}</p> -->
+    <open-api v-if="getOpenApi" :api="getOpenApi" :query-params="queryParams" :headers="headers"></open-api>
+  </div>
 </template>
 
 
@@ -18,8 +21,10 @@ export default {
   data: () => ({
     queryParams: {
       userId: "john_doe",
-      operationId: "findPetsByStatus"
-      // operationId: "get_contact_list_check_get_contact_list_post"
+      // operationId: "addPet"
+      // operationId: "addPet"
+      // operationId: "findPetsByStatus"
+      operationId: "add_contact_check_add_contact_post"
     },
     headers: {
       api_key: "my_api_key"
