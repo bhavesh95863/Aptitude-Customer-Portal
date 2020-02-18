@@ -18,7 +18,7 @@ export default {
   data: () => ({
     queryParams: {
       userId: "john_doe",
-      operationId: "findPetsByTags"
+      operationId: "get_contact_list_check_get_contact_list_post"
       // operationId: "getCoord"
     },
     headers: {

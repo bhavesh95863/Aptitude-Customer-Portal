@@ -121,7 +121,7 @@ export default {
         for (const tagApi in tagsItem) {
           if (this.queryParams.operationId == tagsItem[tagApi].operationId) {
             /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
-            console.log(JSON.stringify(tagsItem[tagApi], null, 2));
+            // console.log(JSON.stringify(tagsItem[tagApi], null, 2));
             this.reset(tagsItem[tagApi]);
             this.selectedEntry = tagsItem[tagApi];
           }
@@ -266,12 +266,12 @@ function fetch(request, entry, api) {
     headers
   };
   if (entry.requestBody) {
-    console.log(JSON.stringify(entry.requestBody));
+    // console.log(JSON.stringify(entry.requestBody));
     httpRequest.headers["Content-type"] = entry.requestBody.selectedType;
     httpRequest.body = request.body;
   }
 
-  console.log(JSON.stringify(httpRequest));
+  // console.log(JSON.stringify(httpRequest));
   return axios(httpRequest);
   // return Vue.http(httpRequest);
 }

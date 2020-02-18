@@ -1,12 +1,12 @@
 <template lang="html">
   <form novalidate @submit.stop.prevent="submit" v-if="selectedEntry" id="request-form" class="pa-0">
     <!-- <p>ok</p> -->
-    <md-input-container v-if="selectedEntry.requestBody">
+    <div v-if="selectedEntry.requestBody">
       <!-- <label for="payload">Payload ({{selectedEntry.requestBody.selectedType}})</label>
       <md-textarea name="payload" v-model="currentRequest.body"></md-textarea> -->
-      <!-- <p>{{selectedEntry['requestBody']['content']['application/json']['schema']}}</p> -->
+      <!-- <p>{{selectedEntry['requestBody']['content']['application/json']['schema']['properties']['params']}}</p> -->
       <v-jsonschema-form v-if="selectedEntry['requestBody']['content']['application/json']['schema']" :schema="selectedEntry['requestBody']['content']['application/json']['schema']" :model="dataObject" :options="options"  />
-    </md-input-container>
+    </div>
 
     <div v-for="(parameter, i) in selectedEntry.parameters" :key="i">
       <!-- <md-input-container v-if="(parameter.schema.type === 'string' || parameter.schema.type === 'integer' || parameter.schema.type === 'number') && !parameter.schema.enum">
