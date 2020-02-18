@@ -4,8 +4,15 @@
     <div v-if="selectedEntry.requestBody">
       <!-- <label for="payload">Payload ({{selectedEntry.requestBody.selectedType}})</label>
       <md-textarea name="payload" v-model="currentRequest.body"></md-textarea> -->
-      <!-- <p>{{selectedEntry['requestBody']['content']['application/json']['schema']['properties']['params']}}</p> -->
-      <v-jsonschema-form v-if="selectedEntry['requestBody']['content']['application/json']['schema']" :schema="selectedEntry['requestBody']['content']['application/json']['schema']" :model="dataObject" :options="options"  />
+      <!-- <p>{{selectedEntry['requestBody']['content']['application/json']['schema']}}</p> -->
+      <!-- <v-jsonschema-form v-if="selectedEntry['requestBody']['content']['application/json']['schema']" :schema="selectedEntry['requestBody']['content']['application/json']['schema']" :model="dataObject" :options="options"  /> -->
+      <vue-openapi-form
+                :schema="selectedEntry['requestBody']['content']['application/json']['schema']"
+                v-model="model"
+                :formTitle="formTitle"
+                :key="JSON.stringify(selectedJsonSchema)"
+                :onValid="onValid"
+              />
     </div>
 
     <div v-for="(parameter, i) in selectedEntry.parameters" :key="i">
@@ -60,21 +67,59 @@
 </template>
 
 <script>
-import VJsonschemaForm from "@koumoul/vuetify-jsonschema-form";
+// import VJsonschemaForm from "@koumoul/vuetify-jsonschema-form";
+// import toJsonSchema from "@openapi-contrib/openapi-schema-to-json-schema";
+import VueOpenapiForm from "@/components/appscode/components/VueOpenapiForm";
+import Schemas from "@/components/appscode/json-schema";
+// import SchemaModel from "@/components/appscode/components/SchemaModel";
+import axios from "axios";
 
 export default {
-  props: ["selectedEntry", "currentRequest"],
-  components: { VJsonschemaForm },
+  props: ["selectedEntry", "currentRequest", "api"],
+  components: {
+    //  VJsonschemaForm,
+    VueOpenapiForm
+    // SchemaModel
+  },
   data() {
     return {
-      dataObject: {},
-      formValid: false,
-      options: {
-        debug: false,
-        disableAll: false,
-        autoFoldObjects: true
-      }
+      jsonSchemas: Schemas,
+      selectedJsonSchema: Schemas[0],
+      jsonSchema: {},
+      model: {},
+      formTitle: "ok",
+      modifiedSchema: false
     };
+    // return {
+    //   dataObject: {},
+    //   formValid: false,
+    //   JsonSchema: "",
+    //   options: {
+    //     debug: false,
+    //     disableAll: false,
+    //     autoFoldObjects: true
+    //   }
+    // };
+  },
+  methods: {
+    onValid() {
+      /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
+      console.log(JSON.stringify(this.model, null, 2));
+      const data = this.model;
+      const headers = "application/json";
+      const httpRequest = {
+        method: this.selectedEntry.method,
+        url:
+          this.api.servers.length &&
+          this.api.servers[0].url +
+            this.selectedEntry.path.replace(/{(\w*)}/g, (m, key) => {
+              return this.currentRequest.params[key];
+            }),
+        data,
+        headers
+      };
+      return axios(httpRequest);
+    }
   }
 };
 </script>

@@ -29,9 +29,9 @@
         <!-- v-if="api.servers && api.servers.length" -->
         <h2 class="title">{{selectedEntry.title || selectedEntry.summary}}</h2>
         <!-- <p>{{selectedEntry}}</p> -->
-        <request-form :selectedEntry="selectedEntry" :currentRequest="currentRequest"></request-form>
+        <request-form :selectedEntry="selectedEntry" :currentRequest="currentRequest" :api="api"></request-form>
 
-        <v-btn @click="request">Execute</v-btn>
+        <!-- <v-btn @click="request">Execute</v-btn> -->
 
         <!-- <md-layout md-column md-flex="60">
                 <h2>Response</h2>
