@@ -106,15 +106,10 @@ export default {
       /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
       console.log(JSON.stringify(this.model, null, 2));
       const data = this.model;
-      const headers = "application/json";
+      const headers = { "Access-Control-Allow-Origin": true };
       const httpRequest = {
         method: this.selectedEntry.method,
-        url:
-          this.api.servers.length &&
-          this.api.servers[0].url +
-            this.selectedEntry.path.replace(/{(\w*)}/g, (m, key) => {
-              return this.currentRequest.params[key];
-            }),
+        url: "http://agw.aptitude.cloud" + this.selectedEntry.path,
         data,
         headers
       };
