@@ -104,7 +104,7 @@ export default {
   methods: {
     onValid() {
       /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
-      console.log(JSON.stringify(this.model, null, 2));
+      // console.log(JSON.stringify(this.model, null, 2));
       const data = this.model;
       const headers = { "Access-Control-Allow-Origin": true };
       const httpRequest = {

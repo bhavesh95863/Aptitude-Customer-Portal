@@ -28,7 +28,7 @@
       <v-col class="md-transparent" style="margin-top:-14px">
         <!-- v-if="api.servers && api.servers.length" -->
         <h2 class="title">{{selectedEntry.title || selectedEntry.summary}}</h2>
-        <!-- <p>{{selectedEntry}}</p> -->
+        <p>{{openapimenu}}</p>
         <request-form :selectedEntry="selectedEntry" :currentRequest="currentRequest" :api="api"></request-form>
 
         <!-- <v-btn @click="request">Execute</v-btn> -->
@@ -107,7 +107,8 @@ export default {
       params: {}
     },
     currentResponse: null,
-    tags: {}
+    tags: {},
+    openapimenu: []
   }),
   // mounted: function() {
   //   if (this.$refs.menu.$children.length)
@@ -116,19 +117,39 @@ export default {
   created() {
     getTags(this.api).then(tags => {
       // var str = JSON.stringify(tags, null, 2);
+      const mypaths = [];
       for (const tagitem in tags) {
         var tagsItem = tags[tagitem];
         for (const tagApi in tagsItem) {
+          mypaths.push(tagsItem[tagApi].path.substring(1));
           if (this.queryParams.operationId == tagsItem[tagApi].operationId) {
             /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
-            // console.log(JSON.stringify(tagsItem[tagApi], null, 2));
+            // console.log(JSON.stringify(tagsItem[tagApi].path, null, 2));
             this.reset(tagsItem[tagApi]);
             this.selectedEntry = tagsItem[tagApi];
           }
         }
       }
+
+      // const finalMenu = [];
+      let openapimenu_test = [];
+      mypaths.forEach(menuPath => {
+        const path = menuPath.split("/");
+        if (path[0].length > 0) openapimenu_test.push(path);
+      });
+
+      //iterate openapimenu to make parent child paths
+      let pathname = {};
+      openapimenu_test.forEach(path => {
+        if (typeof pathname[path[0]] == "undefined") {
+          pathname[path[0]] = [path[1]];
+        } else {
+          pathname[path[0]].push(path[1].toString());
+        }
+      });
+
       /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
-      // console.log(str);
+      console.log(pathname);
       this.tags = tags;
     });
     // Vue.material.registerTheme({
