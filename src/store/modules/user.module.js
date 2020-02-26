@@ -5,25 +5,13 @@ const state = {
     customer_email: '',
     logged_in: false,
     user_type: '',
-    open_api: ''
 };
 const getters = {
     getCustomerEmail: state => state.customer_email,
     getLoggedIn: state => state.logged_in,
     getUserType: state => state.user_type,
-    getOpenApi: state => state.open_api
 };
 const actions = {
-    async initOpenApi({ commit }) {
-        return userApi.getOpenApifromApi()
-            .then(response => {
-                // return response
-                // if (typeof response !== 'undefined' && response.status == 200) {
-                commit('setOpenApi', response);
-                //     return true;
-                // }
-            })
-    },
     async doLogin({ dispatch, commit }, loginData) {
         userApi.login(loginData)
             .then(
@@ -341,10 +329,7 @@ const mutations = {
     assignRole: (state, UserRole) => {
         // alert(UserRole);
         state.user_type = UserRole;
-    },
-    setOpenApi: (state, OpenAPi) => {
-        state.open_api = OpenAPi;
-    },
+    }
 };
 
 

@@ -21,11 +21,11 @@
           </v-list-item-icon>
           <v-list-item-title>Dashboard</v-list-item-title>
         </v-list-item>
-        <!-- <p>{{getMenuItems}}</p> -->
+        <!-- <p>{{getOpenApiTags}}</p> -->
 
         <!-- loop for main menuitem -->
         <v-list-group
-          v-for="(menuitem, menuitemLabel) in openapimenu"
+          v-for="(menuitem, menuitemLabel) in getOpenApiTags"
           prepend-icon="mdi-view-dashboard"
           :value="false"
           :key="menuitemLabel"
@@ -53,9 +53,9 @@
 
               <v-list-item v-for="(item, itm) in submenuitem" :key="itm" link>
                 <v-list-item-icon>
-                  <v-icon>{{item[1]}}</v-icon>
+                  <v-icon>{{item[2]}}</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title v-text="item[0]"></v-list-item-title>
+                <v-list-item-title v-text="item[1]"></v-list-item-title>
               </v-list-item>
             </v-list-group>
           </template>
@@ -63,9 +63,9 @@
             <!-- if no child elements -->
             <v-list-item v-for="(item, it) in menuitem" :key="it" link>
               <v-list-item-icon>
-                <v-icon>{{item[1]}}</v-icon>
+                <v-icon>{{item[2]}}</v-icon>
               </v-list-item-icon>
-              <v-list-item-title v-text="item[0]"></v-list-item-title>
+              <v-list-item-title v-text="item[1]"></v-list-item-title>
             </v-list-item>
           </template>
         </v-list-group>
@@ -87,7 +87,12 @@ import { mapGetters } from "vuex";
 export default {
   name: "Navigation",
   computed: {
-    ...mapGetters(["getCustomerEmail", "getLoggedIn", "getMenuItems"])
+    ...mapGetters([
+      "getCustomerEmail",
+      "getLoggedIn",
+      "getMenuItems",
+      "getOpenApiTags"
+    ])
   },
   methods: {
     mouseover: function() {
@@ -103,34 +108,34 @@ export default {
     }
   },
   data: () => ({
-    hover: false,
-
+    hover: false
+    // openapimenu: { check: ["ping", "add_contact", "get_contact_list"] }
     // openapimenu: {
-    //   Check: [
+    //   check: [
     //     ["ping", "mdi-account-edit"],
     //     ["add contact", "mdi-account-edit"],
     //     ["get contact list", "mdi-account-edit"]
     //   ]
     // }
-    openapimenu: {
-      Contacts: [
-        ["List", "mdi-account-edit"],
-        ["New", "mdi-account-edit"],
-        ["Delete", "mdi-account-edit"]
-      ],
-      CRM: {
-        Leads: [
-          ["Listt", "mdi-account-edit"],
-          ["Neww", "mdi-account-edit"],
-          ["Deletee", "mdi-account-edit"]
-        ],
-        Leads2: [
-          ["Listt", "mdi-account-edit"],
-          ["Neww", "mdi-account-edit"],
-          ["Deletee", "mdi-account-edit"]
-        ]
-      }
-    }
+    // openapimenu: {
+    //   Contacts: [
+    //     ["List", "mdi-account-edit"],
+    //     ["New", "mdi-account-edit"],
+    //     ["Delete", "mdi-account-edit"]
+    //   ],
+    //   CRM: {
+    //     Leads: [
+    //       ["Listt", "mdi-account-edit"],
+    //       ["Neww", "mdi-account-edit"],
+    //       ["Deletee", "mdi-account-edit"]
+    //     ],
+    //     Leads2: [
+    //       ["Listt", "mdi-account-edit"],
+    //       ["Neww", "mdi-account-edit"],
+    //       ["Deletee", "mdi-account-edit"]
+    //     ]
+    //   }
+    // }
     // [
     //   ["Management", "mdi-account-edit"],
     //   ["Settings", "mdi-account-edit"]

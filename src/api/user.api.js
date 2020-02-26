@@ -1,9 +1,8 @@
 // import config from 'config';
 // import { authHeader } from '../helpers';
 import axios from 'axios';
-import jsonApi from "@/openapi.json";
-// import jsonApi from "@/oldopenapi.json";
-// import qs from 'querystring';
+
+
 export const userApi = {
     login,
     getCurrentUser,
@@ -16,7 +15,6 @@ export const userApi = {
     setContactDetailsApi,
     getContactDetailsApi,
     getUserGroupsApi,
-    getOpenApifromApi
 };
 
 async function login(loginData) {
@@ -220,27 +218,6 @@ async function getUserGroupsApi() {
             return handleResponse(response);
         })
 }
-async function getOpenApifromApi() {
-    return jsonApi;
-    // // return jsonApi;
-    // let requestOptions = {
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Accept': 'application/json'
-    //     }
-    // };
-
-    // // api to get open api file
-    // return axios.get("http://agw.aptitude.cloud/openapi.json", requestOptions)
-    //     .then(response => {
-    //         alert(response.openapi);
-    //         return response;
-    //     })
-    //     .catch(function (response) {
-    //         return handleResponse(response);
-    //     })
-}
-
 
 // // prefixed function name with underscore because delete is a reserved word in javascript
 // async function _delete(id) {

@@ -5,6 +5,7 @@ import alert from './modules/alert.module'
 import header from './modules/header.module'
 import loader from './modules/loader.module'
 import stripe from './modules/stripe.module'
+import openapi from './modules/openapi.module'
 
 Vue.use(Vuex)
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     alert,
     header,
     loader,
-    stripe
+    stripe,
+    openapi
   }
 })
