@@ -10,6 +10,7 @@ import ProfileSettingPage from './views/ProfileSettingPage.vue'
 import PlatformGroupsPage from './views/PlatformGroupsPage.vue'
 import CompanySettingsPage from './views/CompanySettingsPage.vue'
 import SubscriptionsServicesPage from './views/SubscriptionsServicesPage.vue'
+import FormPage from './views/FormPage.vue'
 import store from './store'
 Vue.use(Router)
 
@@ -27,6 +28,7 @@ export const router = new Router({
     { path: '/platform-groups-and-users', component: PlatformGroupsPage },
     { path: '/company-settings', component: CompanySettingsPage },
     { path: '/subscriptions-services', component: SubscriptionsServicesPage },
+    { path: '/form/:id', component: FormPage },
 
     // otherwise redirect to home
     { path: '*', redirect: '/' }

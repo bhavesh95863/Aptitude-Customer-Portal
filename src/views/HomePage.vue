@@ -21,7 +21,7 @@ export default {
   },
   created() {
     // call this function to get the openapi spec from server and process other data.
-    this.initOpenApi();
+    // this.initOpenApi();
   }
 };
 </script>

@@ -1,5 +1,7 @@
 // import axios from 'axios';
-import jsonApi from "@/openapi.json";
+// import jsonApi from "@/openapi.json";
+// import jsonApi from "@/openapi_params.json";
+import jsonApi from "@/openapi_aws.json";
 // import qs from 'querystring';
 export const openapi = {
     getOpenApifromApi

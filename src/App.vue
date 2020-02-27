@@ -29,13 +29,18 @@ export default {
     Navigation
   },
   methods: {
-    ...mapActions(["getUsername"]),
+    // ...mapActions(["getUsername"]),
+    ...mapActions(["getUsername", "initOpenApi"]),
     getUsername: function() {
       this.getUsername();
     }
   },
   data: () => ({
     //
-  })
+  }),
+  created() {
+    // call this function to get the openapi spec from server and process other data.
+    this.initOpenApi();
+  }
 };
 </script>

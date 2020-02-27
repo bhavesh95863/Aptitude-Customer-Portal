@@ -28,7 +28,7 @@
       <v-col class="md-transparent" style="margin-top:-14px">
         <!-- v-if="api.servers && api.servers.length" -->
         <h2 class="title">{{selectedEntry.title || selectedEntry.summary}}</h2>
-        <p>{{openapimenu}}</p>
+        <!-- <p>{{openapimenu}}</p> -->
         <request-form :selectedEntry="selectedEntry" :currentRequest="currentRequest" :api="api"></request-form>
 
         <!-- <v-btn @click="request">Execute</v-btn> -->
@@ -95,7 +95,7 @@ export default {
     // ParametersTable,
     // SchemaView
   },
-  props: ["api", "headers", "queryParams"],
+  props: ["api", "headers", "queryParams", "operation"],
   data: () => ({
     selectedEntry: null,
     currentSchema: " ",
@@ -122,7 +122,8 @@ export default {
         var tagsItem = tags[tagitem];
         for (const tagApi in tagsItem) {
           mypaths.push(tagsItem[tagApi].path.substring(1));
-          if (this.queryParams.operationId == tagsItem[tagApi].operationId) {
+          // if (this.queryParams.operationId == tagsItem[tagApi].operationId) {
+          if (this.operation == tagsItem[tagApi].operationId) {
             /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
             // console.log(JSON.stringify(tagsItem[tagApi].path, null, 2));
             this.reset(tagsItem[tagApi]);
@@ -149,7 +150,7 @@ export default {
       });
 
       /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
-      console.log(pathname);
+      // console.log(pathname);
       this.tags = tags;
     });
     // Vue.material.registerTheme({

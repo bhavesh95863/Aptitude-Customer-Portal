@@ -51,7 +51,12 @@
                 </v-list-item-content>
               </template>
 
-              <v-list-item v-for="(item, itm) in submenuitem" :key="itm" link>
+              <v-list-item
+                v-for="(item, itm) in submenuitem"
+                :key="itm"
+                :to="'/form/'+item[3]"
+                link
+              >
                 <v-list-item-icon>
                   <v-icon>{{item[2]}}</v-icon>
                 </v-list-item-icon>
@@ -61,7 +66,7 @@
           </template>
           <template v-else>
             <!-- if no child elements -->
-            <v-list-item v-for="(item, it) in menuitem" :key="it" link>
+            <v-list-item v-for="(item, it) in menuitem" :key="it" :to="'/form/'+item[3]" link>
               <v-list-item-icon>
                 <v-icon>{{item[2]}}</v-icon>
               </v-list-item-icon>

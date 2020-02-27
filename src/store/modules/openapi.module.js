@@ -76,7 +76,8 @@ const actions = {
         for (const tagitem in tags) {
             var tagsItem = tags[tagitem];
             for (const tagApi in tagsItem) {
-                mypaths.push([tagsItem[tagApi].path.substring(1), tagsItem[tagApi].summary]);
+                if (!tagsItem[tagApi].parameters)
+                    mypaths.push([tagsItem[tagApi].path.substring(1), tagsItem[tagApi].summary, tagsItem[tagApi].operationId]);
             }
         }
 
@@ -86,19 +87,23 @@ const actions = {
         let openapimenu_test = [];
         mypaths.forEach(menuPath => {
             const path = menuPath[0].split("/");
+            if (path.length > 2)
+                return;
             path.push(menuPath[1]);
+            path.push(menuPath[2]);
             if (path[0].length > 0) openapimenu_test.push(path);
         });
 
 
         // console.log(JSON.stringify(openapimenu_test));
+        console.log(openapimenu_test);
         //iterate openapimenu_test to make parent child paths
         let pathname = {};
         openapimenu_test.forEach(path => {
             if (typeof pathname[path[0]] == "undefined") {
-                pathname[path[0]] = [[path[1], path[2], "mdi-account-edit"]];
+                pathname[path[0]] = [[path[1], path[2], "mdi-account-edit", path[3]]];
             } else {
-                pathname[path[0]].push([path[1].toString(), path[2], "mdi-account-edit"]);
+                pathname[path[0]].push([path[1].toString(), path[2], "mdi-account-edit", path[3]]);
             }
         });
         // final required object is ready
