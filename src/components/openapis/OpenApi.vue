@@ -29,7 +29,14 @@
         <!-- v-if="api.servers && api.servers.length" -->
         <h2 class="title">{{selectedEntry.title || selectedEntry.summary}}</h2>
         <!-- <p>{{openapimenu}}</p> -->
-        <request-form :selectedEntry="selectedEntry" :currentRequest="currentRequest" :api="api"></request-form>
+        <template
+          v-if="Object.keys(selectedEntry['requestBody']['content']['application/json']['schema']['properties']['params']['properties']).length"
+        >
+          <request-form :selectedEntry="selectedEntry" :currentRequest="currentRequest" :api="api"></request-form>
+        </template>
+        <template v-else>
+          <request-list :selectedEntry="selectedEntry" :currentRequest="currentRequest" :api="api"></request-list>
+        </template>
 
         <!-- <v-btn @click="request">Execute</v-btn> -->
 
@@ -75,6 +82,7 @@
 import Vue from "vue";
 import marked from "marked";
 import RequestForm from "./RequestForm.vue";
+import RequestList from "./RequestList.vue";
 // import ResponseDisplay from "./ResponseDisplay.vue";
 // import ResponsesTable from "./ResponsesTable.vue";
 // import ParametersTable from "./ParametersTable.vue";
@@ -89,7 +97,8 @@ import axios from "axios";
 export default {
   name: "open-api",
   components: {
-    RequestForm
+    RequestForm,
+    RequestList
     // ResponseDisplay
     // ResponsesTable,
     // ParametersTable,

@@ -6,6 +6,8 @@
       <md-textarea name="payload" v-model="currentRequest.body"></md-textarea> -->
       <!-- <p>{{selectedEntry['requestBody']['content']['application/json']['schema']}}</p> -->
       <!-- <v-jsonschema-form v-if="selectedEntry['requestBody']['content']['application/json']['schema']" :schema="selectedEntry['requestBody']['content']['application/json']['schema']" :model="dataObject" :options="options"  /> -->
+      <!-- <p>{{ Object.keys(selectedEntry['requestBody']['content']['application/json']['schema']['properties']['params']['properties']).length}}</p> -->
+      <!-- <template v-if="Object.keys(selectedEntry['requestBody']['content']['application/json']['schema']['properties']['params']['properties']).length" > -->
       <vue-openapi-form
                 :schema="selectedEntry['requestBody']['content']['application/json']['schema']"
                 v-model="model"
@@ -13,6 +15,7 @@
                 :key="JSON.stringify(selectedJsonSchema)"
                 :onValid="onValid"
               />
+      <!-- </template> -->
     </div>
 
     <div v-for="(parameter, i) in selectedEntry.parameters" :key="i">
