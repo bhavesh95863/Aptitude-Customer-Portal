@@ -1,7 +1,12 @@
 <template>
   <div>
-    <!-- <p>{{getOpenApi}}</p> -->
-    <open-api v-if="getOpenApi" :api="getOpenApi" :query-params="queryParams" :headers="headers"></open-api>
+    <open-api
+      v-if="getOpenApi"
+      :api="getOpenApi"
+      :query-params="queryParams"
+      operation="create_aws_instances_create_post"
+      :headers="headers"
+    ></open-api>
   </div>
 </template>
 
@@ -24,7 +29,7 @@ export default {
       // operationId: "addPet"
       // operationId: "addPet"
       // operationId: "findPetsByStatus"
-      operationId: "add_contact_check_add_contact_post"
+      operationId: "create_aws_instances_create_post"
     },
     headers: {
       api_key: "my_api_key"
