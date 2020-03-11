@@ -1,6 +1,23 @@
 <template lang="html">
     <div  v-if="selectedEntry" >
-      <p>{{this.selectedEntry.path}}</p>
+      <p>{{this.data}}</p>
+      <p>{{this.selectedEntry["responses"]["200"]["content"]["application/json"]["schema"]["properties"]["result"]["items"]["properties"]}}</p>
+      <!-- <p v-for="item in this.selectedEntry["responses"]["200"]["content"]["application/json"]["schema"]["properties"]["result"]["items"]["properties"]" :key="{{item}}">
+        {{item}}  - {{item.title}}
+
+      </p> -->
+      <!-- <v-card-title>
+      Super Admin
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="searchSuperUsers"
+        prepend-inner-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table :headers="headers" :items="users.super_admin" :search="searchSuperUsers"></v-data-table> -->
     </div>
 </template>
 
@@ -20,12 +37,21 @@ export default {
   },
   data() {
     return {
+      searchSuperUsers: "",
       // jsonSchemas: Schemas,
       // selectedJsonSchema: Schemas[0],
       // jsonSchema: {},
       // model: {},
       // formTitle: "ok",
       // modifiedSchema: false
+      datagrid: "",
+      headers: [
+        { text: "User Id", value: "user_id" },
+        { text: "Firstname", value: "first_name" },
+        { text: "Lastname", value: "last_name" },
+        { text: "Status", value: "status" },
+        { text: "Role", value: "user_role" }
+      ]
     };
     // return {
     //   dataObject: {},
@@ -53,6 +79,7 @@ export default {
         "schema"
       ]["properties"]["params"]["properties"]
     };
+    this.datagrid = data;
     const headers = { "Access-Control-Allow-Origin": true };
     const httpRequest = {
       method: this.selectedEntry.method,
@@ -60,7 +87,30 @@ export default {
       data,
       headers
     };
-    return axios(httpRequest);
+    axios(httpRequest);
+    const respo = {
+      jsonrpc: "2.0",
+      id: 0,
+      result: {
+        id: -1,
+        name: "bhavesh",
+        phones: [
+          {
+            type: "mobile",
+            phone: "9999999999"
+          }
+        ],
+        emails: [
+          {
+            account: "gmail",
+            email: "asd@gmail.com"
+          }
+        ],
+        notes: "sfdsfds"
+      }
+    };
+    this.datagrid = respo;
+    // console.log(respo);
   },
   methods: {
     onValid() {
