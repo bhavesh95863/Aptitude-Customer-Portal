@@ -1,12 +1,13 @@
 <template lang="html">
     <div  v-if="selectedEntry" >
-      <p>{{this.data}}</p>
-      <p>{{this.selectedEntry["responses"]["200"]["content"]["application/json"]["schema"]["properties"]["result"]["items"]["properties"]}}</p>
+      <!-- <p>{{this.datagrid}}</p> -->
+      <!-- <p>{{this.headers}}</p> -->
+      <!-- <p>{{this.selectedEntry["responses"]["200"]["content"]["application/json"]["schema"]["properties"]["result"]["items"]["properties"]}}</p> -->
       <!-- <p v-for="item in this.selectedEntry["responses"]["200"]["content"]["application/json"]["schema"]["properties"]["result"]["items"]["properties"]" :key="{{item}}">
         {{item}}  - {{item.title}}
 
       </p> -->
-      <!-- <v-card-title>
+      <v-card-title>
       Super Admin
       <v-spacer></v-spacer>
       <v-text-field
@@ -17,7 +18,7 @@
         hide-details
       ></v-text-field>
     </v-card-title>
-    <v-data-table :headers="headers" :items="users.super_admin" :search="searchSuperUsers"></v-data-table> -->
+    <v-data-table :headers="headers" :items="datagrid" :search="searchSuperUsers"></v-data-table>
     </div>
 </template>
 
@@ -44,14 +45,15 @@ export default {
       // model: {},
       // formTitle: "ok",
       // modifiedSchema: false
-      datagrid: "",
-      headers: [
-        { text: "User Id", value: "user_id" },
-        { text: "Firstname", value: "first_name" },
-        { text: "Lastname", value: "last_name" },
-        { text: "Status", value: "status" },
-        { text: "Role", value: "user_role" }
-      ]
+      datagrid: [],
+      headers: []
+      // headers: [
+      //   { text: "User Id", value: "user_id" },
+      //   { text: "Firstname", value: "first_name" },
+      //   { text: "Lastname", value: "last_name" },
+      //   { text: "Status", value: "status" },
+      //   { text: "Role", value: "user_role" }
+      // ]
     };
     // return {
     //   dataObject: {},
@@ -65,6 +67,15 @@ export default {
     // };
   },
   created() {
+    Object.entries(
+      this.selectedEntry["responses"]["200"]["content"]["application/json"][
+        "schema"
+      ]["properties"]["result"]["items"]["properties"]
+    ).forEach(element => {
+      // console.log(element[0] + );
+      this.headers.push({ text: element[1]["title"], value: element[0] });
+    });
+
     const data = {
       jsonrpc: this.selectedEntry["requestBody"]["content"]["application/json"][
         "schema"
@@ -97,19 +108,32 @@ export default {
         phones: [
           {
             type: "mobile",
+            name: "my mobile",
             phone: "9999999999"
           }
         ],
         emails: [
           {
             account: "gmail",
+            name: "my email",
             email: "asd@gmail.com"
           }
         ],
         notes: "sfdsfds"
       }
     };
-    this.datagrid = respo;
+    const temp_grid = [];
+    Object.entries(respo["result"]).forEach(element => {
+      if (typeof element[1] == "object") {
+        // console.log(element[0] + " " + element[1][0]["name"]);
+        temp_grid[element[0]] = element[1][0]["name"];
+      } else {
+        // console.log(element[0] + " " + element[1]);
+        temp_grid[element[0]] = element[1];
+        // this.datagrid.push({element[0]:element[1]});
+      }
+    });
+    this.datagrid = [temp_grid];
     // console.log(respo);
   },
   methods: {
