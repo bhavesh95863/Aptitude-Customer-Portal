@@ -3,11 +3,6 @@
       <!-- <p>{{this.selectedEntry.path}}</p>
       <p>{{getApiPath}}</p>
       <p>{{this.buttons}}</p> -->
-      <div v-for="(parameter, i) in this.buttons" :key="i">
-        
-      <v-btn class="ma-2" tile color="indigo" :key="i" :to="'/form/'+parameter.btn_link" dark>{{parameter.btn_label}}</v-btn>
-        
-      </div>
       <!-- <p>{{this.datagrid}}</p> -->
       <!-- <p>{{this.headers}}</p> -->
       <!-- <p>{{this.selectedEntry["responses"]["200"]["content"]["application/json"]["schema"]["properties"]["result"]["items"]["properties"]}}</p> -->
@@ -16,8 +11,11 @@
 
       </p> -->
       <v-card-title>
+
       Super Admin
+
       <v-spacer></v-spacer>
+
       <v-text-field
         v-model="searchSuperUsers"
         prepend-inner-icon="mdi-magnify"
@@ -25,6 +23,13 @@
         single-line
         hide-details
       ></v-text-field>
+
+      <v-spacer></v-spacer>
+
+      <template v-for="(parameter, i) in this.buttons">
+      <v-btn class="ma-2" tile color="indigo" :key="i" :to="'/form/'+parameter.btn_link" dark>{{parameter.btn_label}}</v-btn>
+      </template>
+
     </v-card-title>
     <v-data-table :headers="headers" :items="datagrid" :search="searchSuperUsers"></v-data-table>
     </div>
@@ -92,8 +97,10 @@ export default {
         "schema"
       ]["properties"]["result"]["items"]["properties"]
     ).forEach(element => {
-      // console.log(element[0] + );
-      this.headers.push({ text: element[1]["title"], value: element[0] });
+      // console.log(element[1]["type"]);
+      if (element[1]["type"] !== "array" && element[1]["type"] !== "object") {
+        this.headers.push({ text: element[1]["title"], value: element[0] });
+      }
     });
 
     const data = {
@@ -146,7 +153,7 @@ export default {
     Object.entries(respo["result"]).forEach(element => {
       if (typeof element[1] == "object") {
         // console.log(element[0] + " " + element[1][0]["name"]);
-        temp_grid[element[0]] = element[1][0]["name"];
+        // temp_grid[element[0]] = element[1][0]["name"];
       } else {
         // console.log(element[0] + " " + element[1]);
         temp_grid[element[0]] = element[1];
@@ -156,22 +163,26 @@ export default {
     this.datagrid = [temp_grid];
     // console.log(respo);
     //for adding button
-      this.buttons.push({ "btn_label": "Static", "btn_path": "check/add_contact", "btn_link": "add_contact_check_add_contact_post" })
-      this.getApiPath.forEach(p => {
-        console.log(this.selectedEntry.path)
-        //console.log(p[0])
-        if(p[0].indexOf(this.selectedEntry.path.substring(1)+'/') === 0 && p[0].split('/').length == 3)
-        {
-          const dict = {}
-          dict.btn_label = p[1]
-          dict.btn_path = p[0]
-          dict.btn_link = p[2]
-          this.buttons.push(dict)
-        }
-      })
-      
+    // this.buttons.push({
+    //   btn_label: "Static",
+    //   btn_path: "check/add_contact",
+    //   btn_link: "add_contact_check_add_contact_post"
+    // });
 
-
+    this.getApiPath.forEach(p => {
+      // console.log(this.selectedEntry.path);
+      //console.log(p[0])
+      if (
+        p[0].indexOf(this.selectedEntry.path.substring(1) + "/") === 0 &&
+        p[0].split("/").length == 3
+      ) {
+        const dict = {};
+        dict.btn_label = p[1];
+        dict.btn_path = p[0];
+        dict.btn_link = p[2];
+        this.buttons.push(dict);
+      }
+    });
   },
   methods: {
     onValid() {
