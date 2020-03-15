@@ -1,8 +1,8 @@
 <template lang="html">
     <div  v-if="selectedEntry" >
-      <p>{{this.selectedEntry.path}}</p>
+      <!-- <p>{{this.selectedEntry.path}}</p>
       <p>{{getApiPath}}</p>
-      <p>{{this.buttons}}</p>
+      <p>{{this.buttons}}</p> -->
       <div v-for="(parameter, i) in this.buttons" :key="i">
         
       <v-btn class="ma-2" tile color="indigo" :key="i" :to="'/form/'+parameter.btn_link" dark>{{parameter.btn_label}}</v-btn>
