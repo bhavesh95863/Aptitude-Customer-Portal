@@ -2,11 +2,13 @@ import { openapi } from '../../api';
 import deref from "json-schema-ref-parser";
 const state = {
     open_api: '',
-    tags: ''
+    tags: '',
+    paths: ''
 };
 const getters = {
     getOpenApi: state => state.open_api,
-    getOpenApiTags: state => state.tags
+    getOpenApiTags: state => state.tags,
+    getApiPath: state => state.paths
 };
 const actions = {
 
@@ -80,7 +82,7 @@ const actions = {
                     mypaths.push([tagsItem[tagApi].path.substring(1), tagsItem[tagApi].summary, tagsItem[tagApi].operationId]);
             }
         }
-
+        //console.log(mypaths);
         // split mypaths array to remove / and explode
         // console.log(mypaths);
         // const finalMenu = [];
@@ -96,7 +98,7 @@ const actions = {
 
 
         // console.log(JSON.stringify(openapimenu_test));
-        console.log(openapimenu_test);
+        // console.log(openapimenu_test);
         //iterate openapimenu_test to make parent child paths
         let pathname = {};
         openapimenu_test.forEach(path => {
@@ -112,7 +114,9 @@ const actions = {
         // console.log(JSON.stringify(pathname));
 
         // commit paths object so that it can be called from navigation component.
+        console.log(pathname)
         commit('setTags', pathname);
+        commit('setPaths',mypaths)
     },
 };
 
@@ -122,6 +126,9 @@ const mutations = {
     },
     setTags: (state, tags) => {
         state.tags = tags;
+    },
+    setPaths:(state,paths) => {
+        state.paths = paths
     }
 };
 

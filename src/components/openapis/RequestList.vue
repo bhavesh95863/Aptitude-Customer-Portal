@@ -1,5 +1,13 @@
 <template lang="html">
     <div  v-if="selectedEntry" >
+      <p>{{this.selectedEntry.path}}</p>
+      <p>{{getApiPath}}</p>
+      <p>{{this.buttons}}</p>
+      <div v-for="(parameter, i) in this.buttons" :key="i">
+        
+      <v-btn class="ma-2" tile color="indigo" :key="i" :to="'/form/'+parameter.btn_link" dark>{{parameter.btn_label}}</v-btn>
+        
+      </div>
       <!-- <p>{{this.datagrid}}</p> -->
       <!-- <p>{{this.headers}}</p> -->
       <!-- <p>{{this.selectedEntry["responses"]["200"]["content"]["application/json"]["schema"]["properties"]["result"]["items"]["properties"]}}</p> -->
@@ -29,12 +37,23 @@
 // import Schemas from "@/components/appscode/json-schema";
 // import SchemaModel from "@/components/appscode/components/SchemaModel";
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   props: ["selectedEntry", "currentRequest", "api"],
   components: {
     //  VJsonschemaForm,
     // SchemaModel
+  },
+  computed: {
+    ...mapGetters([
+      "getCustomerEmail",
+      "getLoggedIn",
+      "getMenuItems",
+      "getOpenApiTags",
+      "getOpenApi",
+      "getApiPath"
+    ])
   },
   data() {
     return {
@@ -46,7 +65,8 @@ export default {
       // formTitle: "ok",
       // modifiedSchema: false
       datagrid: [],
-      headers: []
+      headers: [],
+      buttons: []
       // headers: [
       //   { text: "User Id", value: "user_id" },
       //   { text: "Firstname", value: "first_name" },
@@ -135,6 +155,23 @@ export default {
     });
     this.datagrid = [temp_grid];
     // console.log(respo);
+    //for adding button
+      this.buttons.push({ "btn_label": "Static", "btn_path": "check/add_contact", "btn_link": "add_contact_check_add_contact_post" })
+      this.getApiPath.forEach(p => {
+        console.log(this.selectedEntry.path)
+        //console.log(p[0])
+        if(p[0].indexOf(this.selectedEntry.path.substring(1)+'/') === 0 && p[0].split('/').length == 3)
+        {
+          const dict = {}
+          dict.btn_label = p[1]
+          dict.btn_path = p[0]
+          dict.btn_link = p[2]
+          this.buttons.push(dict)
+        }
+      })
+      
+
+
   },
   methods: {
     onValid() {
