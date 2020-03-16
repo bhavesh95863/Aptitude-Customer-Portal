@@ -4,7 +4,7 @@ const state = {
     Menus: [
         { id: 0, text: 'Profile Settings', path: '/profile-setting', icon: 'mdi-account-edit' },
         { id: 1, text: 'Company Profile', path: '/company-profile', icon: 'mdi-factory' },
-        { id: 2, text: 'Company Settings', path: '/company-settings', icon: 'mdi-settings' },
+        { id: 2, text: 'Company Settings', path: '/company-settings', icon: 'mdi-wrench' },
         { id: 3, text: 'Company Users', icon: 'mdi-account-multiple' },
         { id: 4, text: 'Platform Groups and Users', path: '/platform-groups-and-users', icon: 'mdi-account-network' },
         { id: 5, text: 'Finance', path: '/finance', icon: 'mdi-cash-usd' },
