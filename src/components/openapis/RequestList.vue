@@ -146,7 +146,7 @@ export default {
         notes: "sfdsfds"
       }
     };
-    const temp_grid = [];
+    const temp_grid = {};
     Object.entries(respo["result"]).forEach(element => {
       if (typeof element[1] == "object") {
         // console.log(element[0] + " " + element[1][0]["name"]);

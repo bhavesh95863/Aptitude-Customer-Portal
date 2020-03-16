@@ -1,34 +1,30 @@
 <template>
   <div>
-    <!-- <p>{{ $route.params }}</p> -->
+    <p>{{ $route.params }}</p>
     <!-- <p>{{ queryParams.operationId }}</p> -->
-    <open-api
+    <!-- <open-api
       v-if="getOpenApi"
       :api="getOpenApi"
       :query-params="queryParams"
       :operation="$route.params.id"
       :headers="headers"
       :key="$route.params.id"
-    ></open-api>
+    ></open-api>-->
   </div>
 </template>
 
 
 <script>
 import { mapGetters } from "vuex";
-import OpenApi from "@/components/openapis/OpenApi";
+// import OpenApi from "@/components/openapis/OpenApi";
 
 export default {
   name: "FormPage",
   components: {
-    OpenApi
+    // OpenApi
   },
   computed: {
     ...mapGetters(["getOpenApi"])
-  },
-  created() {
-    /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
-    console.log(this.$route.fullPath);
   },
   data: () => ({
     queryParams: {
