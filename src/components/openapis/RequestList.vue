@@ -12,9 +12,6 @@
       </p> -->
       <v-card-title>
 
-      Super Admin
-
-      <v-spacer></v-spacer>
 
       <v-text-field
         v-model="searchSuperUsers"
