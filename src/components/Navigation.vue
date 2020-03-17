@@ -23,13 +23,13 @@
         </v-list-item>
 
         <!-- Dynamic URL Example menus -->
-        <!-- <v-list-item to="/aws/instance/10/snapshot">
+        <v-list-item to="/aws/instance/10/snapshot">
           <v-list-item-icon>
             <v-icon color="#472F92">mdi-view-dashboard</v-icon>
           </v-list-item-icon>
           <v-list-item-title>dynamic</v-list-item-title>
         </v-list-item>
-        <v-list-item to="/aws/instance/">
+        <!--<v-list-item to="/aws/instance/">
           <v-list-item-icon>
             <v-icon color="#472F92">mdi-view-dashboard</v-icon>
           </v-list-item-icon>

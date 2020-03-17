@@ -8,8 +8,14 @@
       <!-- <v-jsonschema-form v-if="selectedEntry['requestBody']['content']['application/json']['schema']" :schema="selectedEntry['requestBody']['content']['application/json']['schema']" :model="dataObject" :options="options"  /> -->
       <!-- <p>{{ Object.keys(selectedEntry['requestBody']['content']['application/json']['schema']['properties']['params']['properties']).length}}</p> -->
       <!-- <template v-if="Object.keys(selectedEntry['requestBody']['content']['application/json']['schema']['properties']['params']['properties']).length" > -->
+
+<!-- from responsecs
+:schema="selectedEntry['responses']['200']['content']['application/json']['schema']"
+:schema="selectedEntry['requestBody']['content']['application/json']['schema']"
+ -->
+
       <vue-openapi-form
-                :schema="selectedEntry['requestBody']['content']['application/json']['schema']"
+                :schema="schema_path"
                 v-model="model"
                 :formTitle="formTitle"
                 :key="JSON.stringify(selectedJsonSchema)"
@@ -91,7 +97,14 @@ export default {
       jsonSchema: {},
       model: {},
       formTitle: "ok",
-      modifiedSchema: false
+      modifiedSchema: false,
+      response_data: "",
+      schema_path: this.selectedEntry["requestBody"]["content"][
+        "application/json"
+      ]["schema"]
+      // schema_path: this.selectedEntry["responses"]["200"]["content"][
+      //   "application/json"
+      // ]["schema"]
     };
     // return {
     //   dataObject: {},
@@ -116,7 +129,21 @@ export default {
         data,
         headers
       };
-      return axios(httpRequest);
+      this.response_data = axios(httpRequest);
+
+      //check if api request was successfully
+      // if(this.response_data['200']){
+      this.resetform();
+      // }
+    },
+    /**
+     * reset form to show data of the response in responses form spec
+     */
+    resetform() {
+      this.schema_path = this.selectedEntry["responses"]["200"]["content"][
+        "application/json"
+      ]["schema"];
+      this.model = this.response_data;
     }
   }
 };
