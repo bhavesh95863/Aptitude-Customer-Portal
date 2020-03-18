@@ -1,6 +1,7 @@
 // import config from 'config';
 // import { authHeader } from '../helpers';
 import axios from 'axios';
+// import baseUrl from './baseurl';
 
 
 export const userApi = {
@@ -25,7 +26,8 @@ async function login(loginData) {
         },
         withCredentials: true
     };
-    return axios.post("http://localhost:8080/api/method/login", loginData, requestOptions)
+    // return axios.post("api/method/login", loginData, requestOptions)
+    return axios.post("api/method/login", loginData, requestOptions)
         .then(user => {
             if (user.status == 200) {
                 return user;
@@ -47,7 +49,7 @@ function getCurrentUser() {
         },
         withCredentials: true
     };
-    return axios.get("http://localhost:8080/api/method/frappe.auth.get_logged_user", requestOptions)
+    return axios.get("api/method/frappe.auth.get_logged_user", requestOptions)
         .then(response => { return response })
         .catch(function (response) {
             return handleResponse(response);
@@ -61,7 +63,7 @@ function getCurrentUserRole() {
         },
         withCredentials: true
     };
-    return axios.get("http://localhost:8080/api/method/apptitude.api.get_role", requestOptions)
+    return axios.get("api/method/apptitude.api.get_role", requestOptions)
         .then(response => { return response })
         .catch(function (response) {
             return handleResponse(response);
@@ -70,7 +72,7 @@ function getCurrentUserRole() {
 
 async function logout() {
     try {
-        const response = await axios.get("http://localhost:8080/api/method/logout");
+        const response = await axios.get("api/method/logout");
         return response;
     }
     catch (response_1) {
@@ -87,7 +89,7 @@ async function register(registerData) {
         }
     };
 
-    return axios.post("http://localhost:8080/api/method/apptitude.api.register_user", registerData, requestOptions)
+    return axios.post("api/method/apptitude.api.register_user", registerData, requestOptions)
         .then(response => {
             if (response.data.message.status == 200) {
                 return response.data.message;
@@ -109,7 +111,7 @@ async function setContactDetailsApi(contactData) {
         }
     };
 
-    return axios.post("http://localhost:8080/api/method/apptitude.api.add_update_contact_details", contactData, requestOptions)
+    return axios.post("api/method/apptitude.api.add_update_contact_details", contactData, requestOptions)
         .then(response => {
             if (response.data.message.status == 200) {
                 return response.data.message;
@@ -130,7 +132,7 @@ async function getContactDetailsApi(contact_type) {
         },
         withCredentials: true
     };
-    return axios.get("http://localhost:8080/api/method/apptitude.api.get_contact_details?contact_type=" + contact_type, requestOptions)
+    return axios.get("api/method/apptitude.api.get_contact_details?contact_type=" + contact_type, requestOptions)
         .then(response => { return response.data.message.data[0] })
         .catch(function (response) {
             return handleResponse(response);
@@ -144,7 +146,7 @@ async function getUserInfo() {
             'Accept': 'application/json'
         }
     };
-    return axios.get("http://localhost:8080/api/method/apptitude.api.get_user_data", requestOptions)
+    return axios.get("api/method/apptitude.api.get_user_data", requestOptions)
         .then(response => {
             if (response.data.message.status == 200) {
                 return response.data.message.data;
@@ -165,7 +167,7 @@ async function update(userSubmitDataJson) {
         }
     };
 
-    return axios.put("http://localhost:8080/api/method/apptitude.api.update_profile", userSubmitDataJson, requestOptions)
+    return axios.put("api/method/apptitude.api.update_profile", userSubmitDataJson, requestOptions)
         .then(response => {
             if (response.data.message.status == 200) {
                 return response.data.message.data;
@@ -186,7 +188,7 @@ async function changePassword(passwordData) {
         }
     };
 
-    return axios.put("http://localhost:8080/api/method/apptitude.api.change_password", passwordData, requestOptions)
+    return axios.put("api/method/apptitude.api.change_password", passwordData, requestOptions)
         .then(response => {
             if (response.data.message.status == 200) {
                 return response.data.message;
@@ -206,7 +208,7 @@ async function getUserGroupsApi() {
             'Accept': 'application/json'
         }
     };
-    return axios.get("http://localhost:8080/api/method/apptitude.api.get_user_information", requestOptions)
+    return axios.get("api/method/apptitude.api.get_user_information", requestOptions)
         .then(response => {
             if (response.data.message.status == 200) {
                 return response.data.message.data;

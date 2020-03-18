@@ -29,7 +29,7 @@ async function createSubscriptionApi(data) {
         // }
     };
     // return axios.post("https://api.stripe.com/v1/customers", qs.stringify(data), requestOptions) 
-    return axios.post("http://localhost:8080/api/method/apptitude.api.create_subscription_account", data, requestOptions)
+    return axios.post("api/method/apptitude.api.create_subscription_account", data, requestOptions)
         .then(response => {
             return response;
         })
@@ -48,7 +48,7 @@ async function syncCustomerCardApi(data) {
     // console.log(data);
     // console.log(customer_data);
 
-    return axios.post("http://localhost:8080/api/method/apptitude.api.sync_customer_card", data, requestOptions)
+    return axios.post("api/method/apptitude.api.sync_customer_card", data, requestOptions)
         .then(response => {
             return response;
         })
@@ -67,7 +67,7 @@ async function createBankAccountApi(data) {
     // console.log(data);
     // console.log(customer_data);
 
-    return axios.post("http://localhost:8080/api/method/apptitude.api.create_bank_account", data, requestOptions)
+    return axios.post("api/method/apptitude.api.create_bank_account", data, requestOptions)
         .then(response => {
             return response;
         })
@@ -86,7 +86,7 @@ async function deleteCustomerCardApi(data) {
     // console.log(data);
     // console.log(customer_data);
 
-    return axios.post("http://localhost:8080/api/method/apptitude.api.detach_card", data, requestOptions)
+    return axios.post("api/method/apptitude.api.detach_card", data, requestOptions)
         .then(response => {
             return response;
         })
@@ -103,7 +103,7 @@ async function deleteBankAccountApi(data) {
         }
     };
 
-    return axios.post("http://localhost:8080/api/method/apptitude.api.delete_bank_account", data, requestOptions)
+    return axios.post("api/method/apptitude.api.delete_bank_account", data, requestOptions)
         .then(response => {
             return response;
         })
@@ -119,7 +119,7 @@ async function getPublicKeyApi() {
             'Accept': 'application/json'
         },
     };
-    return axios.get("http://localhost:8080/api/method/apptitude.api.public_key", requestOptions)
+    return axios.get("api/method/apptitude.api.public_key", requestOptions)
         .then(response => {
             if (response.data.message.status == 200) {
                 return response.data.message.data;
@@ -138,7 +138,7 @@ async function createSetupIntentApi() {
             'Accept': 'application/json'
         },
     };
-    return axios.get("http://localhost:8080/api/method/apptitude.api.create_setup_intent", requestOptions)
+    return axios.get("api/method/apptitude.api.create_setup_intent", requestOptions)
         .then(response => {
             return response.data.message;
         })
@@ -154,7 +154,7 @@ async function getStripeCustomerIdApi() {
             'Accept': 'application/json'
         },
     };
-    return axios.get("http://localhost:8080/api/method/apptitude.api.get_stripe_customer_id", requestOptions)
+    return axios.get("api/method/apptitude.api.get_stripe_customer_id", requestOptions)
         .then(response => {
             if (response.data.message.status == 200 && response.data.message.data == true) {
                 return response.data.message.data;
@@ -171,7 +171,7 @@ async function getCustomerDataApi() {
             'Accept': 'application/json'
         },
     };
-    return axios.get("http://localhost:8080/api/method/apptitude.api.get_customer", requestOptions)
+    return axios.get("api/method/apptitude.api.get_customer", requestOptions)
         .then(response => {
             if (response.data.message.status == 200 && response.data.message.data.object == 'customer') {
                 return response.data.message.data;
@@ -188,7 +188,7 @@ async function getCardsDataApi() {
             'Accept': 'application/json'
         },
     };
-    return axios.get("http://localhost:8080/api/method/apptitude.api.get_card_details", requestOptions)
+    return axios.get("api/method/apptitude.api.get_card_details", requestOptions)
         .then(response => {
             if (response.data.message.status == 200) {
                 return response.data.message.data;
@@ -205,7 +205,7 @@ async function getAccountsDataApi() {
             'Accept': 'application/json'
         },
     };
-    return axios.get("http://localhost:8080/api/method/apptitude.api.get_account_details", requestOptions)
+    return axios.get("api/method/apptitude.api.get_account_details", requestOptions)
         .then(response => {
             if (response.data.message.status == 200) {
                 return response.data.message.data;
