@@ -1,8 +1,8 @@
 <template lang="html">
     <div  v-if="selectedEntry" >
       <!-- <p>{{this.selectedEntry.path}}</p>
-      <p>{{getApiPath}}</p>
-      <p>{{this.buttons}}</p> -->
+      <p>{{getApiPath}}</p>-->
+      <!-- <p>{{this.buttons}}</p>  -->
       <!-- <p>{{this.datagrid}}</p> -->
       <!-- <p>{{this.headers}}</p> -->
       <!-- <p>{{this.selectedEntry["responses"]["200"]["content"]["application/json"]["schema"]["properties"]["result"]["items"]["properties"]}}</p> -->
