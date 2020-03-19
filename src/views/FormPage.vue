@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <p>{{ $route.params }}</p> -->
+    <!-- <p>{{ $route.fullPath }}</p> -->
     <!-- <p>{{ queryParams.operationId }}</p> -->
     <open-api
       v-if="getOpenApi"
@@ -8,7 +8,8 @@
       :query-params="queryParams"
       :operation="$route.params.id"
       :headers="headers"
-      :key="$route.params.id"
+      :key="$route.fullPath"
+      :fullpath="$route.fullPath"
     ></open-api>
   </div>
 </template>
@@ -28,7 +29,7 @@ export default {
   },
   created() {
     /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
-    console.log(this.$route.fullPath);
+    // console.log(this.$route.fullPath);
   },
   data: () => ({
     queryParams: {

@@ -1,6 +1,6 @@
 <template>
   <div class="openapi">
-    <!-- <p>{{tags}}</p> -->
+    <!-- <p>{{fullpath}}</p> -->
     <!-- <md-list class="md-dense" ref="menu">
           <md-list-item v-for="(entries, tag) in tags" :key="tag" md-expand-multiple>
             <span class="md-title">{{tag}}</span>
@@ -104,7 +104,7 @@ export default {
     // ParametersTable,
     // SchemaView
   },
-  props: ["api", "headers", "queryParams", "operation"],
+  props: ["api", "headers", "queryParams", "fullpath"],
   data: () => ({
     selectedEntry: null,
     currentSchema: " ",
@@ -132,8 +132,12 @@ export default {
         for (const tagApi in tagsItem) {
           mypaths.push(tagsItem[tagApi].path.substring(1));
           // if (this.queryParams.operationId == tagsItem[tagApi].operationId) {
-          if (this.operation == tagsItem[tagApi].operationId) {
+          /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
+          if (this.fullpath == tagsItem[tagApi].path) {
             /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
+            console.log(
+              "matched " + this.fullpath + " " + tagsItem[tagApi].path
+            );
             // console.log(JSON.stringify(tagsItem[tagApi].path, null, 2));
             this.reset(tagsItem[tagApi]);
             this.selectedEntry = tagsItem[tagApi];

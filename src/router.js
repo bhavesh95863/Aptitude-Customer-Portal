@@ -11,7 +11,7 @@ import PlatformGroupsPage from './views/PlatformGroupsPage.vue'
 import CompanySettingsPage from './views/CompanySettingsPage.vue'
 import SubscriptionsServicesPage from './views/SubscriptionsServicesPage.vue'
 import FormPage from './views/FormPage.vue'
-import Dynamic from './views/Dynamic.vue'
+// import Dynamic from './views/Dynamic.vue'
 import store from './store'
 Vue.use(Router)
 
@@ -32,7 +32,7 @@ export const router = new Router({
     { path: '/form/:id', component: FormPage },
     { path: '/:namespace/:module/', component: FormPage },
     { path: '/:namespace/:module/:id', component: FormPage },
-    { path: '/:namespace/:module/:id/:button', component: Dynamic },
+    { path: '/:namespace/:module/:id/:button', component: FormPage },
 
     // otherwise redirect to home
     { path: '*', redirect: '/' }

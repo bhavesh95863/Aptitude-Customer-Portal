@@ -23,12 +23,12 @@
         </v-list-item>
 
         <!-- Dynamic URL Example menus -->
-        <v-list-item to="/aws/instance/10/snapshot">
+        <!-- <v-list-item to="/aws/instance/10/snapshot">
           <v-list-item-icon>
             <v-icon color="#472F92">mdi-view-dashboard</v-icon>
           </v-list-item-icon>
           <v-list-item-title>dynamic</v-list-item-title>
-        </v-list-item>
+        </v-list-item>-->
         <!--<v-list-item to="/aws/instance/">
           <v-list-item-icon>
             <v-icon color="#472F92">mdi-view-dashboard</v-icon>
@@ -72,12 +72,7 @@
                 </v-list-item-content>
               </template>
 
-              <v-list-item
-                v-for="(item, itm) in submenuitem"
-                :key="itm"
-                :to="'/form/'+item[3]"
-                link
-              >
+              <v-list-item v-for="(item, itm) in submenuitem" :key="itm" :to="item[3]" link>
                 <v-list-item-icon>
                   <v-icon>{{item[2]}}</v-icon>
                 </v-list-item-icon>
@@ -87,7 +82,7 @@
           </template>
           <template v-else>
             <!-- if no child elements -->
-            <v-list-item v-for="(item, it) in menuitem" :key="it" :to="'/form/'+item[3]" link>
+            <v-list-item v-for="(item, it) in menuitem" :key="it" :to="item[3]" link>
               <v-list-item-icon>
                 <v-icon>{{item[2]}}</v-icon>
               </v-list-item-icon>

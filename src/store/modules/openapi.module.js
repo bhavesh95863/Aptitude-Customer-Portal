@@ -79,10 +79,10 @@ const actions = {
             var tagsItem = tags[tagitem];
             for (const tagApi in tagsItem) {
                 if (!tagsItem[tagApi].parameters)
-                    mypaths.push([tagsItem[tagApi].path.substring(1), tagsItem[tagApi].summary, tagsItem[tagApi].operationId]);
+                    mypaths.push([tagsItem[tagApi].path.substring(1), tagsItem[tagApi].summary, tagsItem[tagApi].path]);
             }
         }
-        //console.log(mypaths);
+        console.log(mypaths);
         // split mypaths array to remove / and explode
         // console.log(mypaths);
         // const finalMenu = [];
@@ -114,9 +114,9 @@ const actions = {
         // console.log(JSON.stringify(pathname));
 
         // commit paths object so that it can be called from navigation component.
-        console.log(pathname)
+        // console.log(pathname)
         commit('setTags', pathname);
-        commit('setPaths',mypaths)
+        commit('setPaths', mypaths)
     },
 };
 
@@ -127,7 +127,7 @@ const mutations = {
     setTags: (state, tags) => {
         state.tags = tags;
     },
-    setPaths:(state,paths) => {
+    setPaths: (state, paths) => {
         state.paths = paths
     }
 };

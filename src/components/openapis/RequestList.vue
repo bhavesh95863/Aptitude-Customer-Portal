@@ -24,11 +24,15 @@
       <v-spacer></v-spacer>
 
       <template v-for="(parameter, i) in this.buttons">
-      <v-btn class="ma-2" tile color="indigo" :key="i" :to="'/form/'+parameter.btn_link" dark>{{parameter.btn_label}}</v-btn>
+      <v-btn class="ma-2" tile color="indigo" :key="i" :to="parameter.btn_link" dark>{{parameter.btn_label}}</v-btn>
       </template>
 
     </v-card-title>
-    <v-data-table :headers="headers" :items="datagrid" :search="searchSuperUsers"></v-data-table>
+    <v-data-table :headers="headers" :items="datagrid" :search="searchSuperUsers">      
+      <template v-slot:item.actions="{ item }">
+  <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+</template>
+    </v-data-table>
     </div>
 </template>
 
@@ -40,6 +44,7 @@
 // import SchemaModel from "@/components/appscode/components/SchemaModel";
 import axios from "axios";
 import { mapGetters } from "vuex";
+import { router } from "../../router";
 
 export default {
   props: ["selectedEntry", "currentRequest", "api"],
@@ -99,7 +104,7 @@ export default {
         this.headers.push({ text: element[1]["title"], value: element[0] });
       }
     });
-
+    this.headers.push({ text: "Actions", value: "actions", sortable: false });
     const data = {
       jsonrpc: this.selectedEntry["requestBody"]["content"]["application/json"][
         "schema"
@@ -127,7 +132,7 @@ export default {
       jsonrpc: "2.0",
       id: 0,
       result: {
-        id: -1,
+        id: 1,
         name: "bhavesh",
         phones: [
           {
@@ -194,6 +199,9 @@ export default {
       //   headers
       // };
       // return axios(httpRequest);
+    },
+    editItem(item) {
+      router.push(this.selectedEntry.path + "/" + item.id);
     }
   }
 };
