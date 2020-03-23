@@ -19,8 +19,10 @@ async function getOpenApifromApi() {
     // api to get open api file
     return axios.get("http://agw.aptitude.cloud/openapi.json", requestOptions)
         .then(response => {
-            alert(response.openapi);
-            return response;
+            //alert(response.openapi);
+            /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
+            console.log(response.data);
+            return response.data;
         })
         .catch(function (response) {
             return handleResponse(response);

@@ -121,14 +121,19 @@ export default {
     onValid() {
       /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
       // console.log(JSON.stringify(this.model, null, 2));
+      
       const data = this.model;
-      const headers = { "Access-Control-Allow-Origin": true };
+      const headers = { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'      
+      };
       const httpRequest = {
         method: this.selectedEntry.method,
         url: "http://agw.aptitude.cloud" + this.selectedEntry.path,
         data,
         headers
       };
+      console.log(httpRequest);
       this.response_data = axios(httpRequest);
 
       //check if api request was successfully

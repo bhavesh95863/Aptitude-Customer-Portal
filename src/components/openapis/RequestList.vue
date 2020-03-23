@@ -120,37 +120,42 @@ export default {
       ]["properties"]["params"]["properties"]
     };
     this.datagrid = data;
-    const headers = { "Access-Control-Allow-Origin": true };
+    const headers = { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'      
+    };
     const httpRequest = {
       method: this.selectedEntry.method,
       url: "http://agw.aptitude.cloud" + this.selectedEntry.path,
       data,
       headers
     };
-    axios(httpRequest);
-    const respo = {
-      jsonrpc: "2.0",
-      id: 0,
-      result: {
-        id: 1,
-        name: "bhavesh",
-        phones: [
-          {
-            type: "mobile",
-            name: "my mobile",
-            phone: "9999999999"
-          }
-        ],
-        emails: [
-          {
-            account: "gmail",
-            name: "my email",
-            email: "asd@gmail.com"
-          }
-        ],
-        notes: "sfdsfds"
-      }
-    };
+    const respo = axios(httpRequest);
+    console.log(respo)
+    //return respo
+    // const respo = {
+    //   jsonrpc: "2.0",
+    //   id: 0,
+    //   result: {
+    //     id: 1,
+    //     name: "bhavesh",
+    //     phones: [
+    //       {
+    //         type: "mobile",
+    //         name: "my mobile",
+    //         phone: "9999999999"
+    //       }
+    //     ],
+    //     emails: [
+    //       {
+    //         account: "gmail",
+    //         name: "my email",
+    //         email: "asd@gmail.com"
+    //       }
+    //     ],
+    //     notes: "sfdsfds"
+    //   }
+    // };
     const temp_grid = {};
     Object.entries(respo["result"]).forEach(element => {
       if (typeof element[1] == "object") {
