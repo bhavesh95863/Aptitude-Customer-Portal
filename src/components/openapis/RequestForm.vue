@@ -4,7 +4,7 @@
     <div v-if="selectedEntry.requestBody">
       <!-- <label for="payload">Payload ({{selectedEntry.requestBody.selectedType}})</label>
       <md-textarea name="payload" v-model="currentRequest.body"></md-textarea> -->
-      <!-- <p>{{selectedEntry['requestBody']['content']['application/json']['schema']}}</p> -->
+      <!-- <p>{{selectedEntry['requestBody']['content']['application/json']['schema']['properties']['method']['example']}}</p> -->
       <!-- <v-jsonschema-form v-if="selectedEntry['requestBody']['content']['application/json']['schema']" :schema="selectedEntry['requestBody']['content']['application/json']['schema']" :model="dataObject" :options="options"  /> -->
       <!-- <p>{{ Object.keys(selectedEntry['requestBody']['content']['application/json']['schema']['properties']['params']['properties']).length}}</p> -->
       <!-- <template v-if="Object.keys(selectedEntry['requestBody']['content']['application/json']['schema']['properties']['params']['properties']).length" > -->
@@ -121,7 +121,7 @@ export default {
     onValid() {
       /* eslint no-console: ["error", { allow: ["warn", "log"] }] */
       // console.log(JSON.stringify(this.model, null, 2));
-      
+      this.model['method'] = this.selectedEntry['requestBody']['content']['application/json']['schema']['properties']['method']['example']
       const data = this.model;
       const headers = { 
             'Content-Type': 'application/json',
